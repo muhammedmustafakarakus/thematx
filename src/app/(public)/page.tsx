@@ -27,26 +27,6 @@ import {
   Bell,
 } from "lucide-react";
 
-const HERO_ANNOUNCEMENTS = [
-  {
-    badge: "YENİ DÖNEM",
-    title: "YKS & KPSS Kampları Başlıyor!",
-    description: "Sınırlı kontenjan ile erken kayıt fırsatlarını kaçırmayın.",
-    color: "bg-primary"
-  },
-  {
-    badge: "CANLI YAYIN",
-    title: "Ücretsiz Matematik Etüdü",
-    description: "Bu akşam 20:00'da temel kavramlar üzerine canlı ders.",
-    color: "bg-red-500"
-  },
-  {
-    badge: "DUYURU",
-    title: "Türkiye Geneli Deneme",
-    description: "15 Ağustos Pazar günü tüm Türkiye genelinde online deneme.",
-    color: "bg-cyan-500"
-  }
-];
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
@@ -409,10 +389,6 @@ function PackagesContent() {
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
-
-  const nextAnnouncement = () => setCurrentAnnouncement((p) => (p + 1) % HERO_ANNOUNCEMENTS.length);
-  const prevAnnouncement = () => setCurrentAnnouncement((p) => (p - 1 + HERO_ANNOUNCEMENTS.length) % HERO_ANNOUNCEMENTS.length);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -554,79 +530,55 @@ function PackagesContent() {
                 </div>
               </motion.div>
 
-              {/* Main Visual Centerpiece - Floating Video Thumbnail */}
+              {/* Image Announcement Board (Resimli Duyuru Panosu) */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+                initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative w-[320px] h-[400px] lg:w-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border border-border z-30"
+                className="relative w-[320px] h-[400px] lg:w-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border-[4px] border-primary/20 hover:border-primary transition-colors duration-300 z-30"
                 onClick={() => document.getElementById("tanitim")?.scrollIntoView({ behavior: "smooth" })} 
               >
-                {/* Background Image */}
-                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1000&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Eğitim" />
+                <img 
+                  src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop" 
+                  alt="KPSS Son Tekrar Kampı" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
                 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                {/* Gradient Overlays for Poster Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                 
-                {/* Play Button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center text-white shadow-glow-lg backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
-                    <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-40" />
-                    <Play className="w-8 h-8 ml-1.5 relative z-10" />
-                  </div>
-                </div>
-                
-                {/* Text at bottom */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h4 className="text-white font-bold text-xl mb-1">Thematx'i Keşfet</h4>
-                  <p className="text-white/80 text-sm">Sistemin nasıl çalıştığını öğrenin</p>
-                </div>
-              </motion.div>
+                {/* Neon Glow Effect on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[inset_0_0_100px_rgba(16,185,129,0.4)]" />
 
-              {/* Announcements Slider Widget */}
-              <motion.div
-                initial={{ opacity: 0, x: 50, y: 20 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="absolute bottom-[5%] lg:bottom-[10%] -right-[5%] lg:-right-[10%] bg-surface/90 backdrop-blur-xl border border-border/50 rounded-2xl p-5 shadow-2xl z-40 w-72"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-3 w-3">
-                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${HERO_ANNOUNCEMENTS[currentAnnouncement].color}`}></span>
-                      <span className={`relative inline-flex rounded-full h-3 w-3 ${HERO_ANNOUNCEMENTS[currentAnnouncement].color}`}></span>
-                    </span>
-                    <span className={`text-xs font-bold tracking-wider text-foreground`}>
-                      {HERO_ANNOUNCEMENTS[currentAnnouncement].badge}
+                {/* Content */}
+                <div className="absolute inset-0 p-6 lg:p-8 flex flex-col justify-between">
+                  {/* Top Badge */}
+                  <div className="flex justify-end">
+                    <span className="bg-red-500 text-white text-xs lg:text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-wider animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.6)]">
+                      🔥 YENİ BAŞLADI
                     </span>
                   </div>
-                  <div className="flex gap-1">
-                    <button onClick={prevAnnouncement} className="p-1 hover:bg-surface-alt rounded-md transition-colors text-muted hover:text-foreground">
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <button onClick={nextAnnouncement} className="p-1 hover:bg-surface-alt rounded-md transition-colors text-muted hover:text-foreground">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-                
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentAnnouncement}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <h3 className="font-bold text-foreground text-sm mb-1 line-clamp-1">{HERO_ANNOUNCEMENTS[currentAnnouncement].title}</h3>
-                    <p className="text-xs text-muted mb-3 line-clamp-2">{HERO_ANNOUNCEMENTS[currentAnnouncement].description}</p>
-                  </motion.div>
-                </AnimatePresence>
 
-                <div className="flex gap-1 mt-2">
-                  {HERO_ANNOUNCEMENTS.map((_, i) => (
-                    <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === currentAnnouncement ? "w-4 bg-primary" : "w-1 bg-border-light"}`} />
-                  ))}
+                  {/* Main Text */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-white font-extrabold text-3xl lg:text-5xl leading-tight drop-shadow-2xl">
+                      KPSS <br/>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Son Tekrar</span> <br/>
+                      Kampı
+                    </h3>
+                    <p className="text-white/90 text-sm lg:text-base font-medium leading-relaxed max-w-[280px]">
+                      Sınava girmeden önceki en kritik düzlükte netlerini zirveye taşı. Sınırlı kontenjanı kaçırma!
+                    </p>
+                    
+                    {/* Action Button */}
+                    <div className="mt-4 flex items-center gap-3 text-primary font-bold text-sm lg:text-base uppercase tracking-wider group-hover:text-white transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
+                        <Play className="w-4 h-4 fill-current ml-1" />
+                      </div>
+                      Hemen İncele
+                    </div>
+                  </div>
                 </div>
               </motion.div>
 
