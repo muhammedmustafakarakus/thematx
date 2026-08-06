@@ -1,26 +1,404 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-foreground: var(--color-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-light: var(--color-muted-light);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  
+  --color-success: var(--color-success);
+  --color-success-light: var(--color-success-light);
+  --color-warning: var(--color-warning);
+  --color-warning-light: var(--color-warning-light);
+  --color-error: var(--color-error);
+  --color-error-light: var(--color-error-light);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Light Theme Base colors - Cream/Beige */
+    --color-background: #FAFAFA; /* Soft cream/beige */
+    --color-surface: #ffffff;
+    --color-surface-alt: #F3F4F1; /* Slightly darker beige */
+    --color-foreground: #1c1917; /* Warm dark gray */
+    --color-muted: #78716c;
+    --color-muted-light: #a8a29e;
+    --color-border: #e7e5e4;
+    --color-border-light: #f5f5f4;
+
+    /* Emerald Green Primary Brand */
+    --color-primary: #10B981; 
+    --color-primary-50: #ecfdf5;
+    --color-primary-100: #d1fae5;
+    --color-primary-200: #a7f3d0;
+    --color-primary-300: #6ee7b7;
+    --color-primary-400: #34d399;
+    --color-primary-500: #10b981;
+    --color-primary-600: #059669;
+    --color-primary-700: #047857;
+    --color-primary-800: #065f46;
+    --color-primary-900: #064e3b;
+
+    --color-secondary: #0f172a;
+    --color-success: #10b981;
+    --color-success-light: #d1fae5;
+    --color-warning: #f59e0b;
+    --color-warning-light: #fef3c7;
+    --color-error: #ef4444;
+    --color-error-light: #fee2e2;
+
+    --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-card-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
+    --shadow-glow-lg: 0 0 40px rgba(16, 185, 129, 0.2);
+
+    /* Typography */
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-heading: "Outfit", "Inter", system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
   }
 }
 
+/* =============================================
+   DARK MODE
+   ============================================= */
+html.dark {
+  /* Black theme with Emerald details */
+  --color-background: #050505; /* Pitch black / very dark */
+  --color-surface: #111111;    
+  --color-surface-alt: #1a1a1a; 
+  --color-foreground: #fafafa; 
+  --color-muted: #a3a3a3;      
+  --color-muted-light: #737373; 
+  --color-border: #262626;     
+  --color-border-light: #171717; 
+  --color-primary-50: rgba(16, 185, 129, 0.1);
+  --color-primary-100: rgba(16, 185, 129, 0.15);
+
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 20px 30px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.1);
+  --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.2);
+  --shadow-glow-lg: 0 0 80px rgba(16, 185, 129, 0.3);
+}
+
+html.dark body {
+  /* Add subtle radial gradients for depth in dark mode */
+  background-color: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+html.dark .gradient-hero {
+  background: var(--color-background);
+}
+
+html.dark .mesh-bg {
+  background: var(--color-background);
+}
+
+html.dark .glass {
+  background: rgba(15, 22, 41, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Keyframes */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =============================================
+   Base Styles
+   ============================================= */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+/* =============================================
+   Utility Classes
+   ============================================= */
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #10B981 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient Backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 30%, #FAFAFA 100%);
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #10B981 100%);
+}
+
+/* Mesh Background */
+.mesh-bg {
+  background-color: #FAFBFF;
+  background-image:
+    radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 10%, rgba(139, 92, 246, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(99, 102, 241, 0.04) 0px, transparent 50%);
+}
+
+/* Section spacing */
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-light);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-primary-100);
+  color: var(--color-primary-900);
+}
+
+/* Marquee animation for announcements */
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* =============================================
+   NEON CTA BUTTON STYLES
+   ============================================= */
+@property --neon-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.btn-neon {
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* To keep any inner glow contained if needed, but not the outer border */
+}
+
+/* We must NOT use overflow: hidden if we want the blur to leak OUTSIDE the button! */
+.btn-neon {
+  overflow: visible;
+}
+
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  /* 2px thin border + some room for blur */
+  inset: -2px;
+  border-radius: calc(var(--radius, 12px) + 2px); 
+  z-index: -2;
+  background: conic-gradient(from var(--neon-angle), transparent 60%, rgba(16,185,129,0.8) 100%);
+  animation: neon-spin 1.8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+/* The solid inner background to cover the middle of the conic gradient */
+.btn-neon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #10B981; /* Primary color to match the button */
+  z-index: -1;
+  transition: background 0.3s ease;
+  pointer-events: none;
+}
+
+/* Subtle breathing effect when idle */
+.btn-neon:not(:hover) {
+  animation: neon-breathe 3s ease-in-out infinite;
+}
+
+@keyframes neon-breathe {
+  0%, 100% {
+    box-shadow: 0 0 5px 1px rgba(16, 185, 129, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(16, 185, 129, 0.3);
+  }
+}
+
+@keyframes neon-spin {
+  to {
+    --neon-angle: 360deg;
+  }
+}
+
+/* Show the rotating ring on hover */
+.btn-neon:hover::before {
+  opacity: 1;
+}
+
+/* Click flash effect (mobile triggers this on tap too) */
+.btn-neon:active::before {
+  opacity: 1;
+  filter: blur(4px) brightness(1.5);
+  background: conic-gradient(from var(--neon-angle), transparent 20%, rgba(16,185,129,1) 100%);
+  transition: 0.1s;
+}
+
+/* Accessibility: Disable animation for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn-neon,
+  .btn-neon::before {
+    animation: none !important;
+  }
+  .btn-neon:hover::before {
+    /* Just a static glow */
+    background: #10B981;
+  }
 }
