@@ -291,9 +291,12 @@ export default function CustomVideoPlayer({
       <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden z-10" onClick={togglePlay}>
 
       {/* Hidden YouTube iframe container */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <div id={`yt-player-${playerId}`} className="w-full h-full border-none"></div>
       </div>
+
+      {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}
+      <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
 
       {/* THUMBNAIL OVERLAY (Before First Play or Ended) */}
       {(!hasStarted || isEnded) && (

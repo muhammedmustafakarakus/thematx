@@ -536,7 +536,7 @@ function PackagesContent() {
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative w-[320px] h-[400px] lg:w-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border-[4px] border-primary/20 hover:border-primary transition-colors duration-300 z-30"
-                onClick={() => document.getElementById("tanitim")?.scrollIntoView({ behavior: "smooth" })} 
+                onClick={() => router.push("/paketler?category=KPSS")} 
               >
                 <img 
                   src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop" 
@@ -622,7 +622,7 @@ function PackagesContent() {
             </p>
           </div>
 
-          <div id="tanitim" className="w-full max-w-4xl mx-auto mb-16 relative shadow-2xl border border-border/50 rounded-2xl overflow-hidden">
+          <div id="tanitim" className="w-full max-w-3xl mx-auto mb-16 relative shadow-2xl border border-border/50 rounded-2xl overflow-hidden">
             <CustomVideoPlayer 
               youtubeId="nTgXuRx2cuk"
               startAt={30}

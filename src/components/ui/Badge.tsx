@@ -24,7 +24,7 @@ export default function Badge({
   return (
     <span
       className={`
-        inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase
+        inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase
         ${variantStyles[variant]}
         ${className}
       `.trim()}
