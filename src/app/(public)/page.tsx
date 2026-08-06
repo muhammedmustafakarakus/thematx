@@ -438,24 +438,10 @@ function PackagesContent() {
 
       {/* ===== ULTRA PREMIUM HERO BANNER ===== */}
       <section className="relative overflow-hidden pt-24 lg:pt-36 pb-20 lg:pb-32">
-        {/* Animated Background Mesh Glows */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-[20%] -left-[10%] w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]"
-          />
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.5, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[150px]"
-          />
+        {/* Static Background Mesh Glows (Optimized for scroll performance) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden transform-gpu">
+          <div className="absolute -top-[20%] -left-[10%] w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]" />
+          <div className="absolute top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[150px]" />
         </div>
 
         <Container className="relative z-10">
@@ -533,6 +519,7 @@ function PackagesContent() {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                    style={{ willChange: "transform" }}
                     className="absolute inset-0 w-full h-full text-primary group-hover:text-cyan-500 transition-colors duration-500"
                   >
                     <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
@@ -647,6 +634,7 @@ function PackagesContent() {
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                style={{ willChange: "transform" }}
                 className="absolute z-10"
               >
                 <div className="w-64 h-64 bg-primary rounded-2xl opacity-[0.03] rotate-12 blur-xl" />
@@ -654,6 +642,7 @@ function PackagesContent() {
               <motion.div 
                 animate={{ rotate: -360 }}
                 transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                style={{ willChange: "transform" }}
                 className="absolute z-10"
               >
                 <div className="w-72 h-72 bg-cyan-500 rounded-full opacity-[0.04] -rotate-12 blur-2xl" />
