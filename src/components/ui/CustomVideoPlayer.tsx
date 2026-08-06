@@ -37,6 +37,7 @@ export default function CustomVideoPlayer({
   const [showControls, setShowControls] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isCcOn, setIsCcOn] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
@@ -79,17 +80,21 @@ export default function CustomVideoPlayer({
             }
           },
           onStateChange: (event: any) => {
-            // YT.PlayerState.PLAYING = 1
             if (event.data === 1) {
               setIsPlaying(true);
               setIsEnded(false);
               setHasStarted(true);
               setDuration(event.target.getDuration());
               
-              // Force off again when playing starts (overrides user account default)
+              // Apply current CC state
               try {
-                event.target.unloadModule("captions");
-                event.target.setOption("captions", "track", { languageCode: "" });
+                if (!isCcOn) {
+                  event.target.unloadModule("captions");
+                  event.target.setOption("captions", "track", { languageCode: "" });
+                } else {
+                  event.target.loadModule("captions");
+                  event.target.setOption("captions", "track", {});
+                }
               } catch (e) {}
             } else if (event.data === 2) {
               setIsPlaying(false);
@@ -194,6 +199,25 @@ export default function CustomVideoPlayer({
     } else {
       playerRef.current.mute();
       setIsMuted(true);
+    }
+  };
+
+  const toggleCC = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isReady || !playerRef.current) return;
+
+    if (isCcOn) {
+      try {
+        playerRef.current.unloadModule("captions");
+        playerRef.current.setOption("captions", "track", { languageCode: "" });
+      } catch (err) {}
+      setIsCcOn(false);
+    } else {
+      try {
+        playerRef.current.loadModule("captions");
+        playerRef.current.setOption("captions", "track", {});
+      } catch (err) {}
+      setIsCcOn(true);
     }
   };
 
@@ -338,6 +362,14 @@ export default function CustomVideoPlayer({
             </div>
 
             <div className="flex items-center gap-4">
+              {/* CC / Subtitles Toggle */}
+              <button 
+                onClick={toggleCC}
+                className={`text-white hover:text-white/80 transition-colors relative ${isCcOn ? "after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-4 after:h-0.5 after:bg-red-600 after:rounded-full" : "opacity-60 hover:opacity-100"}`}
+                title="Altyazılar"
+              >
+                <Subtitles className="w-[18px] h-[18px]" />
+              </button>
 
               {/* Fullscreen */}
               <button 
