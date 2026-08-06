@@ -156,85 +156,62 @@ const ALL_PACKAGES = [
 
   // YKS Packages
   {
-    tier: "LITE",
-    name: "YKS LITE",
-    subtitle: "(Temel Kamp ve Analiz)",
-    price: "2.800", 
-    oldPrice: null,
+    tier: "KAMP",
+    name: "60 Günde TYT Matematik Kampı",
+    subtitle: "(TYT Matematiği baştan sona bitirmek isteyenler için yoğunlaştırılmış yaz kampı.)",
+    price: "24.000",
+    oldPrice: "35.250",
     discountBadge: null,
-    period: "/ay", 
-    category: "YKS", 
-    description: "YKS hazırlığına sistemli, ölçülebilir ve eksiksiz bir başlangıç yapın.",
+    period: "",
+    category: "YKS",
+    description: "",
     features: [
-      "Akıllı Algoritma ile Çalışma Programı", 
-      "Haftalık Türkiye Geneli Online Deneme", 
-      "Kazanım Bazlı Eksik Tespit Analizi", 
-      "YKS'ye Özel Yeni Nesil Video İçerikler",
-      "Gelişmiş Tekrar Sistemi ile Net Artışı",
-      "Eğitmene Anında Soru Gönderme",
-      "Veli İçin Otonom Başarı Takibi"
-    ],
-    notIncludedFeatures: [
-      "İnteraktif Grup Dersleri",
-      "Birebir Profesyonel Rehberlik",
-      "Özel YKS Strateji Planlaması"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Hedefe Adım At",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "YKS PRO",
-    subtitle: "(Yoğun Canlı Kamp)",
-    price: "5.000", 
-    oldPrice: "6.250",
-    discountBadge: "%20 Erken Kayıt",
-    period: "/ay", 
-    category: "YKS", 
-    description: "Yeni nesil canlı dersler ve yoğunlaştırılmış deneme kampları ile öne geçin.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "Aylık 16 Saat YKS Odaklı Canlı Ders",
-      "10 Kişilik Özel İlgi Odaklı Sınıflar",
-      "YKS'ye Özel Kişiselleştirilmiş Program",
-      "Platform İçi Tüm Sınavlara Erişim",
-      "Hızlı Soru Çözüm Taktikleri",
-      "Sınav Kaygısı ve Zaman Yönetimi Seminerleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "VIP Birebir Takip"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Yerinizi Ayırtın",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "YKS VIP",
-    subtitle: "(VIP YKS Koçluğu)",
-    price: "8.000", 
-    oldPrice: "9.500",
-    discountBadge: "Sınırlı Fırsat",
-    period: "/ay", 
-    category: "YKS", 
-    description: "Hedefi yüksek olanlara: Tüm canlı dersler + kesintisiz kişisel YKS koçu.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "Sertifikalı YKS Koçu ile Birebir Destek",
-      "Haftalık Yüzyüze/Online Motivasyon Görüşmesi",
-      "Koçla Anlık Mesajlaşma Hattı",
-      "Veliler İçin Haftalık İlerleme Raporu",
-      "Nokta Atışı Birebir Soru Çözüm Etütleri"
+      "Tüm TYT Matematik Konu Anlatımı",
+      "6 hafta boyunca 60 canlı ders",
+      "Hafta içi 5 gün canlı ders",
+      "Albatros Yeni Nesil Soru Çözüm Analizi",
+      "Günlük Ders Programı",
+      "Uzman Öğretmenlerle 7/24 Soru Çözüm Desteği"
     ],
     notIncludedFeatures: [],
-    featured: false, 
+    featured: true,
     limitedCapacity: true,
-    cta: "VIP Kontenjanı",
+    cta: "Hemen Başla",
     videoUrl: "nTgXuRx2cuk"
+  },
+  {
+    tier: "GEOMETRİ",
+    name: "TYT-AYT Geometri Canlı Ders",
+    subtitle: "",
+    price: null,
+    oldPrice: null,
+    discountBadge: null,
+    period: "",
+    category: "YKS",
+    description: "",
+    features: ["Yakında..."],
+    notIncludedFeatures: [],
+    featured: false,
+    limitedCapacity: false,
+    cta: "Hemen Başla",
+    videoUrl: null
+  },
+  {
+    tier: "MATEMATİK",
+    name: "AYT Matematik Canlı Dersler",
+    subtitle: "",
+    price: null,
+    oldPrice: null,
+    discountBadge: null,
+    period: "",
+    category: "YKS",
+    description: "",
+    features: ["Yakında..."],
+    notIncludedFeatures: [],
+    featured: false,
+    limitedCapacity: false,
+    cta: "Hemen Başla",
+    videoUrl: null
   },
 
   // KPSS Packages
@@ -389,12 +366,41 @@ function PackagesContent() {
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentAnnouncement((prev) => (prev + 1) % 2);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const HERO_ANNOUNCEMENTS = [
+    {
+      titleTop: "60 Günde",
+      titleMain: "TYT Matematik",
+      titleBottom: "Kampı",
+      badge: "🔥 YENİ BAŞLADI",
+      desc: "TYT Matematiği baştan sona bitirmek isteyenler için yoğunlaştırılmış yaz kampı.",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1000&auto=format&fit=crop",
+      link: "/paketler?category=YKS"
+    },
+    {
+      titleTop: "KPSS",
+      titleMain: "Son Tekrar",
+      titleBottom: "Kampı",
+      badge: "🔥 YENİ BAŞLADI",
+      desc: "Sınava girmeden önceki en kritik düzlükte netlerini zirveye taşı. Sınırlı kontenjanı kaçırma!",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop",
+      link: "/paketler?category=KPSS"
+    }
+  ];
 
   const filteredPackages = ALL_PACKAGES.filter(
     pkg => pkg.category === activeCategory
@@ -530,55 +536,73 @@ function PackagesContent() {
                 </div>
               </motion.div>
 
-              {/* Image Announcement Board (Resimli Duyuru Panosu) */}
+              {/* Image Announcement Board (Resimli Duyuru Panosu) - Carousel */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative w-[320px] h-[400px] lg:w-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl group cursor-pointer border-[4px] border-primary/20 hover:border-primary transition-colors duration-300 z-30"
-                onClick={() => router.push("/paketler?category=KPSS")} 
+                onClick={() => router.push(HERO_ANNOUNCEMENTS[currentAnnouncement].link)} 
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop" 
-                  alt="KPSS Son Tekrar Kampı" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                
-                {/* Gradient Overlays for Poster Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                
-                {/* Neon Glow Effect on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[inset_0_0_100px_rgba(16,185,129,0.4)]" />
-
-                {/* Content */}
-                <div className="absolute inset-0 p-6 lg:p-8 flex flex-col justify-between">
-                  {/* Top Badge */}
-                  <div className="flex justify-end">
-                    <span className="bg-red-500 text-white text-xs lg:text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-wider animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.6)]">
-                      🔥 YENİ BAŞLADI
-                    </span>
-                  </div>
-
-                  {/* Main Text */}
-                  <div className="flex flex-col gap-3">
-                    <h3 className="text-white font-extrabold text-3xl lg:text-5xl leading-tight drop-shadow-2xl">
-                      KPSS <br/>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Son Tekrar</span> <br/>
-                      Kampı
-                    </h3>
-                    <p className="text-white/90 text-sm lg:text-base font-medium leading-relaxed max-w-[280px]">
-                      Sınava girmeden önceki en kritik düzlükte netlerini zirveye taşı. Sınırlı kontenjanı kaçırma!
-                    </p>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentAnnouncement}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0"
+                  >
+                    <img 
+                      src={HERO_ANNOUNCEMENTS[currentAnnouncement].image} 
+                      alt={HERO_ANNOUNCEMENTS[currentAnnouncement].titleMain} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                     
-                    {/* Action Button */}
-                    <div className="mt-4 flex items-center gap-3 text-primary font-bold text-sm lg:text-base uppercase tracking-wider group-hover:text-white transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
-                        <Play className="w-4 h-4 fill-current ml-1" />
+                    {/* Gradient Overlays for Poster Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    
+                    {/* Neon Glow Effect on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[inset_0_0_100px_rgba(16,185,129,0.4)]" />
+
+                    {/* Content */}
+                    <div className="absolute inset-0 p-6 lg:p-8 flex flex-col justify-between">
+                      {/* Top Badge */}
+                      <div className="flex justify-end">
+                        <span className="bg-red-500 text-white text-xs lg:text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-wider animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.6)]">
+                          {HERO_ANNOUNCEMENTS[currentAnnouncement].badge}
+                        </span>
                       </div>
-                      Hemen İncele
+
+                      {/* Main Text */}
+                      <div className="flex flex-col gap-3">
+                        <h3 className="text-white font-extrabold text-3xl lg:text-5xl leading-tight drop-shadow-2xl">
+                          {HERO_ANNOUNCEMENTS[currentAnnouncement].titleTop} <br/>
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">{HERO_ANNOUNCEMENTS[currentAnnouncement].titleMain}</span> <br/>
+                          {HERO_ANNOUNCEMENTS[currentAnnouncement].titleBottom}
+                        </h3>
+                        <p className="text-white/90 text-sm lg:text-base font-medium leading-relaxed max-w-[280px]">
+                          {HERO_ANNOUNCEMENTS[currentAnnouncement].desc}
+                        </p>
+                        
+                        {/* Action Button */}
+                        <div className="mt-4 flex items-center gap-3 text-primary font-bold text-sm lg:text-base uppercase tracking-wider group-hover:text-white transition-colors">
+                          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
+                            <Play className="w-4 h-4 fill-current ml-1" />
+                          </div>
+                          Hemen İncele
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Dots indicator */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-40">
+                  {HERO_ANNOUNCEMENTS.map((_, i) => (
+                    <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === currentAnnouncement ? "w-6 bg-primary" : "w-2 bg-white/50"}`} />
+                  ))}
                 </div>
               </motion.div>
 
@@ -760,12 +784,14 @@ function PackagesContent() {
                         )}
                       </div>
                     )}
-                  <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
-                        ₺{pkg.price}
-                      </span>
-                      <span className="text-sm font-bold text-muted">{pkg.period}</span>
-                    </div>
+                    {pkg.price && (
+                      <div className="flex items-baseline justify-center gap-1">
+                        <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
+                          ₺{pkg.price}
+                        </span>
+                        <span className="text-sm font-bold text-muted">{pkg.period}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Tanıtım Videosu - Doğrudan Oynatıcı */}

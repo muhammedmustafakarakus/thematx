@@ -112,17 +112,42 @@ export default function WhatsAppButton() {
               <h3 className="text-xl font-bold font-heading text-foreground mb-2">Sizi Arayalım</h3>
               <p className="text-sm text-muted mb-6">İletişim bilgilerinizi bırakın, eğitim danışmanlarımız size en kısa sürede ulaşsın.</p>
               
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Talebiniz alındı! En kısa sürede arayacağız."); setShowCallForm(false); }}>
+              <form 
+                className="space-y-4" 
+                onSubmit={(e) => { 
+                  e.preventDefault(); 
+                  const formData = new FormData(e.currentTarget);
+                  const name = formData.get("name") as string;
+                  const phone = formData.get("phone") as string;
+                  const role = formData.get("role") as string;
+                  const message = `Merhaba, ben ${name}. ${role} olarak Thematx eğitimleri hakkında bilgi almak ve aranmak istiyorum. Telefon numaram: ${phone}`;
+                  window.open(`https://wa.me/905068530441?text=${encodeURIComponent(message)}`, "_blank");
+                  setShowCallForm(false); 
+                }}
+              >
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">Adınız Soyadınız</label>
-                  <input type="text" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="Örn: Ali Yılmaz" />
+                  <input type="text" name="name" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="Örn: Ali Yılmaz" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">Telefon Numaranız</label>
-                  <input type="tel" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="05XX XXX XX XX" />
+                  <input type="tel" name="phone" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="05XX XXX XX XX" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">Siz Kimsiniz?</label>
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="role" value="Veli" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm text-foreground">Veliyim</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="role" value="Öğrenci" className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm text-foreground">Öğrenciyim</span>
+                    </label>
+                  </div>
                 </div>
                 <button type="submit" className="w-full py-2.5 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-colors mt-2">
-                  Arama Talebi Oluştur
+                  WhatsApp'tan Gönder
                 </button>
               </form>
             </motion.div>

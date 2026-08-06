@@ -324,7 +324,6 @@ export default function CustomVideoPlayer({
       {hasStarted && !isEnded && (
         <div 
           className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent px-3 pt-12 pb-1.5 transition-opacity duration-300 z-30 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-          onClick={(e) => e.stopPropagation()} // Prevent playing/pausing when clicking controls
         >
           {/* Progress Bar Container */}
           <div 
