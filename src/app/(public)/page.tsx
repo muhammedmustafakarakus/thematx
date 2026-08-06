@@ -158,20 +158,21 @@ const ALL_PACKAGES = [
   {
     tier: "KAMP",
     name: "60 Günde TYT Matematik Kampı",
-    subtitle: "(TYT Matematiği baştan sona bitirmek isteyenler için yoğunlaştırılmış yaz kampı.)",
-    price: "24.000",
-    oldPrice: "35.250",
-    discountBadge: null,
+    subtitle: "",
+    price: "25.000",
+    oldPrice: "36.000",
+    discountBadge: "Kısa Süreliğine",
     period: "",
     category: "YKS",
-    description: "",
+    description: "(TYT Matematiği baştan sona bitirmek isteyenler için yoğunlaştırılmış yaz kampı.)",
     features: [
       "Tüm TYT Matematik Konu Anlatımı",
-      "6 hafta boyunca 60 canlı ders",
+      "60 gün boyunca 72 canlı ders",
       "Hafta içi 5 gün canlı ders",
-      "Albatros Yeni Nesil Soru Çözüm Analizi",
-      "Günlük Ders Programı",
-      "Uzman Öğretmenlerle 7/24 Soru Çözüm Desteği"
+      "Maksimum 10 Kişilik Sınıflar",
+      "Yeni Nesil Soru Çözüm Analizi",
+      "Günlük Yol Haritası",
+      "Hoca Destekli WP Soru Çözüm Grupları"
     ],
     notIncludedFeatures: [],
     featured: true,
@@ -181,7 +182,7 @@ const ALL_PACKAGES = [
   },
   {
     tier: "GEOMETRİ",
-    name: "TYT-AYT Geometri Canlı Ders",
+    name: "TYT-AYT Geometri Kampı",
     subtitle: "",
     price: null,
     oldPrice: null,
@@ -198,7 +199,7 @@ const ALL_PACKAGES = [
   },
   {
     tier: "MATEMATİK",
-    name: "AYT Matematik Canlı Dersler",
+    name: "AYT Matematik Kampı",
     subtitle: "",
     price: null,
     oldPrice: null,
@@ -367,6 +368,7 @@ function PackagesContent() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
+  const [selectedPackageForModal, setSelectedPackageForModal] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -834,13 +836,9 @@ function PackagesContent() {
 
 
                   <div className="mt-auto pt-4">
-                    <a 
-                      href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="w-full block"
-                    >
+                    {["9-11. Sınıf", "YKS"].includes(pkg.category) ? (
                       <Button
+                        onClick={() => setSelectedPackageForModal(pkg)}
                         neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
                         variant={pkg.featured ? "primary" : "outline"}
                         size="lg"
@@ -849,7 +847,24 @@ function PackagesContent() {
                         <MessageCircle className="w-5 h-5" />
                         {pkg.cta || "Bilgi Al"}
                       </Button>
-                    </a>
+                    ) : (
+                      <a 
+                        href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-full block"
+                      >
+                        <Button
+                          neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
+                          variant={pkg.featured ? "primary" : "outline"}
+                          size="lg"
+                          className="w-full gap-2 font-bold text-base h-12 shadow-md"
+                        >
+                          <MessageCircle className="w-5 h-5" />
+                          {pkg.cta || "Bilgi Al"}
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 </div>
               ))
@@ -984,6 +999,72 @@ function PackagesContent() {
           </div>
         </Container>
       </section>
+
+      {/* Branch Selection Modal */}
+      <AnimatePresence>
+        {selectedPackageForModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-surface border border-border shadow-2xl rounded-2xl p-6 w-full max-w-md relative"
+            >
+              <button
+                onClick={() => setSelectedPackageForModal(null)}
+                className="absolute top-4 right-4 text-muted hover:text-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <h3 className="text-xl font-bold font-heading text-foreground mb-2">Alanınızı Seçin</h3>
+              <p className="text-sm text-muted mb-6">Size en uygun danışmanlığı sağlayabilmemiz için lütfen alanınızı belirtin.</p>
+              
+              <form 
+                className="space-y-4" 
+                onSubmit={(e) => { 
+                  e.preventDefault(); 
+                  const formData = new FormData(e.currentTarget);
+                  const alan = formData.get("alan") as string;
+                  const priceText = selectedPackageForModal.price ? `(₺${selectedPackageForModal.price}${selectedPackageForModal.period}) ` : "";
+                  const message = `Merhaba, ${selectedPackageForModal.name} ${priceText}paketi ile ilgileniyorum. Alanım: ${alan}. Kayıt veya detaylı bilgi için yardımcı olabilir misiniz?`;
+                  window.open(waLink(message), "_blank");
+                  setSelectedPackageForModal(null); 
+                }}
+              >
+                <div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <input type="radio" name="alan" value="Sayısal" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm font-medium text-foreground">Sayısal</span>
+                    </label>
+                    <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <input type="radio" name="alan" value="Eşit Ağırlık" className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm font-medium text-foreground">Eşit Ağırlık</span>
+                    </label>
+                    <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <input type="radio" name="alan" value="Sözel" className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm font-medium text-foreground">Sözel</span>
+                    </label>
+                    <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <input type="radio" name="alan" value="Dil" className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm font-medium text-foreground">Dil</span>
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" className="w-full py-2.5 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-colors mt-4">
+                  WhatsApp'a Git
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
