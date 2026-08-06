@@ -70,21 +70,27 @@ export default function CustomVideoPlayer({
             setIsReady(true);
             setDuration(event.target.getDuration());
             try {
+              // Try multiple ways to force captions off
               event.target.unloadModule("captions");
               event.target.unloadModule("cc");
+              event.target.setOption("captions", "track", { languageCode: "" });
             } catch (e) {
-              console.warn("Could not unload captions module");
+              console.warn("Could not disable captions onReady");
             }
           },
           onStateChange: (event: any) => {
             // YT.PlayerState.PLAYING = 1
-            // YT.PlayerState.PAUSED = 2
-            // YT.PlayerState.ENDED = 0
             if (event.data === 1) {
               setIsPlaying(true);
               setIsEnded(false);
               setHasStarted(true);
               setDuration(event.target.getDuration());
+              
+              // Force off again when playing starts (overrides user account default)
+              try {
+                event.target.unloadModule("captions");
+                event.target.setOption("captions", "track", { languageCode: "" });
+              } catch (e) {}
             } else if (event.data === 2) {
               setIsPlaying(false);
             } else if (event.data === 0) {
