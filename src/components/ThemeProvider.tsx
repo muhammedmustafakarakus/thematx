@@ -25,7 +25,7 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
-    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <NextThemesProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
       {children}
     </NextThemesProvider>
   );
