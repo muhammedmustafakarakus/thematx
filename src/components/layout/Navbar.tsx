@@ -63,6 +63,12 @@ export default function Navbar() {
                   <Link
                     key={link.label}
                     href={link.href}
+                    onClick={(e) => {
+                      if (pathname === link.href && link.href === "/") {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
                     className={`px-5 py-2.5 text-sm font-medium transition-all rounded-full ${
                       isActive 
                         ? "bg-surface-alt text-foreground" 
@@ -133,7 +139,13 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    setIsOpen(false);
+                    if (pathname === link.href && link.href === "/") {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
                   className={`block px-4 py-3 text-sm font-medium rounded-xl transition-colors ${
                     isActive ? "bg-surface-alt text-foreground" : "text-muted hover:bg-surface-alt/50 hover:text-foreground"
                   }`}

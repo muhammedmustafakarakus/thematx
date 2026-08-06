@@ -165,8 +165,10 @@ export default function CustomVideoPlayer({
 
     if (isPlaying) {
       playerRef.current.pauseVideo();
+      setIsPlaying(false); // Optimistic UI update
     } else {
       playerRef.current.playVideo();
+      setIsPlaying(true); // Optimistic UI update
       setHasStarted(true);
     }
   }, [isPlaying, isReady]);
@@ -386,7 +388,7 @@ export default function CustomVideoPlayer({
       {/* Center Action Feedback (Briefly shown when clicking video) */}
       {hasStarted && !isEnded && (
         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black/60 rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ${!isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}>
-           <Pause className="w-8 h-8 text-white fill-white" />
+           {!isPlaying ? <Play className="w-8 h-8 text-white fill-white ml-1" /> : <Pause className="w-8 h-8 text-white fill-white" />}
         </div>
       )}
       </div>
