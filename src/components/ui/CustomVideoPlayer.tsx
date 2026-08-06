@@ -61,12 +61,20 @@ export default function CustomVideoPlayer({
           playsinline: 1,
           start: startAt,
           fs: 0,
-          iv_load_policy: 3
+          iv_load_policy: 3,
+          cc_load_policy: 0,
+          hl: 'tr'
         },
         events: {
           onReady: (event: any) => {
             setIsReady(true);
             setDuration(event.target.getDuration());
+            try {
+              event.target.unloadModule("captions");
+              event.target.unloadModule("cc");
+            } catch (e) {
+              console.warn("Could not unload captions module");
+            }
           },
           onStateChange: (event: any) => {
             // YT.PlayerState.PLAYING = 1
@@ -324,10 +332,6 @@ export default function CustomVideoPlayer({
             </div>
 
             <div className="flex items-center gap-4">
-              {/* CC / Subtitles */}
-              <button className="text-white hover:text-white/80 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-4 after:h-0.5 after:bg-red-600 after:rounded-full">
-                <Subtitles className="w-[18px] h-[18px]" />
-              </button>
 
               {/* Fullscreen */}
               <button 
