@@ -9,8 +9,8 @@ import { Search, MoreVertical, Mail, Phone, ExternalLink, Filter } from "lucide-
 const MOCK_STUDENTS = [
   { id: 1, name: "Ahmet Yılmaz", email: "ahmet@example.com", phone: "555-000-1122", package: "YKS Birebir", status: "Aktif", joined: "2026-06-15", progress: 65 },
   { id: 2, name: "Ayşe Kaya", email: "ayse@example.com", phone: "555-111-2233", package: "LGS Plus Kamp", status: "Aktif", joined: "2026-07-01", progress: 30 },
-  { id: 3, name: "Mehmet Demir", email: "mehmet@example.com", phone: "555-222-3344", package: "KPSS Matematik", status: "Donduruldu", joined: "2026-05-10", progress: 45 },
-  { id: 4, name: "Zeynep Çelik", email: "zeynep@example.com", phone: "555-333-4455", package: "ALES/DGS Hız Kampı", status: "Aktif", joined: "2026-07-15", progress: 10 },
+  { id: 3, name: "Mehmet Demir", email: "mehmet@example.com", phone: "555-222-3344", package: "11. Sınıf Matematik", status: "Donduruldu", joined: "2026-05-10", progress: 45 },
+  { id: 4, name: "Zeynep Çelik", email: "zeynep@example.com", phone: "555-333-4455", package: "9-10. Sınıf PRO", status: "Aktif", joined: "2026-07-15", progress: 10 },
   { id: 5, name: "Burak Şahin", email: "burak@example.com", phone: "555-444-5566", package: "YKS Birebir", status: "İptal", joined: "2026-03-20", progress: 85 },
 ];
 

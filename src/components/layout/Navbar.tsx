@@ -10,10 +10,9 @@ import BirebirDersModal from "@/components/ui/BirebirDersModal";
 
 const navLinks = [
   { label: "Ana Sayfa", href: "/" },
-  { label: "9-11. Sınıflar", href: "/paketler?category=9-11. Sınıf" },
+  { label: "9-10. Sınıf", href: "/paketler?category=9-10. Sınıf" },
+  { label: "11. Sınıf", href: "/paketler?category=11. Sınıf" },
   { label: "YKS", href: "/paketler?category=YKS" },
-  { label: "KPSS", href: "/paketler?category=KPSS" },
-  { label: "DGS", href: "/paketler?category=DGS" },
 ];
 
 export default function Navbar() {

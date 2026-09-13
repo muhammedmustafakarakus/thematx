@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: "The Matx — Matematik Özel Ders Platformu",
     template: "%s | The Matx",
   },
-  description: "LGS, YKS, KPSS ve ALES'e hazırlıkta birebir matematik dersi, canlı online dersler, matematik kampları ve kişisel koçluk. The Matx ile matematikte fark yarat.",
+  description: "YKS'ye hazırlıkta ve Maarif Modeline uyumlu birebir matematik dersi, canlı online dersler, matematik kampları ve kişisel koçluk. Thematx ile matematikte fark yarat.",
   keywords: [
     "matematik özel ders",
     "LGS hazırlık",
@@ -32,7 +32,6 @@ export const metadata: Metadata = {
     "canlı ders",
     "matematik kampı",
     "birebir ders",
-    "KPSS matematik",
     "ALES matematik",
   ],
   authors: [{ name: "The Matx" }],
@@ -41,7 +40,7 @@ export const metadata: Metadata = {
     locale: "tr_TR",
     url: "https://thematx.com",
     title: "The Matx | Geleceğin Matematik Platformu",
-    description: "LGS, YKS, KPSS ve ALES'e hazırlıkta birebir matematik dersi, canlı dersler ve kişisel koçluk.",
+    description: "YKS'ye hazırlıkta ve Maarif Modeline uyumlu birebir matematik dersi, canlı dersler ve kişisel koçluk.",
     siteName: "The Matx",
   },
 };

@@ -114,10 +114,9 @@ Telefon: ${formData.phone}`;
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             >
-              <option value="9-11. Sınıf">9-11. Sınıf</option>
+              <option value="9-10. Sınıf">9-10. Sınıf</option>
+              <option value="11. Sınıf">11. Sınıf</option>
               <option value="YKS">YKS</option>
-              <option value="KPSS">KPSS</option>
-              <option value="DGS">DGS</option>
             </select>
             <select 
               className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none text-sm"
@@ -130,7 +129,7 @@ Telefon: ${formData.phone}`;
             </select>
           </div>
           
-          {!["KPSS", "DGS"].includes(formData.category) && (
+          {formData.category && (
             <div>
               <select 
                 className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none text-sm"

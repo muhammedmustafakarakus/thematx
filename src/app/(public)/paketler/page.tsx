@@ -14,24 +14,24 @@ const WA_NUMBER = "905068530441";
 const waLink = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
 const ALL_PACKAGES = [
-  // 9-11. Sınıflar Packages
+  // 9-10. Sınıf Packages
   {
     tier: "LITE",
-    name: "9-11. Sınıf LITE",
+    name: "9-10. Sınıf LITE",
     subtitle: "(Temel Gelişim Paketi)",
     price: "2.500", 
     oldPrice: null,
     discountBadge: null,
     period: "/ay", 
-    category: "9-11. Sınıf", 
-    description: "Matematik temellerini sağlamlaştırmak ve eksiksiz ilerlemek isteyen öğrenciler için.",
+    category: "9-10. Sınıf", 
+    description: "Maarif Modeline uyumlu, matematik temellerini sağlamlaştırmak isteyen öğrenciler için.",
     features: [
+      "✨ Maarif Modeline Uyumlu Müfredat", 
       "Yapay Zeka Destekli Seviye Tespiti", 
       "Haftalık Performans Değerlendirmesi", 
       "Thematx Özel Konu Anlatım Videoları", 
-      "Tüm Ders Kayıtlarına Sınırsız Erişim",
-      "Gelişmiş Hafıza ve Tekrar Sistemi",
-      "7/24 Eğitmene Soru Sorma İmkânı",
+      "Kayıtlı Derslere Sınırsız Erişim", 
+      "7/24 Eğitmene Soru Sorma İmkânı", 
       "Detaylı Veli Gelişim Portalı"
     ],
     notIncludedFeatures: [
@@ -46,21 +46,21 @@ const ALL_PACKAGES = [
   },
   {
     tier: "PRO",
-    name: "9-11. Sınıf PRO",
+    name: "9-10. Sınıf PRO",
     subtitle: "(Etkileşimli Grup Eğitimi)",
     price: "4.250", 
     oldPrice: "5.000",
     discountBadge: "%15 İndirim",
     period: "/ay", 
-    category: "9-11. Sınıf", 
-    description: "Canlı dersler ve özel sınıflarla lise matematiğini garanti altına alın.",
+    category: "9-10. Sınıf", 
+    description: "Maarif Modeline uyumlu canlı dersler ve özel sınıflarla matematiği garanti altına alın.",
     features: [
       "LITE Paketindeki Tüm Özellikler",
+      "✨ Maarif Modeline Uyumlu Müfredat",
       "Aylık 12 Saat İnteraktif Canlı Ders",
       "Maksimum 10 Kişilik Butik Sınıflar",
+      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
       "Öğrenciye Özel Günlük Çalışma Planı",
-      "Platform İçi Ekstra Kaynaklara Erişim",
-      "Çözülemeyen Sorulara Anında Yanıt",
       "Thematx Özel Hızlandırma Taktikleri"
     ],
     notIncludedFeatures: [
@@ -74,19 +74,104 @@ const ALL_PACKAGES = [
   },
   {
     tier: "VIP",
-    name: "9-11. Sınıf VIP",
+    name: "9-10. Sınıf VIP",
     subtitle: "(VIP Eğitim ve Koçluk)",
     price: "7.000", 
     oldPrice: "8.500",
     discountBadge: "%17 Özel İndirim",
     period: "/ay", 
-    category: "9-11. Sınıf", 
-    description: "Sürekli motivasyon, birebir koçluk ve kusursuz canlı ders deneyimi.",
+    category: "9-10. Sınıf", 
+    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
     features: [
       "PRO Paketindeki Tüm Özellikler",
+      "✨ Maarif Modeline Uyumlu Müfredat",
       "Uzman Rehberlikle Birebir PDR Desteği",
       "Koçla Haftalık Strateji ve Planlama",
-      "Eğitim Koçu ile 7/24 İletişim",
+      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
+      "Haftalık Düzenli Veli Bilgilendirme",
+      "Öğrenciye Özel Analitik Çözüm Sistemi"
+    ],
+    notIncludedFeatures: [],
+    featured: false, 
+    limitedCapacity: true,
+    cta: "VIP Kayıt Ol",
+    videoUrl: "nTgXuRx2cuk"
+  },
+
+  // 11. Sınıf Packages
+  {
+    tier: "LITE",
+    name: "11. Sınıf LITE",
+    subtitle: "(Temel Gelişim Paketi)",
+    price: "2.500", 
+    oldPrice: null,
+    discountBadge: null,
+    period: "/ay", 
+    category: "11. Sınıf", 
+    description: "Maarif Modeline uyumlu, 11. sınıf matematiğini sıfırdan zirveye taşıyın.",
+    features: [
+      "✨ Maarif Modeline Uyumlu Müfredat", 
+      "Yapay Zeka Destekli Seviye Tespiti", 
+      "Haftalık Performans Değerlendirmesi", 
+      "Thematx Özel Konu Anlatım Videoları", 
+      "Kayıtlı Derslere Sınırsız Erişim", 
+      "7/24 Eğitmene Soru Sorma İmkânı", 
+      "Detaylı Veli Gelişim Portalı"
+    ],
+    notIncludedFeatures: [
+      "Etkileşimli Canlı Grup Dersleri",
+      "Birebir Profesyonel Koçluk",
+      "Öğrenciye Özel Günlük Program"
+    ],
+    featured: false, 
+    limitedCapacity: false,
+    cta: "Keşfetmeye Başla",
+    videoUrl: "nTgXuRx2cuk"
+  },
+  {
+    tier: "PRO",
+    name: "11. Sınıf PRO",
+    subtitle: "(Etkileşimli Grup Eğitimi)",
+    price: "4.250", 
+    oldPrice: "5.000",
+    discountBadge: "%15 İndirim",
+    period: "/ay", 
+    category: "11. Sınıf", 
+    description: "Maarif Modeline uyumlu canlı derslerle 11. sınıf matematiğini garanti altına alın.",
+    features: [
+      "LITE Paketindeki Tüm Özellikler",
+      "✨ Maarif Modeline Uyumlu Müfredat",
+      "Aylık 12 Saat İnteraktif Canlı Ders",
+      "Maksimum 10 Kişilik Butik Sınıflar",
+      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
+      "Öğrenciye Özel Günlük Çalışma Planı",
+      "Thematx Özel Hızlandırma Taktikleri"
+    ],
+    notIncludedFeatures: [
+      "Birebir PDR Koçluğu (Psikolojik Destek)",
+      "Birebir Soru Çözüm Analizleri"
+    ],
+    featured: true, 
+    limitedCapacity: true,
+    cta: "Maceraya Katıl",
+    videoUrl: "nTgXuRx2cuk"
+  },
+  {
+    tier: "VIP",
+    name: "11. Sınıf VIP",
+    subtitle: "(VIP Eğitim ve Koçluk)",
+    price: "7.000", 
+    oldPrice: "8.500",
+    discountBadge: "%17 Özel İndirim",
+    period: "/ay", 
+    category: "11. Sınıf", 
+    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
+    features: [
+      "PRO Paketindeki Tüm Özellikler",
+      "✨ Maarif Modeline Uyumlu Müfredat",
+      "Uzman Rehberlikle Birebir PDR Desteği",
+      "Koçla Haftalık Strateji ve Planlama",
+      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
       "Haftalık Düzenli Veli Bilgilendirme",
       "Öğrenciye Özel Analitik Çözüm Sistemi"
     ],
@@ -178,84 +263,10 @@ const ALL_PACKAGES = [
     limitedCapacity: true,
     cta: "VIP Kontenjanı",
     videoUrl: "nTgXuRx2cuk"
-  },
-
-  // KPSS Packages
-  {
-    tier: "KAMP",
-    name: "KPSS Son Tekrar Kampı",
-    subtitle: "(Sınav Öncesi Kamp)",
-    price: "2.000", oldPrice: null, discountBadge: "Yeni", period: "/tek sefer", category: "KPSS", 
-    description: "Sınav öncesi tüm konuların genel tekrarı ve deneme çözümleri.",
-    features: ["Tüm KPSS konularının yoğun tekrarı", "Günde 4 saat kamp programı", "Son dakika çıkabilecek soru tahminleri", "Zaman yönetimi teknikleri"],
-    notIncludedFeatures: [], featured: true, limitedCapacity: true, cta: "Kampa Katıl",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "LITE",
-    name: "KPSS LITE",
-    subtitle: "(Temel KPSS)",
-    price: "2.500", oldPrice: null, discountBadge: null, period: "/ay", category: "KPSS", 
-    description: "Temel KPSS matematik eğitimi ve konu anlatımı.",
-    features: ["Konu anlatım videoları", "Haftalık deneme sınavı", "Grup içi soru çözümü"],
-    notIncludedFeatures: ["İnteraktif canlı ders", "Birebir koçluk"], featured: false, limitedCapacity: false, cta: "Hedefe Adım At",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "KPSS PRO",
-    subtitle: "(KPSS Maraton)",
-    price: "3.750", oldPrice: null, discountBadge: null, period: "/ay", category: "KPSS", 
-    description: "Çıkmış soru taktikleri ve pratik yöntemlerle KPSS matematiğini fulleyin.",
-    features: ["LITE Paketindeki Tüm Özellikler", "Haftada 3 saat KPSS canlı dersi", "ÖSYM tarzı çıkmış soru analizleri", "Matematik temelini hızlandırma teknikleri"],
-    notIncludedFeatures: ["VIP Birebir Takip"], featured: false, limitedCapacity: true, cta: "Yerinizi Ayırtın",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "KPSS VIP",
-    subtitle: "(VIP KPSS Koçluğu)",
-    price: "6.000", oldPrice: null, discountBadge: null, period: "/ay", category: "KPSS", 
-    description: "Hedefi yüksek olanlara: Tüm canlı dersler + kesintisiz kişisel KPSS koçu.",
-    features: ["PRO Paketindeki Tüm Özellikler", "Birebir özel ders ve etütler", "Özel sınav strateji danışmanlığı", "Kesintisiz rehberlik"],
-    notIncludedFeatures: [], featured: false, limitedCapacity: true, cta: "VIP Kontenjanı",
-    videoUrl: "nTgXuRx2cuk"
-  },
-
-  // DGS Packages
-  {
-    tier: "LITE",
-    name: "DGS LITE",
-    subtitle: "(Temel DGS)",
-    price: "2.500", oldPrice: null, discountBadge: null, period: "/ay", category: "DGS", 
-    description: "DGS matematiği için sağlam bir başlangıç yapın.",
-    features: ["Konu anlatım videoları", "Haftalık DGS denemeleri", "Grup destek hattı"],
-    notIncludedFeatures: ["Canlı soru çözüm saati", "VIP koçluk"], featured: false, limitedCapacity: false, cta: "Hedefe Adım At",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "DGS PRO",
-    subtitle: "(Sayısal Mantık)",
-    price: "3.500", oldPrice: null, discountBadge: null, period: "/ay", category: "DGS", 
-    description: "Sayısal mantık ağırlıklı, problem çözme hızınızı ikiye katlayan program.",
-    features: ["LITE Paketindeki Tüm Özellikler", "Haftada 3 saat DGS canlı dersi", "İleri seviye sayısal mantık taktikleri", "Zaman yönetimi ve deneme çözümleri"],
-    notIncludedFeatures: ["VIP Koçluk"], featured: true, limitedCapacity: true, cta: "Yerinizi Ayırtın",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "DGS VIP",
-    subtitle: "(VIP DGS Koçluğu)",
-    price: "5.500", oldPrice: null, discountBadge: null, period: "/ay", category: "DGS", 
-    description: "Birebir odaklanma ile Türkiye derecesi hedefleyen DGS adayları için.",
-    features: ["PRO Paketindeki Tüm Özellikler", "Birebir özel ders ve etütler", "Özel sınav strateji danışmanlığı", "Kesintisiz rehberlik"],
-    notIncludedFeatures: [], featured: false, limitedCapacity: true, cta: "VIP Kontenjanı",
-    videoUrl: "nTgXuRx2cuk"
   }
 ];
 
-const CATEGORIES = ["9-11. Sınıf", "YKS", "KPSS", "DGS"];
+const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS"];
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Suspense } from "react";
@@ -266,7 +277,7 @@ export function PaketlerContent() {
   const router = useRouter();
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
-  const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-11. Sınıf";
+  const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf";
 
   const handleCategoryChange = (cat: string) => {
     router.replace(`${pathname}?category=${cat}`, { scroll: false });

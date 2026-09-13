@@ -6,12 +6,12 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import { Plus, Edit2, Trash2, Tag, Check, CheckCircle2 } from "lucide-react";
 
-const CATEGORIES = ["LGS", "YKS", "KPSS", "ALES", "DGS"];
+const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS"];
 
 const INITIAL_PACKAGES = [
   { id: 1, name: "LGS Plus Kamp", price: "5.000", period: "/ay", category: "LGS", status: "Aktif", popular: true },
   { id: 2, name: "TYT-AYT Maraton", price: "6.000", period: "/ay", category: "YKS", status: "Aktif", popular: true },
-  { id: 3, name: "KPSS Matematik", price: "4.500", period: "/ay", category: "KPSS", status: "Aktif", popular: false },
+  { id: 3, name: "11. Sınıf Matematik", price: "4.500", period: "/ay", category: "11. Sınıf", status: "Aktif", popular: false },
 ];
 
 export default function AdminPackagesPage() {

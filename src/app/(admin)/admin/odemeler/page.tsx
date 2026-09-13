@@ -9,8 +9,8 @@ import { CreditCard, TrendingUp, Download, CheckCircle2, XCircle, Clock } from "
 const MOCK_PAYMENTS = [
   { id: "TRX-98234", student: "Ahmet Yılmaz", package: "YKS Birebir", amount: "9.500 ₺", date: "2026-07-22 14:30", status: "Başarılı", method: "Kredi Kartı (iyzico)" },
   { id: "TRX-98233", student: "Ayşe Kaya", package: "LGS Plus Kamp", amount: "5.000 ₺", date: "2026-07-21 09:15", status: "Başarılı", method: "Havale/EFT" },
-  { id: "TRX-98232", student: "Mehmet Demir", package: "KPSS Matematik", amount: "4.500 ₺", date: "2026-07-20 16:45", status: "Bekliyor", method: "Havale/EFT" },
-  { id: "TRX-98231", student: "Zeynep Çelik", package: "ALES/DGS Hız Kampı", amount: "3.000 ₺", date: "2026-07-19 11:20", status: "Başarısız", method: "Kredi Kartı (iyzico)" },
+  { id: "TRX-98232", student: "Mehmet Demir", package: "11. Sınıf Matematik", amount: "4.500 ₺", date: "2026-07-20 16:45", status: "Bekliyor", method: "Havale/EFT" },
+  { id: "TRX-98231", student: "Zeynep Çelik", package: "9-10. Sınıf PRO", amount: "3.000 ₺", date: "2026-07-19 11:20", status: "Başarısız", method: "Kredi Kartı (iyzico)" },
 ];
 
 export default function AdminPaymentsPage() {
