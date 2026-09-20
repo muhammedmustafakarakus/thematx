@@ -35,6 +35,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Accordion, { AccordionItem } from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomVideoPlayer from "@/components/ui/CustomVideoPlayer";
+import { ALL_PACKAGES, CATEGORIES } from "@/constants/packages";
 
 const WA_NUMBER = "905068530441";
 const waLink = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
@@ -69,240 +70,6 @@ const advantages = [
       "Sadece ders başarısı değil, süreç boyunca motivasyon ve hedefe ulaşma konularında yol arkadaşlığı.",
   },
 ];
-
-const ALL_PACKAGES = [
-  // 9-10. Sınıf Paketleri (Maarif Modeline Uyumlu)
-  {
-    tier: "LITE",
-    name: "9-10. Sınıf LITE",
-    subtitle: "(Temel Gelişim Paketi)",
-    price: "2.500", 
-    oldPrice: null,
-    discountBadge: null,
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu, matematik temellerini sağlamlaştırmak isteyen öğrenciler için.",
-    features: [
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Yapay Zeka Destekli Seviye Tespiti", 
-      "Haftalık Performans Değerlendirmesi", 
-      "Thematx Özel Konu Anlatım Videoları", 
-      "Kayıtlı Derslere Sınırsız Erişim",
-      "7/24 Eğitmene Soru Sorma İmkânı",
-      "Detaylı Veli Gelişim Portalı"
-    ],
-    notIncludedFeatures: [
-      "Etkileşimli Canlı Grup Dersleri",
-      "Birebir Profesyonel Koçluk",
-      "Öğrenciye Özel Günlük Program"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Keşfetmeye Başla",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "9-10. Sınıf PRO",
-    subtitle: "(Etkileşimli Grup Eğitimi)",
-    price: "4.250", 
-    oldPrice: "5.000",
-    discountBadge: "%15 İndirim",
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu canlı dersler ve özel sınıflarla matematiği garanti altına alın.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Aylık 12 Saat İnteraktif Canlı Ders",
-      "Maksimum 10 Kişilik Butik Sınıflar",
-      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
-      "Öğrenciye Özel Günlük Çalışma Planı",
-      "Thematx Özel Hızlandırma Taktikleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "Birebir Soru Çözüm Analizleri"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Maceraya Katıl",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "9-10. Sınıf VIP",
-    subtitle: "(VIP Eğitim ve Koçluk)",
-    price: "7.000", 
-    oldPrice: "8.500",
-    discountBadge: "%17 Özel İndirim",
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Uzman Rehberlikle Birebir PDR Desteği",
-      "Koçla Haftalık Strateji ve Planlama",
-      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
-      "Haftalık Düzenli Veli Bilgilendirme",
-      "Öğrenciye Özel Analitik Çözüm Sistemi"
-    ],
-    notIncludedFeatures: [],
-    featured: false, 
-    limitedCapacity: true,
-    cta: "VIP Kayıt Ol",
-    videoUrl: "nTgXuRx2cuk"
-  },
-
-  // 11. Sınıf Paketleri (Maarif Modeline Uyumlu)
-  {
-    tier: "LITE",
-    name: "11. Sınıf LITE",
-    subtitle: "(Temel Gelişim Paketi)",
-    price: "2.500", 
-    oldPrice: null,
-    discountBadge: null,
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu, 11. sınıf matematiğini sıfırdan zirveye taşıyın.",
-    features: [
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Yapay Zeka Destekli Seviye Tespiti", 
-      "Haftalık Performans Değerlendirmesi", 
-      "Thematx Özel Konu Anlatım Videoları", 
-      "Kayıtlı Derslere Sınırsız Erişim",
-      "7/24 Eğitmene Soru Sorma İmkânı",
-      "Detaylı Veli Gelişim Portalı"
-    ],
-    notIncludedFeatures: [
-      "Etkileşimli Canlı Grup Dersleri",
-      "Birebir Profesyonel Koçluk",
-      "Öğrenciye Özel Günlük Program"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Keşfetmeye Başla",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "11. Sınıf PRO",
-    subtitle: "(Etkileşimli Grup Eğitimi)",
-    price: "4.250", 
-    oldPrice: "5.000",
-    discountBadge: "%15 İndirim",
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu canlı derslerle 11. sınıf matematiğini garanti altına alın.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Aylık 12 Saat İnteraktif Canlı Ders",
-      "Maksimum 10 Kişilik Butik Sınıflar",
-      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
-      "Öğrenciye Özel Günlük Çalışma Planı",
-      "Thematx Özel Hızlandırma Taktikleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "Birebir Soru Çözüm Analizleri"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Maceraya Katıl",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "11. Sınıf VIP",
-    subtitle: "(VIP Eğitim ve Koçluk)",
-    price: "7.000", 
-    oldPrice: "8.500",
-    discountBadge: "%17 Özel İndirim",
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Uzman Rehberlikle Birebir PDR Desteği",
-      "Koçla Haftalık Strateji ve Planlama",
-      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
-      "Haftalık Düzenli Veli Bilgilendirme",
-      "Öğrenciye Özel Analitik Çözüm Sistemi"
-    ],
-    notIncludedFeatures: [],
-    featured: false, 
-    limitedCapacity: true,
-    cta: "VIP Kayıt Ol",
-    videoUrl: "nTgXuRx2cuk"
-  },
-
-  // YKS Packages
-  {
-    tier: "KAMP",
-    name: "60 Günde TYT Matematik Kampı",
-    subtitle: "",
-    price: "25.000",
-    oldPrice: "36.000",
-    discountBadge: "Kısa Süreliğine",
-    period: "",
-    category: "YKS",
-    description: "(TYT Matematiği baştan sona bitirmek isteyenler için yoğunlaştırılmış yaz kampı.)",
-    features: [
-      "Tüm TYT Matematik Konu Anlatımı",
-      "60 gün boyunca 72 canlı ders",
-      "Hafta içi 5 gün canlı ders",
-      "Maksimum 10 Kişilik Sınıflar",
-      "Yeni Nesil Soru Çözüm Analizi",
-      "Günlük Yol Haritası",
-      "Hoca Destekli WP Soru Çözüm Grupları"
-    ],
-    notIncludedFeatures: [],
-    featured: true,
-    limitedCapacity: true,
-    cta: "Hemen Başla",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "GEOMETRİ",
-    name: "TYT-AYT Geometri Kampı",
-    subtitle: "",
-    price: null,
-    oldPrice: null,
-    discountBadge: null,
-    period: "",
-    category: "YKS",
-    description: "",
-    features: ["Yakında..."],
-    notIncludedFeatures: [],
-    featured: false,
-    limitedCapacity: false,
-    cta: "Hemen Başla",
-    videoUrl: null
-  },
-  {
-    tier: "MATEMATİK",
-    name: "AYT Matematik Kampı",
-    subtitle: "",
-    price: null,
-    oldPrice: null,
-    discountBadge: null,
-    period: "",
-    category: "YKS",
-    description: "",
-    features: ["Yakında..."],
-    notIncludedFeatures: [],
-    featured: false,
-    limitedCapacity: false,
-    cta: "Hemen Başla",
-    videoUrl: null
-  },
-
-];
-
-const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS"];
 
 const testimonials = [
   {
@@ -373,6 +140,8 @@ function PackagesContent() {
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
   const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf";
+  
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "term">("monthly");
 
   const handleCategoryChange = (cat: string) => {
     router.replace(`${pathname}?category=${cat}`, { scroll: false });
@@ -788,22 +557,31 @@ function PackagesContent() {
                   )}
 
                   <div className="flex flex-col items-center justify-center mb-6">
-                    {(pkg as any).oldPrice && (
+                    {(pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice) && (
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg text-muted font-bold line-through">{(pkg as any).oldPrice}₺</span>
+                        <span className="text-lg text-muted font-bold line-through">
+                          {pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice}₺
+                        </span>
                         {(pkg as any).discountBadge && (
                           <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
                             {(pkg as any).discountBadge}
                           </span>
                         )}
+                        {(pkg.isDualPrice && billingCycle === "term") && (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
+                            %15 İndirim
+                          </span>
+                        )}
                       </div>
                     )}
-                    {pkg.price && (
+                    {(pkg.isDualPrice || pkg.price) && (
                       <div className="flex items-baseline justify-center gap-1">
                         <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
-                          ₺{pkg.price}
+                          ₺{pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyPrice : pkg.termPrice) : pkg.price}
                         </span>
-                        <span className="text-sm font-bold text-muted">{pkg.period}</span>
+                        <span className="text-sm font-bold text-muted">
+                          {pkg.isDualPrice ? (billingCycle === "monthly" ? "/ay" : "/dönem") : pkg.period}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -1050,7 +828,13 @@ function PackagesContent() {
                   const rol = formData.get("rol") as string;
                   const telefon = formData.get("telefon") as string;
                   const lise = formData.get("lise") as string;
-                  const priceText = selectedPackageForModal.price ? ` (₺${selectedPackageForModal.price}${selectedPackageForModal.period})` : "";
+                  const activePrice = selectedPackageForModal.isDualPrice 
+                    ? (billingCycle === "monthly" ? selectedPackageForModal.monthlyPrice : selectedPackageForModal.termPrice)
+                    : selectedPackageForModal.price;
+                  const activePeriod = selectedPackageForModal.isDualPrice 
+                    ? (billingCycle === "monthly" ? "/ay" : "/dönem")
+                    : selectedPackageForModal.period;
+                  const priceText = activePrice ? ` (₺${activePrice}${activePeriod})` : "";
                   
                   let extraInfo = "";
                   if (selectedPackageForModal.category === "9-10. Sınıf") {

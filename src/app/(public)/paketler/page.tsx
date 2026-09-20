@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
@@ -9,268 +9,11 @@ import Button from "@/components/ui/Button";
 import { CustomVideoPlayer } from "@/components/ui";
 import { Check, BookOpen, Play, X, ChevronRight, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { ALL_PACKAGES, CATEGORIES } from "@/constants/packages";
 
 const WA_NUMBER = "905068530441";
 const waLink = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
-
-const ALL_PACKAGES = [
-  // 9-10. Sınıf Packages
-  {
-    tier: "LITE",
-    name: "9-10. Sınıf LITE",
-    subtitle: "(Temel Gelişim Paketi)",
-    price: "2.500", 
-    oldPrice: null,
-    discountBadge: null,
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu, matematik temellerini sağlamlaştırmak isteyen öğrenciler için.",
-    features: [
-      "✨ Maarif Modeline Uyumlu Müfredat", 
-      "Yapay Zeka Destekli Seviye Tespiti", 
-      "Haftalık Performans Değerlendirmesi", 
-      "Thematx Özel Konu Anlatım Videoları", 
-      "Kayıtlı Derslere Sınırsız Erişim", 
-      "7/24 Eğitmene Soru Sorma İmkânı", 
-      "Detaylı Veli Gelişim Portalı"
-    ],
-    notIncludedFeatures: [
-      "Etkileşimli Canlı Grup Dersleri",
-      "Birebir Profesyonel Koçluk",
-      "Öğrenciye Özel Günlük Program"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Keşfetmeye Başla",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "9-10. Sınıf PRO",
-    subtitle: "(Etkileşimli Grup Eğitimi)",
-    price: "4.250", 
-    oldPrice: "5.000",
-    discountBadge: "%15 İndirim",
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu canlı dersler ve özel sınıflarla matematiği garanti altına alın.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Aylık 12 Saat İnteraktif Canlı Ders",
-      "Maksimum 10 Kişilik Butik Sınıflar",
-      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
-      "Öğrenciye Özel Günlük Çalışma Planı",
-      "Thematx Özel Hızlandırma Taktikleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "Birebir Soru Çözüm Analizleri"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Maceraya Katıl",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "9-10. Sınıf VIP",
-    subtitle: "(VIP Eğitim ve Koçluk)",
-    price: "7.000", 
-    oldPrice: "8.500",
-    discountBadge: "%17 Özel İndirim",
-    period: "/ay", 
-    category: "9-10. Sınıf", 
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Uzman Rehberlikle Birebir PDR Desteği",
-      "Koçla Haftalık Strateji ve Planlama",
-      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
-      "Haftalık Düzenli Veli Bilgilendirme",
-      "Öğrenciye Özel Analitik Çözüm Sistemi"
-    ],
-    notIncludedFeatures: [],
-    featured: false, 
-    limitedCapacity: true,
-    cta: "VIP Kayıt Ol",
-    videoUrl: "nTgXuRx2cuk"
-  },
-
-  // 11. Sınıf Packages
-  {
-    tier: "LITE",
-    name: "11. Sınıf LITE",
-    subtitle: "(Temel Gelişim Paketi)",
-    price: "2.500", 
-    oldPrice: null,
-    discountBadge: null,
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu, 11. sınıf matematiğini sıfırdan zirveye taşıyın.",
-    features: [
-      "✨ Maarif Modeline Uyumlu Müfredat", 
-      "Yapay Zeka Destekli Seviye Tespiti", 
-      "Haftalık Performans Değerlendirmesi", 
-      "Thematx Özel Konu Anlatım Videoları", 
-      "Kayıtlı Derslere Sınırsız Erişim", 
-      "7/24 Eğitmene Soru Sorma İmkânı", 
-      "Detaylı Veli Gelişim Portalı"
-    ],
-    notIncludedFeatures: [
-      "Etkileşimli Canlı Grup Dersleri",
-      "Birebir Profesyonel Koçluk",
-      "Öğrenciye Özel Günlük Program"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Keşfetmeye Başla",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "11. Sınıf PRO",
-    subtitle: "(Etkileşimli Grup Eğitimi)",
-    price: "4.250", 
-    oldPrice: "5.000",
-    discountBadge: "%15 İndirim",
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu canlı derslerle 11. sınıf matematiğini garanti altına alın.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Aylık 12 Saat İnteraktif Canlı Ders",
-      "Maksimum 10 Kişilik Butik Sınıflar",
-      "Kayıtlı Derslere İstediğiniz Zaman Erişim",
-      "Öğrenciye Özel Günlük Çalışma Planı",
-      "Thematx Özel Hızlandırma Taktikleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "Birebir Soru Çözüm Analizleri"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Maceraya Katıl",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "11. Sınıf VIP",
-    subtitle: "(VIP Eğitim ve Koçluk)",
-    price: "7.000", 
-    oldPrice: "8.500",
-    discountBadge: "%17 Özel İndirim",
-    period: "/ay", 
-    category: "11. Sınıf", 
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "✨ Maarif Modeline Uyumlu Müfredat",
-      "Uzman Rehberlikle Birebir PDR Desteği",
-      "Koçla Haftalık Strateji ve Planlama",
-      "Kayıtlı Derslere 7/24 Sınırsız Erişim",
-      "Haftalık Düzenli Veli Bilgilendirme",
-      "Öğrenciye Özel Analitik Çözüm Sistemi"
-    ],
-    notIncludedFeatures: [],
-    featured: false, 
-    limitedCapacity: true,
-    cta: "VIP Kayıt Ol",
-    videoUrl: "nTgXuRx2cuk"
-  },
-
-  // YKS Packages
-  {
-    tier: "LITE",
-    name: "YKS LITE",
-    subtitle: "(Temel Kamp ve Analiz)",
-    price: "2.800", 
-    oldPrice: null,
-    discountBadge: null,
-    period: "/ay", 
-    category: "YKS", 
-    description: "YKS hazırlığına sistemli, ölçülebilir ve eksiksiz bir başlangıç yapın.",
-    features: [
-      "Akıllı Algoritma ile Çalışma Programı", 
-      "Haftalık Türkiye Geneli Online Deneme", 
-      "Kazanım Bazlı Eksik Tespit Analizi", 
-      "YKS'ye Özel Yeni Nesil Video İçerikler",
-      "Gelişmiş Tekrar Sistemi ile Net Artışı",
-      "Eğitmene Anında Soru Gönderme",
-      "Veli İçin Otonom Başarı Takibi"
-    ],
-    notIncludedFeatures: [
-      "İnteraktif Grup Dersleri",
-      "Birebir Profesyonel Rehberlik",
-      "Özel YKS Strateji Planlaması"
-    ],
-    featured: false, 
-    limitedCapacity: false,
-    cta: "Hedefe Adım At",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "PRO",
-    name: "YKS PRO",
-    subtitle: "(Yoğun Canlı Kamp)",
-    price: "5.000", 
-    oldPrice: "6.250",
-    discountBadge: "%20 Erken Kayıt",
-    period: "/ay", 
-    category: "YKS", 
-    description: "Yeni nesil canlı dersler ve yoğunlaştırılmış deneme kampları ile öne geçin.",
-    features: [
-      "LITE Paketindeki Tüm Özellikler",
-      "Aylık 16 Saat YKS Odaklı Canlı Ders",
-      "10 Kişilik Özel İlgi Odaklı Sınıflar",
-      "YKS'ye Özel Kişiselleştirilmiş Program",
-      "Platform İçi Tüm Sınavlara Erişim",
-      "Hızlı Soru Çözüm Taktikleri",
-      "Sınav Kaygısı ve Zaman Yönetimi Seminerleri"
-    ],
-    notIncludedFeatures: [
-      "Birebir PDR Koçluğu (Psikolojik Destek)",
-      "VIP Birebir Takip"
-    ],
-    featured: true, 
-    limitedCapacity: true,
-    cta: "Yerinizi Ayırtın",
-    videoUrl: "nTgXuRx2cuk"
-  },
-  {
-    tier: "VIP",
-    name: "YKS VIP",
-    subtitle: "(VIP YKS Koçluğu)",
-    price: "8.000", 
-    oldPrice: "9.500",
-    discountBadge: "Sınırlı Fırsat",
-    period: "/ay", 
-    category: "YKS", 
-    description: "Hedefi yüksek olanlara: Tüm canlı dersler + kesintisiz kişisel YKS koçu.",
-    features: [
-      "PRO Paketindeki Tüm Özellikler",
-      "Sertifikalı YKS Koçu ile Birebir Destek",
-      "Haftalık Yüzyüze/Online Motivasyon Görüşmesi",
-      "Koçla Anlık Mesajlaşma Hattı",
-      "Veliler İçin Haftalık İlerleme Raporu",
-      "Nokta Atışı Birebir Soru Çözüm Etütleri"
-    ],
-    notIncludedFeatures: [],
-    featured: false, 
-    limitedCapacity: true,
-    cta: "VIP Kontenjanı",
-    videoUrl: "nTgXuRx2cuk"
-  }
-];
-
-const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS"];
-
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Suspense } from "react";
-
 
 export function PaketlerContent() {
   const searchParams = useSearchParams();
@@ -278,6 +21,9 @@ export function PaketlerContent() {
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
   const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf";
+  
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "term">("monthly");
+  const [selectedPackageForModal, setSelectedPackageForModal] = useState<any>(null);
 
   const handleCategoryChange = (cat: string) => {
     router.replace(`${pathname}?category=${cat}`, { scroll: false });
@@ -322,6 +68,51 @@ export function PaketlerContent() {
               ))}
             </div>
           </div>
+
+          {/* Billing Cycle Toggle */}
+          {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
+            <div className="flex justify-center mb-10">
+              <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
+                <button
+                  onClick={() => setBillingCycle("monthly")}
+                  className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
+                    billingCycle === "monthly" 
+                      ? "text-white shadow-md" 
+                      : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {billingCycle === "monthly" && (
+                    <motion.div
+                      layoutId="billingTogglePaketler"
+                      className="absolute inset-0 bg-primary rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">Aylık</span>
+                </button>
+                <button
+                  onClick={() => setBillingCycle("term")}
+                  className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-2 ${
+                    billingCycle === "term" 
+                      ? "text-white shadow-md" 
+                      : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {billingCycle === "term" && (
+                    <motion.div
+                      layoutId="billingTogglePaketler"
+                      className="absolute inset-0 bg-primary rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">Dönemlik <span className="hidden sm:inline">(4,5 ay)</span></span>
+                  <span className="relative z-10 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full ml-1 animate-pulse">
+                    %15 İndirim
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Pricing Cards Grid */}
           <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto items-center min-h-[400px]`}>
@@ -380,22 +171,33 @@ export function PaketlerContent() {
                   )}
 
                   <div className="flex flex-col items-center justify-center mb-6">
-                    {(pkg as any).oldPrice && (
+                    {(pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice) && (
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg text-muted font-bold line-through">{(pkg as any).oldPrice}₺</span>
+                        <span className="text-lg text-muted font-bold line-through">
+                          {pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice}₺
+                        </span>
                         {(pkg as any).discountBadge && (
                           <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
                             {(pkg as any).discountBadge}
                           </span>
                         )}
+                        {(pkg.isDualPrice && billingCycle === "term") && (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
+                            %15 İndirim
+                          </span>
+                        )}
                       </div>
                     )}
-                  <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
-                        ₺{pkg.price}
-                      </span>
-                      <span className="text-sm font-bold text-muted">{pkg.period}</span>
-                    </div>
+                    {(pkg.isDualPrice || pkg.price) && (
+                      <div className="flex items-baseline justify-center gap-1">
+                        <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
+                          ₺{pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyPrice : pkg.termPrice) : pkg.price}
+                        </span>
+                        <span className="text-sm font-bold text-muted">
+                          {pkg.isDualPrice ? (billingCycle === "monthly" ? "/ay" : "/dönem") : pkg.period}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Tanıtım Videosu - Doğrudan Oynatıcı */}
@@ -436,21 +238,35 @@ export function PaketlerContent() {
                   </div>
 
                   <div className="mt-auto pt-4">
-                    <a 
-                      href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="block w-full"
-                    >
+                    {["9-10. Sınıf", "11. Sınıf", "YKS"].includes(pkg.category) ? (
                       <Button
+                        onClick={() => setSelectedPackageForModal(pkg)}
                         neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
                         variant={pkg.featured ? "primary" : "outline"}
-                        className="w-full gap-2 font-bold"
+                        size="lg"
+                        className="w-full gap-2 font-bold text-base h-12 shadow-md"
                       >
                         <MessageCircle className="w-5 h-5" />
                         {pkg.cta || "Bilgi Al"}
                       </Button>
-                    </a>
+                    ) : (
+                      <a 
+                        href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-full block"
+                      >
+                        <Button
+                          neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
+                          variant={pkg.featured ? "primary" : "outline"}
+                          size="lg"
+                          className="w-full gap-2 font-bold text-base h-12 shadow-md"
+                        >
+                          <MessageCircle className="w-5 h-5" />
+                          {pkg.cta || "Bilgi Al"}
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 </Card>
               ))
@@ -488,6 +304,153 @@ export function PaketlerContent() {
           </div>
         </Container>
       </section>
+
+      {/* Branch Selection Modal */}
+      <AnimatePresence>
+        {selectedPackageForModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-surface border border-border shadow-2xl rounded-2xl p-6 w-full max-w-md relative max-h-[90vh] overflow-y-auto"
+            >
+              <button
+                onClick={() => setSelectedPackageForModal(null)}
+                className="absolute top-4 right-4 text-muted hover:text-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <h3 className="text-xl font-bold font-heading text-foreground mb-2">
+                {selectedPackageForModal.category === "9-10. Sınıf" ? "Kayıt Bilgileri" : selectedPackageForModal.category === "11. Sınıf" ? "Alanınızı & Bilgilerinizi Girin" : "Bilgilerinizi Girin"}
+              </h3>
+              <p className="text-sm text-muted mb-6">
+                {selectedPackageForModal.name} paketi için bilgilerinizi doldurun, sizi WhatsApp üzerinden yönlendireceğiz.
+              </p>
+              
+              <form 
+                className="space-y-4" 
+                onSubmit={(e) => { 
+                  e.preventDefault(); 
+                  const formData = new FormData(e.currentTarget);
+                  const isim = formData.get("isim") as string;
+                  const rol = formData.get("rol") as string;
+                  const telefon = formData.get("telefon") as string;
+                  const lise = formData.get("lise") as string;
+                  const activePrice = selectedPackageForModal.isDualPrice 
+                    ? (billingCycle === "monthly" ? selectedPackageForModal.monthlyPrice : selectedPackageForModal.termPrice)
+                    : selectedPackageForModal.price;
+                  const activePeriod = selectedPackageForModal.isDualPrice 
+                    ? (billingCycle === "monthly" ? "/ay" : "/dönem")
+                    : selectedPackageForModal.period;
+                  const priceText = activePrice ? ` (₺${activePrice}${activePeriod})` : "";
+                  
+                  let extraInfo = "";
+                  if (selectedPackageForModal.category === "9-10. Sınıf") {
+                    const sinif = formData.get("sinif") as string;
+                    extraInfo = `Sınıf: ${sinif}. `;
+                  } else if (selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS") {
+                    const alan = formData.get("alan") as string;
+                    extraInfo = `Alan: ${alan}. `;
+                  }
+                  
+                  const liseText = lise ? `Okunan Lise: ${lise}. ` : "";
+                  const message = `Merhaba, ${selectedPackageForModal.name}${priceText} paketi ile ilgileniyorum.\n\n${extraInfo}İsim: ${isim}\n${rol} olarak başvuruyorum.\n${liseText}Telefon: ${telefon}\n\nKayıt ve detaylı bilgi almak istiyorum.`;
+                  window.open(waLink(message), "_blank");
+                  setSelectedPackageForModal(null); 
+                }}
+              >
+                {/* 9-10. Sınıf: Sınıf Seçimi */}
+                {selectedPackageForModal.category === "9-10. Sınıf" && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">Sınıfınız</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="sinif" value="9. Sınıf" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">9. Sınıf</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="sinif" value="10. Sınıf" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">10. Sınıf</span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* 11. Sınıf & YKS: Alan Seçimi */}
+                {(selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS") && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">Alanınız</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="alan" value="Sayısal" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Sayısal</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="alan" value="Eşit Ağırlık" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Eşit Ağırlık</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="alan" value="Sözel" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Sözel</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="alan" value="Dil" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Dil</span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* İsim Soyisim */}
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1">İsim Soyisim</label>
+                  <input type="text" name="isim" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="Örn: Ali Yılmaz" />
+                </div>
+
+                {/* Veli / Öğrenci */}
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">Kimsiniz?</label>
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="rol" value="Veli" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm text-foreground">Veliyim</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="rol" value="Öğrenci" className="w-4 h-4 text-primary accent-primary" />
+                      <span className="text-sm text-foreground">Öğrenciyim</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Okunan Lise */}
+                {(selectedPackageForModal.category === "9-10. Sınıf" || selectedPackageForModal.category === "11. Sınıf") && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">Okunan Lise</label>
+                    <input type="text" name="lise" className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="Lise adını yazın" />
+                  </div>
+                )}
+
+                {/* İletişim Bilgisi */}
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1">Telefon Numarası</label>
+                  <input type="tel" name="telefon" required className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-foreground" placeholder="05XX XXX XX XX" />
+                </div>
+
+                <button type="submit" className="w-full py-2.5 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-colors mt-4">
+                  WhatsApp'tan Gönder
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
     </>
   );

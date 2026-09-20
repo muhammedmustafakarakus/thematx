@@ -56,7 +56,17 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakarta.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col antialiased">
+      <body className="min-h-full flex flex-col antialiased relative">
+        {/* Fixed Blurred Background */}
+        <div 
+          className="fixed inset-0 z-[-10] bg-cover bg-center bg-no-repeat pointer-events-none transition-opacity duration-1000"
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1588196749597-9ff046394285?q=80&w=2000&auto=format&fit=crop")',
+          }}
+        >
+          {/* Blur & Dark/Light overlay to ensure text remains readable */}
+          <div className="absolute inset-0 bg-background/90 backdrop-blur-md"></div>
+        </div>
         <ThemeProvider>
           {children}
         </ThemeProvider>
