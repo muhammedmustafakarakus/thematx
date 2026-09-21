@@ -361,7 +361,7 @@ export function PaketlerContent() {
                   }
                   
                   const liseText = lise ? `Okunan Lise: ${lise}. ` : "";
-                  const message = `Merhaba, ${selectedPackageForModal.name}${priceText} paketi ile ilgileniyorum.\n\n${extraInfo}İsim: ${isim}\n${rol} olarak başvuruyorum.\n${liseText}Telefon: ${telefon}\n\nKayıt ve detaylı bilgi almak istiyorum.`;
+                  const message = `Merhaba, ${selectedPackageForModal.name}${priceText} paketi ile ilgileniyorum.\n\n${extraInfo}İsim: ${isim}\n${rol} olarak başvuruyorum.\n${liseText}Telefon: ${telefon}\n\nKayıt yaptırmak istiyorum.`;
                   window.open(waLink(message), "_blank");
                   setSelectedPackageForModal(null); 
                 }}

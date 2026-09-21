@@ -57,15 +57,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col antialiased relative">
-        {/* Fixed Blurred Background */}
-        <div 
-          className="fixed inset-0 z-[-10] bg-cover bg-center bg-no-repeat pointer-events-none transition-opacity duration-1000"
-          style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1588196749597-9ff046394285?q=80&w=2000&auto=format&fit=crop")',
-          }}
-        >
-          {/* Blur & Dark/Light overlay to ensure text remains readable */}
-          <div className="absolute inset-0 bg-background/90 backdrop-blur-md"></div>
+        {/* Animated Background Mesh Glows */}
+        <div className="fixed inset-0 z-[-10] bg-background pointer-events-none overflow-hidden">
+          <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-primary/10 blur-[100px] animate-blob" />
+          <div className="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-500/10 blur-[120px] animate-blob animation-delay-2000" />
+          <div className="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-emerald-600/10 blur-[150px] animate-blob animation-delay-4000" />
         </div>
         <ThemeProvider>
           {children}

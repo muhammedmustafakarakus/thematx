@@ -234,48 +234,43 @@ export const ALL_PACKAGES = [
     videoUrl: "nTgXuRx2cuk"
   },
   {
-    tier: "KAMP",
+    tier: "MATEMATİK",
     name: "AYT Matematik Kampı",
-    subtitle: "(İleri Seviye)",
+    subtitle: "",
     category: "YKS",
-    description: "AYT matematikte derece hedefleyenler için nokta atışı taktikler ve soru çözümleri.",
+    description: "",
     isDualPrice: false,
-    price: "6.000",
-    oldPrice: "7.500",
-    period: "/tek sefer",
-    discountBadge: "Yakında",
+    price: "",
+    oldPrice: "",
+    period: "",
+    discountBadge: "",
     features: [
-      "Tüm AYT konularının detaylı analizi",
-      "ÖSYM tarzı yeni nesil soru çözümleri",
-      "Deneme kampı ve süre yönetimi",
-      "Haftalık performans değerlendirmesi"
+      "Yakında..."
     ],
     notIncludedFeatures: [],
     featured: false,
     limitedCapacity: false,
     cta: "Bilgi Al",
-    videoUrl: "nTgXuRx2cuk"
+    videoUrl: ""
   },
   {
-    tier: "KAMP",
+    tier: "GEOMETRİ",
     name: "TYT-AYT Geometri Kampı",
-    subtitle: "(Geometri Uzmanlık)",
+    subtitle: "",
     category: "YKS",
-    description: "Sıfırdan zirveye geometri: Görme yeteneğinizi geliştirin, soruları saniyeler içinde çözün.",
+    description: "",
     isDualPrice: false,
-    price: "4.500",
-    oldPrice: "5.500",
-    period: "/tek sefer",
-    discountBadge: "Yakında",
+    price: "",
+    oldPrice: "",
+    period: "",
+    discountBadge: "",
     features: [
-      "Üçgenlerden katı cisimlere tam müfredat",
-      "Görsel hafıza teknikleriyle öğrenme",
-      "Bol pratik ve soru çözüm saati"
+      "Yakında..."
     ],
-    notIncludedFeatures: ["Birebir rehberlik"],
+    notIncludedFeatures: [],
     featured: false,
     limitedCapacity: false,
     cta: "Bilgi Al",
-    videoUrl: "nTgXuRx2cuk"
+    videoUrl: ""
   }
 ];
