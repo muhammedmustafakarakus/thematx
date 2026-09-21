@@ -75,29 +75,25 @@ const testimonials = [
   {
     name: "Ayşe Y.",
     role: "YKS Öğrencisi Velisi",
-    content:
-      "Kızım Thematx'e başladığından beri matematiğe karşı tutumu tamamen değişti. Sınav kaygısı azaldı, özgüveni arttı. Puanını 30 puan yükseltti!",
+    content: "Açıkçası online eğitime başlarken 'Acaba verimli olur mu?' diye çok tereddüt etmiştik. Ancak kızım ilk dersten itibaren matematiği gerçekten anlamaya başladı. Mustafa Hoca'nın ilgisi ve wp üzerinden çözülemeyen sorulara anında dönülmesi harika. Puanını 30 puan yükseltti!",
     rating: 5,
   },
   {
     name: "Mehmet K.",
     role: "YKS Öğrencisi",
-    content:
-      "Premium paket ile aldığım birebir dersler sayesinde AYT matematikte 35 net yaptım. Koçum her an yanımdaydı, motivasyonumu hiç kaybetmedim.",
+    content: "Eskiden matematik denilince direkt denemelerde o bölümü atlıyordum. Mustafa Hocam sayesinde önce korkumu yendim, sonra da nasıl çözüldüğünü kavradım. Kamptaki yol haritası çok iyiydi, AYT matematikte 35 nete kadar çıktım. İyi ki denk gelmişiz.",
     rating: 5,
   },
   {
     name: "Fatma D.",
     role: "10. Sınıf Öğrencisi Velisi",
-    content:
-      "Düzenli takip sistemi sayesinde kızımın okuldaki notları hızla yükseldi. Öğretmenimizin ilgisi ve profesyonelliği gerçekten fark yaratıyor.",
+    content: "Kızımın okul notları matematik yüzünden hep düşüktü ve ders çalışmak istemiyordu. Sınıf paketine katıldık, şu an kendisi ödevlerini takip edip yapmaya başladı. Notları yükseldi ama en önemlisi artık matematikten nefret etmiyor.",
     rating: 5,
   },
   {
     name: "Elif S.",
     role: "11. Sınıf Öğrencisi",
-    content:
-      "Uzun bir aradan sonra matematiğe baştan başladım. M. Mustafa Hoca'nın pratik yöntemleri sayesinde korkumu yendim ve netlerimi hedeflerime ulaştırdım.",
+    content: "Temelim gerçekten çok zayıftı, yapamam sanıyordum. Buradaki kampla resmen baştan inşa ettik her şeyi. Özellikle hocaların enerjisi ve sorduğum en saçma soruyu bile sabırla açıklamaları bana çok güven verdi.",
     rating: 5,
   },
 ];
@@ -336,14 +332,9 @@ function PackagesContent() {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-0"
                   >
-                    <img 
-                      src={HERO_ANNOUNCEMENTS[currentAnnouncement].image} 
-                      alt={HERO_ANNOUNCEMENTS[currentAnnouncement].titleMain} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    
                     {/* Gradient Overlays for Poster Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-slate-900" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                     
                     {/* Neon Glow Effect on hover */}
