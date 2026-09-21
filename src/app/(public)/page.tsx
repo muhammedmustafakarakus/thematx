@@ -167,7 +167,7 @@ function PackagesContent() {
       titleBottom: "Kayıtlar Devam Ediyor!",
       badge: "🌟 YENİ DÖNEM",
       desc: "Maarif Modeline uyumlu matematik sınıflarımız açıldı! Kayıtlı derslere istediğiniz zaman erişin, sınırlı kontenjanı kaçırma!",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c476?q=80&w=1000&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=1000&auto=format&fit=crop",
       link: "/paketler?category=9-10. Sınıf"
     },
     {
@@ -176,7 +176,7 @@ function PackagesContent() {
       titleBottom: "Kampı",
       badge: "🔥 KAYITLAR AÇIK",
       desc: "TYT Matematik sınıfları açıldı! Yerini şimdi ayırt, kayıtlı derslere her zaman eriş.",
-      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1000&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop",
       link: "/paketler?category=YKS"
     }
   ];
@@ -332,8 +332,13 @@ function PackagesContent() {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-0"
                   >
+                    <img 
+                      src={HERO_ANNOUNCEMENTS[currentAnnouncement].image} 
+                      alt={HERO_ANNOUNCEMENTS[currentAnnouncement].titleMain} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
                     {/* Gradient Overlays for Poster Effect */}
-                    <div className="absolute inset-0 bg-slate-900" />
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-black/50 to-black/90 mix-blend-multiply transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                     
@@ -489,6 +494,51 @@ function PackagesContent() {
               ))}
             </div>
           </div>
+
+          {/* Billing Cycle Toggle */}
+          {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
+            <div className="flex justify-center mb-10 mt-4">
+              <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
+                <button
+                  onClick={() => setBillingCycle("monthly")}
+                  className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
+                    billingCycle === "monthly" 
+                      ? "text-white shadow-md" 
+                      : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {billingCycle === "monthly" && (
+                    <motion.div
+                      layoutId="billingToggleHome"
+                      className="absolute inset-0 bg-primary rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">Aylık</span>
+                </button>
+                <button
+                  onClick={() => setBillingCycle("term")}
+                  className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-2 ${
+                    billingCycle === "term" 
+                      ? "text-white shadow-md" 
+                      : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {billingCycle === "term" && (
+                    <motion.div
+                      layoutId="billingToggleHome"
+                      className="absolute inset-0 bg-primary rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">Dönemlik <span className="hidden sm:inline">(4,5 ay)</span></span>
+                  <span className="relative z-10 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full ml-1 animate-pulse">
+                    %15 İndirim
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-6 lg:gap-8 mx-auto min-h-[400px]`}>
             {filteredPackages.length > 0 ? (
@@ -831,9 +881,13 @@ function PackagesContent() {
                   if (selectedPackageForModal.category === "9-10. Sınıf") {
                     const sinif = formData.get("sinif") as string;
                     extraInfo = `Sınıf: ${sinif}. `;
-                  } else if (selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS") {
+                  } else if (selectedPackageForModal.category === "11. Sınıf") {
                     const alan = formData.get("alan") as string;
                     extraInfo = `Alan: ${alan}. `;
+                  } else if (selectedPackageForModal.category === "YKS") {
+                    const alan = formData.get("alan") as string;
+                    const yks_durum = formData.get("yks_durum") as string;
+                    extraInfo = `Durum: ${yks_durum}, Alan: ${alan}. `;
                   }
                   
                   const liseText = lise ? `Okunan Lise: ${lise}. ` : "";
@@ -854,6 +908,23 @@ function PackagesContent() {
                       <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
                         <input type="radio" name="sinif" value="10. Sınıf" className="w-4 h-4 text-primary accent-primary" />
                         <span className="text-sm font-medium text-foreground">10. Sınıf</span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* YKS: Sınıf Durumu Seçimi */}
+                {selectedPackageForModal.category === "YKS" && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">Sınıf Durumu</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="yks_durum" value="12. Sınıf" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">12. Sınıf</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="yks_durum" value="Mezun" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Mezun</span>
                       </label>
                     </div>
                   </div>

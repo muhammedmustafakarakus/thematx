@@ -355,9 +355,13 @@ export function PaketlerContent() {
                   if (selectedPackageForModal.category === "9-10. Sınıf") {
                     const sinif = formData.get("sinif") as string;
                     extraInfo = `Sınıf: ${sinif}. `;
-                  } else if (selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS") {
+                  } else if (selectedPackageForModal.category === "11. Sınıf") {
                     const alan = formData.get("alan") as string;
                     extraInfo = `Alan: ${alan}. `;
+                  } else if (selectedPackageForModal.category === "YKS") {
+                    const alan = formData.get("alan") as string;
+                    const yks_durum = formData.get("yks_durum") as string;
+                    extraInfo = `Durum: ${yks_durum}, Alan: ${alan}. `;
                   }
                   
                   const liseText = lise ? `Okunan Lise: ${lise}. ` : "";
@@ -378,6 +382,23 @@ export function PaketlerContent() {
                       <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
                         <input type="radio" name="sinif" value="10. Sınıf" className="w-4 h-4 text-primary accent-primary" />
                         <span className="text-sm font-medium text-foreground">10. Sınıf</span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* YKS: Sınıf Durumu Seçimi */}
+                {selectedPackageForModal.category === "YKS" && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">Sınıf Durumu</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="yks_durum" value="12. Sınıf" defaultChecked className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">12. Sınıf</span>
+                      </label>
+                      <label className="flex items-center gap-2 p-3 border border-border rounded-xl cursor-pointer hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                        <input type="radio" name="yks_durum" value="Mezun" className="w-4 h-4 text-primary accent-primary" />
+                        <span className="text-sm font-medium text-foreground">Mezun</span>
                       </label>
                     </div>
                   </div>
