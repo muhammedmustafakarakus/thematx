@@ -57,12 +57,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col antialiased relative">
-        {/* Math-related Animated Background */}
+        {/* Animated Background */}
         <div className="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-background">
           <div 
             className="absolute inset-[-10%] bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-30 mix-blend-luminosity animate-[ken-burns_30s_ease-in-out_infinite_alternate]"
             style={{
-              backgroundImage: 'url("https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000&auto=format&fit=crop")',
+              backgroundImage: 'url("https://images.unsplash.com/photo-1588196749597-9ff046394285?q=80&w=2000&auto=format&fit=crop")',
             }}
           />
           {/* Subtle gradient overlay to ensure text readability */}

@@ -135,11 +135,20 @@ function PackagesContent() {
   const router = useRouter();
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
-  const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf";
+  const [activeCategory, setActiveCategory] = useState(
+    categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf"
+  );
   
   const [billingCycle, setBillingCycle] = useState<"monthly" | "term">("monthly");
 
+  useEffect(() => {
+    if (categoryParam && CATEGORIES.includes(categoryParam)) {
+      setActiveCategory(categoryParam);
+    }
+  }, [categoryParam]);
+
   const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
     router.replace(`${pathname}?category=${cat}`, { scroll: false });
   };
 
@@ -409,7 +418,7 @@ function PackagesContent() {
       </section>
 
       {/* ===== NEDEN BİZ? ===== */}
-      <section className="section-padding bg-surface-alt">
+      <section className="section-padding bg-surface-alt/70 backdrop-blur-md">
         <Container>
           <div className="text-center mb-16">
             <Badge variant="primary" className="mb-4 uppercase tracking-wider font-bold">Neden Thematx?</Badge>
@@ -464,7 +473,7 @@ function PackagesContent() {
       </section>
 
       {/* ===== PAKETLER ===== */}
-      <section id="paketler" className="section-padding bg-surface-alt pt-20 -mt-10">
+      <section id="paketler" className="section-padding bg-surface-alt/70 backdrop-blur-md pt-20 -mt-10">
         <Container>
           <SectionHeading
             badge="Paketler & Fiyatlandırma"
@@ -719,8 +728,8 @@ function PackagesContent() {
         </Container>
       </section>
 
-      {/* ===== BAŞARI HİKAYELERİ ===== */}
-      <section className="section-padding bg-surface-alt">
+      {/* ===== ÖĞRENCİ YORUMLARI ===== */}
+      <section className="section-padding bg-surface-alt/70 backdrop-blur-md">
         <Container>
           <SectionHeading
             badge="Başarı Hikayeleri"
@@ -762,7 +771,7 @@ function PackagesContent() {
       </section>
 
       {/* ===== SSS ===== */}
-      <section className="section-padding">
+      <section className="section-padding bg-surface/70 backdrop-blur-md">
         <Container>
           <div className="max-w-3xl mx-auto">
             <SectionHeading
