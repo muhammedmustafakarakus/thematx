@@ -441,7 +441,7 @@ function PackagesContent() {
                 <div className="absolute -inset-3 bg-gradient-to-tr from-primary/25 via-emerald-500/15 to-cyan-500/25 rounded-[2rem] blur-xl pointer-events-none" />
                 <div className="relative p-2 rounded-[1.75rem] bg-surface/90 border border-border/70 shadow-2xl">
                   <CustomVideoPlayer 
-                    youtubeId="DB0OJEYFeo0"
+                    youtubeId="https://www.youtube.com/watch?v=DB0OJEYFeo0"
                     startAt={0}
                     aspectRatio="9:16"
                     title="Thematx Tanıtım Videosu"

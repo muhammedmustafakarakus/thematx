@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback, useId } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize, Subtitles, RotateCcw } from "lucide-react";
 
 declare global {
@@ -20,8 +20,22 @@ interface CustomVideoPlayerProps {
   aspectRatio?: "9:16" | "16:9";
 }
 
+function extractYoutubeId(input: string): string {
+  if (!input) return "DB0OJEYFeo0";
+  const trimmed = input.trim();
+  const watchMatch = trimmed.match(/[?&]v=([^&#]+)/);
+  if (watchMatch) return watchMatch[1];
+  const shortsMatch = trimmed.match(/shorts\/([^?&#/]+)/);
+  if (shortsMatch) return shortsMatch[1];
+  const embedMatch = trimmed.match(/embed\/([^?&#/]+)/);
+  if (embedMatch) return embedMatch[1];
+  const shortUrlMatch = trimmed.match(/youtu\.be\/([^?&#/]+)/);
+  if (shortUrlMatch) return shortUrlMatch[1];
+  return trimmed;
+}
+
 export default function CustomVideoPlayer({
-  youtubeId = "DB0OJEYFeo0",
+  youtubeId = "https://www.youtube.com/watch?v=DB0OJEYFeo0",
   poster,
   title = "Tanıtım Videosu",
   channelName = "Thematx",
@@ -29,7 +43,7 @@ export default function CustomVideoPlayer({
   startAt = 0,
   aspectRatio = "9:16"
 }: CustomVideoPlayerProps) {
-  const playerId = useId().replace(/:/g, ''); // Ensure safe ID for DOM
+  const resolvedVideoId = extractYoutubeId(youtubeId);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -42,32 +56,39 @@ export default function CustomVideoPlayer({
   const [isCcOn, setIsCcOn] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
+  const iframeHostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
+  const pendingPlayRef = useRef<boolean>(false);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // oar2.jpg is YouTube's native 9:16 vertical high-res thumbnail for Shorts
+  // oar2.jpg is YouTube's native 9:16 vertical high-res thumbnail
   const finalPoster = poster || (aspectRatio === "9:16"
-    ? `https://img.youtube.com/vi/${youtubeId}/oar2.jpg`
-    : `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`);
+    ? `https://img.youtube.com/vi/${resolvedVideoId}/oar2.jpg`
+    : `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`);
 
   useEffect(() => {
     let checkInterval: NodeJS.Timeout;
+    let isCancelled = false;
+
     setIsPlaying(false);
     setIsEnded(false);
     setHasStarted(false);
     setIsReady(false);
     setProgress(0);
     setCurrentTime(0);
+    pendingPlayRef.current = false;
 
     const initPlayer = () => {
-      if (playerRef.current) return; // Already initialized
+      if (isCancelled || playerRef.current || !iframeHostRef.current) return;
 
-      const targetEl = document.getElementById(`yt-player-${playerId}`);
-      if (!targetEl) return;
+      iframeHostRef.current.innerHTML = "";
+      const mountEl = document.createElement("div");
+      mountEl.className = "w-full h-full border-none";
+      iframeHostRef.current.appendChild(mountEl);
 
-      playerRef.current = new window.YT.Player(`yt-player-${playerId}`, {
-        videoId: youtubeId,
+      playerRef.current = new window.YT.Player(mountEl, {
+        videoId: resolvedVideoId,
         width: "100%",
         height: "100%",
         playerVars: {
@@ -80,29 +101,35 @@ export default function CustomVideoPlayer({
           fs: 0,
           iv_load_policy: 3,
           cc_load_policy: 0,
-          hl: 'tr'
+          hl: "tr",
+          origin: typeof window !== "undefined" ? window.location.origin : undefined
         },
         events: {
           onReady: (event: any) => {
+            if (isCancelled) return;
             setIsReady(true);
             setDuration(event.target.getDuration());
             try {
-              // Try multiple ways to force captions off
               event.target.unloadModule("captions");
               event.target.unloadModule("cc");
               event.target.setOption("captions", "track", { languageCode: "" });
-            } catch (e) {
-              console.warn("Could not disable captions onReady");
+            } catch (e) {}
+
+            if (pendingPlayRef.current) {
+              pendingPlayRef.current = false;
+              event.target.playVideo();
+              setIsPlaying(true);
+              setHasStarted(true);
             }
           },
           onStateChange: (event: any) => {
+            if (isCancelled) return;
             if (event.data === 1) {
               setIsPlaying(true);
               setIsEnded(false);
               setHasStarted(true);
               setDuration(event.target.getDuration());
               
-              // Apply current CC state
               try {
                 if (!isCcOn) {
                   event.target.unloadModule("captions");
@@ -147,15 +174,16 @@ export default function CustomVideoPlayer({
     }
 
     return () => {
+      isCancelled = true;
       if (checkInterval) clearInterval(checkInterval);
       if (playerRef.current && typeof playerRef.current.destroy === 'function') {
         try {
           playerRef.current.destroy();
         } catch (e) {}
-        playerRef.current = null;
       }
+      playerRef.current = null;
     };
-  }, [youtubeId, startAt, playerId]);
+  }, [resolvedVideoId, startAt]);
 
   // Sync progress
   useEffect(() => {
@@ -180,7 +208,12 @@ export default function CustomVideoPlayer({
 
   const togglePlay = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (!isReady || !playerRef.current) return;
+    if (!isReady || !playerRef.current || typeof playerRef.current.playVideo !== 'function') {
+      pendingPlayRef.current = true;
+      setHasStarted(true);
+      setIsPlaying(true);
+      return;
+    }
 
     if (isPlaying) {
       playerRef.current.pauseVideo();
@@ -312,9 +345,10 @@ export default function CustomVideoPlayer({
       <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden z-10 ring-1 ring-white/10" onClick={togglePlay}>
 
       {/* Hidden YouTube iframe container */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 [&_iframe]:w-full [&_iframe]:h-full">
-        <div id={`yt-player-${playerId}`} className="w-full h-full border-none"></div>
-      </div>
+      <div
+        ref={iframeHostRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0 [&_iframe]:w-full [&_iframe]:h-full"
+      />
 
       {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}
       <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
@@ -330,11 +364,11 @@ export default function CustomVideoPlayer({
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (target.src.includes("oar2.jpg")) {
-                  target.src = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
+                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`;
                 } else if (target.src.includes("maxresdefault.jpg")) {
-                  target.src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/hqdefault.jpg`;
                 } else {
-                  target.src = `https://img.youtube.com/vi/${youtubeId}/default.jpg`;
+                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/default.jpg`;
                 }
               }}
             />

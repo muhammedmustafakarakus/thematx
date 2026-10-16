@@ -33,7 +33,7 @@ export const ALL_PACKAGES = [
     featured: false,
     limitedCapacity: false,
     cta: "Keşfetmeye Başla",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
   {
     tier: "PRO",
@@ -60,7 +60,7 @@ export const ALL_PACKAGES = [
     featured: true,
     limitedCapacity: true,
     cta: "Maceraya Katıl",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
   {
     tier: "VIP",
@@ -87,7 +87,7 @@ export const ALL_PACKAGES = [
     featured: false,
     limitedCapacity: true,
     cta: "VIP Kayıt Ol",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
 
   // 11. Sınıf
@@ -122,7 +122,7 @@ export const ALL_PACKAGES = [
     featured: false,
     limitedCapacity: false,
     cta: "Keşfetmeye Başla",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
   {
     tier: "PRO",
@@ -149,7 +149,7 @@ export const ALL_PACKAGES = [
     featured: true,
     limitedCapacity: true,
     cta: "Maceraya Katıl",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
   {
     tier: "VIP",
@@ -176,7 +176,7 @@ export const ALL_PACKAGES = [
     featured: false,
     limitedCapacity: true,
     cta: "VIP Kayıt Ol",
-    videoUrl: "vyAY3Lgxz3M"
+    videoUrl: "https://www.youtube.com/watch?v=vyAY3Lgxz3M"
   },
 
   // YKS Paketleri
@@ -204,7 +204,7 @@ export const ALL_PACKAGES = [
     featured: true,
     limitedCapacity: true,
     cta: "Kampa Katıl",
-    videoUrl: "zbPRCFb8qLo"
+    videoUrl: "https://www.youtube.com/watch?v=zbPRCFb8qLo"
   },
   {
     tier: "KAMP",
@@ -231,7 +231,7 @@ export const ALL_PACKAGES = [
     featured: false,
     limitedCapacity: true,
     cta: "Kampa Katıl",
-    videoUrl: "OfCAZVLKBCo"
+    videoUrl: "https://www.youtube.com/watch?v=OfCAZVLKBCo"
   },
   {
     tier: "MATEMATİK",
