@@ -20,12 +20,21 @@ export function PaketlerContent() {
   const router = useRouter();
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
-  const activeCategory = categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf";
+  const [activeCategory, setActiveCategory] = useState(
+    categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf"
+  );
   
   const [billingCycle, setBillingCycle] = useState<"monthly" | "term">("monthly");
   const [selectedPackageForModal, setSelectedPackageForModal] = useState<any>(null);
 
+  useEffect(() => {
+    if (categoryParam && CATEGORIES.includes(categoryParam)) {
+      setActiveCategory(categoryParam);
+    }
+  }, [categoryParam]);
+
   const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
     router.replace(`${pathname}?category=${cat}`, { scroll: false });
   };
 
@@ -34,7 +43,7 @@ export function PaketlerContent() {
   );
   return (
     <>
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
@@ -115,11 +124,11 @@ export function PaketlerContent() {
           )}
 
           {/* Pricing Cards Grid */}
-          <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto items-center min-h-[400px]`}>
+          <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto min-h-[400px]`}>
             {filteredPackages.length > 0 ? (
-              filteredPackages.map((pkg, idx) => (
+              filteredPackages.map((pkg) => (
                 <Card 
-                  key={idx} 
+                  key={pkg.name} 
                   className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 animate-in fade-in zoom-in-95 hover:-translate-y-2 hover:shadow-2xl group ${
                     pkg.featured 
                       ? 'border-primary/60 shadow-xl shadow-primary/10 md:scale-105 z-10 bg-gradient-to-b from-surface to-primary/5' 
@@ -200,20 +209,25 @@ export function PaketlerContent() {
                     )}
                   </div>
 
-                  {/* Tanıtım Videosu - Doğrudan Oynatıcı */}
+                  {/* Tanıtım Videosu - Dikey Oynatıcı */}
                   {(pkg as any).videoUrl && (
-                    <CustomVideoPlayer 
-                      youtubeId="nTgXuRx2cuk"
-                      startAt={30}
-                      title={`${pkg.name} Tanıtım`}
-                      className="mb-6 z-10"
-                    />
+                    <div className="w-full max-w-[215px] mx-auto mb-6 z-10">
+                      <CustomVideoPlayer 
+                        key={`${pkg.name}-${(pkg as any).videoUrl}`}
+                        youtubeId={(pkg as any).videoUrl}
+                        startAt={0}
+                        aspectRatio="9:16"
+                        title={`${pkg.name} Tanıtım`}
+                      />
+                    </div>
                   )}
 
                   {/* Description Box */}
-                  <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
-                    {pkg.description}
-                  </div>
+                  {pkg.description && (
+                    <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
+                      {pkg.description}
+                    </div>
+                  )}
 
                   <div className="flex-1">
                     <ul className="space-y-4 mb-8 text-left">

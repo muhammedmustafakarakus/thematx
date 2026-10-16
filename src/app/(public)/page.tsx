@@ -434,18 +434,25 @@ function PackagesContent() {
             </p>
           </div>
 
-          <div id="tanitim" className="w-full max-w-3xl mx-auto mb-16 relative shadow-2xl border border-border/50 rounded-2xl overflow-hidden">
-            <CustomVideoPlayer 
-              youtubeId="nTgXuRx2cuk"
-              startAt={30}
-              title="Thematx Tanıtım Videosu"
-              className="z-10"
-            />
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center max-w-6xl mx-auto mb-8">
+            {/* Vertical Intro Video - Left Column */}
+            <div id="tanitim" className="lg:col-span-4 flex justify-center">
+              <div className="relative w-full max-w-[270px] sm:max-w-[290px]">
+                <div className="absolute -inset-3 bg-gradient-to-tr from-primary/25 via-emerald-500/15 to-cyan-500/25 rounded-[2rem] blur-xl pointer-events-none" />
+                <div className="relative p-2 rounded-[1.75rem] bg-surface/90 border border-border/70 shadow-2xl">
+                  <CustomVideoPlayer 
+                    youtubeId="DB0OJEYFeo0"
+                    startAt={0}
+                    aspectRatio="9:16"
+                    title="Thematx Tanıtım Videosu"
+                    className="z-10"
+                  />
+                </div>
+              </div>
+            </div>
 
-          <div className="flex flex-col gap-12 items-center mb-16">
-            {/* Features - Bottom Grid */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Features - Right 2x2 Grid */}
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {advantages.map((adv, i) => (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -551,9 +558,9 @@ function PackagesContent() {
 
           <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-6 lg:gap-8 mx-auto min-h-[400px]`}>
             {filteredPackages.length > 0 ? (
-              filteredPackages.map((pkg, i) => (
+              filteredPackages.map((pkg) => (
                 <div
-                  key={i}
+                  key={pkg.name}
                   className={`relative flex flex-col rounded-3xl border p-6 lg:p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group animate-in fade-in zoom-in-95 ${
                     pkg.featured
                       ? "border-primary/60 bg-gradient-to-b from-surface to-primary/5 shadow-xl shadow-primary/10 lg:scale-105 z-10"
@@ -636,20 +643,25 @@ function PackagesContent() {
                     )}
                   </div>
 
-                  {/* Tanıtım Videosu - Doğrudan Oynatıcı */}
+                  {/* Tanıtım Videosu - Dikey Oynatıcı */}
                   {(pkg as any).videoUrl && (
-                    <CustomVideoPlayer 
-                      youtubeId="nTgXuRx2cuk"
-                      startAt={30}
-                      title={`${pkg.name} Tanıtım`}
-                      className="mb-6 z-10"
-                    />
+                    <div className="w-full max-w-[215px] mx-auto mb-6 z-10">
+                      <CustomVideoPlayer 
+                        key={`${pkg.name}-${(pkg as any).videoUrl}`}
+                        youtubeId={(pkg as any).videoUrl}
+                        startAt={0}
+                        aspectRatio="9:16"
+                        title={`${pkg.name} Tanıtım`}
+                      />
+                    </div>
                   )}
 
                   {/* Description Box */}
-                  <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
-                    {pkg.description}
-                  </div>
+                  {pkg.description && (
+                    <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
+                      {pkg.description}
+                    </div>
+                  )}
 
                   <div className="flex-1">
                     <ul className="space-y-4 mb-8 text-left">
