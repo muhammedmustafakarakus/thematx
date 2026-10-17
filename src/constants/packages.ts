@@ -287,7 +287,7 @@ export const ALL_PACKAGES = [
   },
 
   // ==========================================
-  // BÖLÜM 2: YKS (TYT-AYT) Aylık Abonelik ve Koçluk Paketleri (Kampların Altında)
+  // BÖLÜM 2: YKS Aylık Abonelik & Koçluk (Sürekli Eğitim Sistemi - Kampların Altında)
   // ==========================================
   {
     tier: "LITE",
@@ -298,10 +298,10 @@ export const ALL_PACKAGES = [
     includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları içinde barındıran aylık gelişim paketi.",
     isDualPrice: true,
-    monthlyPrice: "6.400",
-    monthlyOldPrice: "7.500",
-    termPrice: "24.480",
-    termOldPrice: "28.800",
+    monthlyPrice: "12.500",
+    monthlyOldPrice: "14.500",
+    termPrice: "47.810",
+    termOldPrice: "56.250",
     features: [
       "🔥 Tüm YKS Kamplarını İçinde Barındırır (60 Günde TYT, 21 Günde 0'dan, AYT, Geometri)",
       "✨ TYT-AYT Tam Müfredat Eğitim Sistemi",
@@ -334,10 +334,10 @@ export const ALL_PACKAGES = [
     includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları içinde barındıran, etkileşimli kamp ve grup destekli ana paket.",
     isDualPrice: true,
-    monthlyPrice: "8.500",
-    monthlyOldPrice: "10.000",
-    termPrice: "32.500",
-    termOldPrice: "38.250",
+    monthlyPrice: "16.500",
+    monthlyOldPrice: "19.500",
+    termPrice: "63.110",
+    termOldPrice: "74.250",
     features: [
       "🔥 Tüm YKS Kamplarını İçinde Barındırır (60 Günde TYT, 21 Günde 0'dan, AYT, Geometri)",
       "YKS LITE Paketindeki Tüm Özellikler",
@@ -365,10 +365,10 @@ export const ALL_PACKAGES = [
     includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları eksiksiz barındıran, birebir özel koçluk ve VIP takip paketi.",
     isDualPrice: true,
-    monthlyPrice: "11.500",
-    monthlyOldPrice: "13.500",
-    termPrice: "43.990",
-    termOldPrice: "51.750",
+    monthlyPrice: "24.500",
+    monthlyOldPrice: "28.500",
+    termPrice: "93.710",
+    termOldPrice: "110.250",
     features: [
       "🔥 Tüm YKS Kamplarını İçinde Barındırır (60 Günde TYT, 21 Günde 0'dan, AYT, Geometri)",
       "YKS PRO Paketindeki Tüm Özellikler",

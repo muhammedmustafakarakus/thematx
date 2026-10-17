@@ -757,7 +757,7 @@ function PackagesContent() {
                         Yukarıdaki Tüm Kampları İçinde Barındırır
                       </div>
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-foreground mb-3">
-                        YKS (TYT-AYT) Aylık Abonelik ve Koçluk Paketleri
+                        YKS Aylık Abonelik &amp; Koçluk (Sürekli Eğitim Sistemi)
                       </h3>
                       <p className="text-muted text-sm sm:text-base leading-relaxed">
                         YKS LITE, PRO ve VIP aylık abonelik paketlerimiz; <strong>60 Günde TYT Matematik Kampı</strong>, <strong>21 Günde 0&apos;dan Matematik Kampı</strong>, <strong>AYT Matematik Kampı</strong> ve <strong>TYT-AYT Geometri Kampı</strong> dahil yukarıdaki <strong>tüm kampların tamamını</strong> içinde barındırır!
