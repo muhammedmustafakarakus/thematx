@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, Subtitles, RotateCcw } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Subtitles, X } from "lucide-react";
 
 declare global {
   interface Window {
@@ -54,6 +54,7 @@ export default function CustomVideoPlayer({
   const [hasStarted, setHasStarted] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isCcOn, setIsCcOn] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeHostRef = useRef<HTMLDivElement>(null);
@@ -62,7 +63,7 @@ export default function CustomVideoPlayer({
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // oar2.jpg is YouTube's native 9:16 vertical high-res thumbnail
+  // oar2.jpg is YouTube's native 9:16 vertical high-res frame
   const finalPoster = poster || (aspectRatio === "9:16"
     ? `https://img.youtube.com/vi/${resolvedVideoId}/oar2.jpg`
     : `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`);
@@ -97,6 +98,9 @@ export default function CustomVideoPlayer({
           modestbranding: 1,
           rel: 0,
           playsinline: 1,
+          // Passing playlist forces YouTube's internal isEmbedsShortsMode() to return false,
+          // disabling ytp-shorts-mode, Shorts watermark, and Shorts pause UI.
+          playlist: resolvedVideoId,
           ...(startAt > 0 ? { start: startAt } : {}),
           fs: 0,
           iv_load_policy: 3,
@@ -185,13 +189,22 @@ export default function CustomVideoPlayer({
     };
   }, [resolvedVideoId, startAt]);
 
-  // Sync progress
+  // Sync progress & stop cleanly before playlist auto-loops
   useEffect(() => {
     if (isPlaying) {
       progressIntervalRef.current = setInterval(() => {
         if (playerRef.current && typeof playerRef.current.getCurrentTime === 'function') {
           const current = playerRef.current.getCurrentTime();
           const dur = playerRef.current.getDuration() || duration;
+          if (dur > 0 && current >= dur - 0.25) {
+            playerRef.current.pauseVideo();
+            playerRef.current.seekTo(0, true);
+            setIsPlaying(false);
+            setIsEnded(true);
+            setProgress(0);
+            setCurrentTime(0);
+            return;
+          }
           setCurrentTime(current);
           if (dur > 0) {
             setProgress((current / dur) * 100);
@@ -206,6 +219,30 @@ export default function CustomVideoPlayer({
     };
   }, [isPlaying, duration]);
 
+  // Sync fullscreen state with browser Fullscreen API & Escape key
+  useEffect(() => {
+    const handleFsChange = () => {
+      const fsEl = document.fullscreenElement || (document as any).webkitFullscreenElement;
+      setIsFullscreen(fsEl === containerRef.current);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isFullscreen) {
+        const fsEl = document.fullscreenElement || (document as any).webkitFullscreenElement;
+        if (!fsEl) {
+          setIsFullscreen(false);
+        }
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    document.addEventListener("webkitfullscreenchange", handleFsChange);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFsChange);
+      document.removeEventListener("webkitfullscreenchange", handleFsChange);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isFullscreen]);
+
   const togglePlay = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (!isReady || !playerRef.current || typeof playerRef.current.playVideo !== 'function') {
@@ -217,22 +254,26 @@ export default function CustomVideoPlayer({
 
     if (isPlaying) {
       playerRef.current.pauseVideo();
-      setIsPlaying(false); // Optimistic UI update
+      setIsPlaying(false);
     } else {
+      if (isEnded) {
+        playerRef.current.seekTo(0, true);
+        setIsEnded(false);
+      }
       playerRef.current.playVideo();
-      setIsPlaying(true); // Optimistic UI update
+      setIsPlaying(true);
       setHasStarted(true);
     }
-  }, [isPlaying, isReady]);
+  }, [isPlaying, isReady, isEnded]);
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (!isReady || !playerRef.current) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
+    const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const dur = playerRef.current.getDuration() || duration;
-    const newTime = pos * dur;
+    const newTime = Math.min(dur - 0.3, pos * dur);
     
     playerRef.current.seekTo(newTime, true);
     setCurrentTime(newTime);
@@ -240,6 +281,7 @@ export default function CustomVideoPlayer({
     
     if (!isPlaying) {
       playerRef.current.playVideo();
+      setIsPlaying(true);
     }
   };
 
@@ -277,14 +319,28 @@ export default function CustomVideoPlayer({
 
   const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (containerRef.current) {
-      if (!document.fullscreenElement) {
-        containerRef.current.requestFullscreen().catch(err => {
-          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const fsEl = document.fullscreenElement || (document as any).webkitFullscreenElement;
+    if (!fsEl && !isFullscreen) {
+      const reqFs = container.requestFullscreen || (container as any).webkitRequestFullscreen;
+      if (reqFs) {
+        reqFs.call(container).then(() => {
+          setIsFullscreen(true);
+        }).catch(() => {
+          // Fallback fixed overlay fullscreen for mobile browsers (e.g. iOS Safari)
+          setIsFullscreen(true);
         });
       } else {
-        document.exitFullscreen();
+        setIsFullscreen(true);
       }
+    } else {
+      const exitFs = document.exitFullscreen || (document as any).webkitExitFullscreen;
+      if (fsEl && exitFs) {
+        exitFs.call(document).catch(() => {});
+      }
+      setIsFullscreen(false);
     }
   };
 
@@ -329,143 +385,187 @@ export default function CustomVideoPlayer({
     };
   }, [isPlaying]);
 
-  // Padding-top ratio box: works in every browser (old iOS Safari included)
-  // and never collapses to 0px height, independent of Tailwind arbitrary classes.
-  const ratioPadding = aspectRatio === "9:16" ? "177.7778%" : "56.25%";
+  const targetAspectRatio = aspectRatio === "9:16" ? "9 / 16" : "16 / 9";
 
   return (
     <div 
       ref={containerRef}
-      className={`relative w-full h-0 rounded-2xl shadow-2xl group/vid ${className}`}
-      style={{ paddingTop: ratioPadding }}
+      className={
+        isFullscreen
+          ? "fixed inset-0 z-[9999] w-screen h-screen bg-black/95 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 select-none"
+          : `relative w-full rounded-2xl shadow-2xl group/vid select-none ${className}`
+      }
+      style={
+        isFullscreen
+          ? { width: "100vw", height: "100vh" }
+          : { aspectRatio: targetAspectRatio }
+      }
+      onClick={isFullscreen ? toggleFullscreen : undefined}
     >
-      {/* Rotating Neon Border Layer */}
-      <div className="absolute -inset-[3px] rounded-[19px] opacity-0 group-hover/vid:opacity-100 transition-opacity duration-500 overflow-hidden pointer-events-none z-0">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_75%,#10b981_100%)] animate-[spin_2.5s_linear_infinite] blur-[2px]" />
-      </div>
-
-      {/* Inner Video Container */}
-      <div className="absolute inset-0 bg-black rounded-2xl overflow-hidden z-10 ring-1 ring-white/10" onClick={togglePlay}>
-
-      {/* Hidden YouTube iframe container */}
-      <div
-        ref={iframeHostRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-0 [&>div]:w-full [&>div]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full"
-      />
-
-      {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}
-      <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
-
-      {/* THUMBNAIL OVERLAY (Before First Play or Ended) */}
-      {(!hasStarted || isEnded) && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black cursor-pointer group/thumb">
-          {finalPoster && (
-            <img 
-              src={finalPoster} 
-              alt={title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (target.src.includes("oar2.jpg")) {
-                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`;
-                } else if (target.src.includes("maxresdefault.jpg")) {
-                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/hqdefault.jpg`;
-                } else {
-                  target.src = `https://img.youtube.com/vi/${resolvedVideoId}/default.jpg`;
-                }
-              }}
-            />
-          )}
-
-          {/* Subtle vignette for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30 opacity-80 group-hover/thumb:opacity-60 transition-opacity duration-300" />
-          
-          {/* Center Glass Play Button */}
-          <div className="relative z-30 w-14 h-14 rounded-full bg-red-600/95 backdrop-blur-md flex items-center justify-center shadow-[0_8px_30px_rgba(220,38,38,0.6)] group-hover/thumb:scale-110 transition-all duration-300 border border-white/25">
-            <Play className="w-6 h-6 text-white fill-white ml-0.5" />
-          </div>
-
-          {/* Top Right Small Red Badge */}
-          <div className="absolute top-3 right-3 px-2.5 py-1 bg-red-600/90 backdrop-blur-sm rounded-lg flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)] z-30">
-            <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent"></div>
-            <span className="text-[10px] font-bold text-white tracking-wider uppercase">İzle</span>
-          </div>
+      {/* Rotating Neon Border Layer (Only in normal card view) */}
+      {!isFullscreen && (
+        <div className="absolute -inset-[3px] rounded-[19px] opacity-0 group-hover/vid:opacity-100 transition-opacity duration-500 overflow-hidden pointer-events-none z-0">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square bg-[conic-gradient(from_0deg,transparent_75%,#10b981_100%)] animate-[spin_2.5s_linear_infinite] blur-[2px]" />
         </div>
       )}
 
-      {/* PLAYBACK CONTROLS (Only when started and not ended) */}
-      {hasStarted && !isEnded && (
-        <div 
-          className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-2.5 pt-10 pb-2 transition-opacity duration-300 z-30 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {/* Progress Bar Container */}
-          <div 
-            className="w-full h-1.5 bg-white/30 rounded-full cursor-pointer relative group/progress transition-all duration-200 hover:h-2"
-            onClick={handleProgressClick}
+      {/* Inner Video Container */}
+      <div
+        className={
+          isFullscreen
+            ? "relative bg-black sm:rounded-2xl overflow-hidden z-10 shadow-2xl ring-1 ring-white/20"
+            : "absolute inset-0 w-full h-full bg-black rounded-2xl overflow-hidden z-10 ring-1 ring-white/10"
+        }
+        style={
+          isFullscreen
+            ? aspectRatio === "9:16"
+              ? { height: "100%", maxHeight: "96vh", aspectRatio: "9 / 16", maxWidth: "100vw" }
+              : { width: "100%", maxWidth: "94vw", aspectRatio: "16 / 9", maxHeight: "94vh" }
+            : undefined
+        }
+        onClick={togglePlay}
+      >
+        {/* Top-Right Close Button in Fullscreen */}
+        {isFullscreen && (
+          <button
+            onClick={toggleFullscreen}
+            className="absolute top-3 right-3 z-40 w-9 h-9 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 backdrop-blur-md transition-colors shadow-lg"
+            title="Tam Ekrandan Çık"
           >
-            {/* Filled Progress */}
-            <div 
-              className="absolute top-0 left-0 h-full bg-red-600 rounded-full"
-              style={{ width: `${progress}%` }}
-            >
-              {/* Scrubber Dot */}
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-red-600 rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity" />
+            <X className="w-5 h-5" />
+          </button>
+        )}
+
+        {/* Hidden YouTube iframe container - extended top/bottom by 150px so YouTube's top title bar, pause drawer, and bottom watermark sit in the overflow-hidden zone while the 9:16 video remains 100% uncropped in the center */}
+        <div
+          ref={iframeHostRef}
+          className="absolute left-0 right-0 w-full pointer-events-none z-0 [&>div]:w-full [&>div]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full"
+          style={
+            aspectRatio === "9:16"
+              ? { top: "-150px", bottom: "-150px", height: "calc(100% + 300px)" }
+              : { top: "-60px", bottom: "-60px", height: "calc(100% + 120px)" }
+          }
+        />
+
+        {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}
+        <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
+
+        {/* THUMBNAIL OVERLAY (Before First Play or Ended) */}
+        {(!hasStarted || isEnded) && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black cursor-pointer group/thumb">
+            {finalPoster && (
+              <img 
+                src={finalPoster} 
+                alt={title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src.includes("oar2.jpg")) {
+                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`;
+                  } else if (target.src.includes("maxresdefault.jpg")) {
+                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/hqdefault.jpg`;
+                  } else {
+                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/default.jpg`;
+                  }
+                }}
+              />
+            )}
+
+            {/* Subtle vignette for contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30 opacity-80 group-hover/thumb:opacity-60 transition-opacity duration-300" />
+            
+            {/* Center Glass Play Button */}
+            <div className="relative z-30 w-14 h-14 rounded-full bg-red-600/95 backdrop-blur-md flex items-center justify-center shadow-[0_8px_30px_rgba(220,38,38,0.6)] group-hover/thumb:scale-110 transition-all duration-300 border border-white/25">
+              <Play className="w-6 h-6 text-white fill-white ml-0.5" />
             </div>
+
+            {/* Top Right Small Red Badge */}
+            {!isFullscreen && (
+              <div className="absolute top-3 right-3 px-2.5 py-1 bg-red-600/90 backdrop-blur-sm rounded-lg flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)] z-30">
+                <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent"></div>
+                <span className="text-[10px] font-bold text-white tracking-wider uppercase">İzle</span>
+              </div>
+            )}
           </div>
+        )}
 
-          {/* Bottom Controls Row */}
-          <div className="flex items-center justify-between mt-2 px-0.5 gap-1">
-            <div className="flex items-center gap-2 min-w-0">
-              {/* Play/Pause */}
-              <button 
-                onClick={togglePlay}
-                className="text-white hover:text-white/80 transition-colors shrink-0"
+        {/* PLAYBACK CONTROLS (Only when started and not ended) */}
+        {hasStarted && !isEnded && (
+          <div 
+            className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent px-3 pt-12 pb-2.5 transition-opacity duration-300 z-30 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Progress Bar Container */}
+            <div 
+              className="w-full h-1.5 bg-white/30 rounded-full cursor-pointer relative group/progress transition-all duration-200 hover:h-2"
+              onClick={handleProgressClick}
+            >
+              {/* Filled Progress */}
+              <div 
+                className="absolute top-0 left-0 h-full bg-red-600 rounded-full"
+                style={{ width: `${progress}%` }}
               >
-                {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
-              </button>
-
-              {/* Volume/Mute */}
-              <button 
-                onClick={toggleMute}
-                className="text-white hover:text-white/80 transition-colors flex items-center shrink-0"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 fill-white" />}
-              </button>
-
-              {/* Time Display */}
-              <div className="text-white text-[11px] font-medium tracking-tight font-sans whitespace-nowrap">
-                {formatTime(currentTime)} <span className="opacity-60 mx-0.5">/</span> {formatTime(duration)}
+                {/* Scrubber Dot */}
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-red-600 rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity" />
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              {/* CC / Subtitles Toggle */}
-              <button 
-                onClick={toggleCC}
-                className={`text-white hover:text-white/80 transition-colors relative ${isCcOn ? "after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-0.5 after:bg-red-600 after:rounded-full" : "opacity-60 hover:opacity-100"}`}
-                title="Altyazılar"
-              >
-                <Subtitles className="w-4 h-4" />
-              </button>
+            {/* Bottom Controls Row */}
+            <div className="flex items-center justify-between mt-2.5 px-0.5 gap-1">
+              <div className="flex items-center gap-2.5 min-w-0">
+                {/* Play/Pause */}
+                <button 
+                  onClick={togglePlay}
+                  className="text-white hover:text-white/80 transition-colors shrink-0"
+                  title={isPlaying ? "Duraklat" : "Oynat"}
+                >
+                  {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
+                </button>
 
-              {/* Fullscreen */}
-              <button 
-                onClick={toggleFullscreen}
-                className="text-white hover:text-white/80 transition-colors"
-              >
-                <Maximize className="w-4 h-4" />
-              </button>
+                {/* Volume/Mute */}
+                <button 
+                  onClick={toggleMute}
+                  className="text-white hover:text-white/80 transition-colors flex items-center shrink-0"
+                  title={isMuted ? "Sesi Aç" : "Sessize Al"}
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 fill-white" />}
+                </button>
+
+                {/* Time Display */}
+                <div className="text-white text-[11px] font-medium tracking-tight font-sans whitespace-nowrap">
+                  {formatTime(currentTime)} <span className="opacity-60 mx-0.5">/</span> {formatTime(duration)}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 shrink-0">
+                {/* CC / Subtitles Toggle */}
+                <button 
+                  onClick={toggleCC}
+                  className={`text-white hover:text-white/80 transition-colors relative ${isCcOn ? "after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-0.5 after:bg-red-600 after:rounded-full" : "opacity-60 hover:opacity-100"}`}
+                  title="Altyazılar"
+                >
+                  <Subtitles className="w-4 h-4" />
+                </button>
+
+                {/* Fullscreen */}
+                <button 
+                  onClick={toggleFullscreen}
+                  className="text-white hover:text-white/80 transition-colors"
+                  title={isFullscreen ? "Tam Ekrandan Çık" : "Tam Ekran"}
+                >
+                  {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      
-      {/* Center Action Feedback (Briefly shown when clicking video) */}
-      {hasStarted && !isEnded && (
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-black/60 rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ${!isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}>
-           {!isPlaying ? <Play className="w-7 h-7 text-white fill-white ml-0.5" /> : <Pause className="w-7 h-7 text-white fill-white" />}
-        </div>
-      )}
+        )}
+        
+        {/* Center Action Feedback (Shown when paused) */}
+        {hasStarted && !isEnded && (
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-red-600/90 backdrop-blur-md border border-white/25 rounded-full flex items-center justify-center pointer-events-none shadow-xl transition-all duration-300 z-20 ${!isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}>
+             {!isPlaying ? <Play className="w-6 h-6 text-white fill-white ml-0.5" /> : <Pause className="w-6 h-6 text-white fill-white" />}
+          </div>
+        )}
       </div>
     </div>
   );
