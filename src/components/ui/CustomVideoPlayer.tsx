@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Subtitles, X } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Subtitles, Settings, X, Check } from "lucide-react";
 
 declare global {
   interface Window {
@@ -19,6 +19,15 @@ interface CustomVideoPlayerProps {
   startAt?: number;
   aspectRatio?: "9:16" | "16:9";
 }
+
+type QualityOption = "hd1080" | "hd720" | "large" | "auto";
+
+const QUALITY_OPTIONS: { value: QualityOption; label: string; badge: string }[] = [
+  { value: "hd1080", label: "1080p HD", badge: "1080p" },
+  { value: "hd720", label: "720p HD", badge: "720p" },
+  { value: "large", label: "480p", badge: "480p" },
+  { value: "auto", label: "Otomatik (HD)", badge: "HD" },
+];
 
 function extractYoutubeId(input: string): string {
   if (!input) return "DB0OJEYFeo0";
@@ -55,11 +64,14 @@ export default function CustomVideoPlayer({
   const [isReady, setIsReady] = useState(false);
   const [isCcOn, setIsCcOn] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedQuality, setSelectedQuality] = useState<QualityOption>("hd1080");
+  const [showQualityMenu, setShowQualityMenu] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeHostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const pendingPlayRef = useRef<boolean>(false);
+  const qualityRef = useRef<QualityOption>("hd1080");
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -67,6 +79,20 @@ export default function CustomVideoPlayer({
   const finalPoster = poster || (aspectRatio === "9:16"
     ? `https://img.youtube.com/vi/${resolvedVideoId}/oar2.jpg`
     : `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`);
+
+  const enforceQuality = useCallback((targetPlayer: any, q: QualityOption) => {
+    if (!targetPlayer) return;
+    try {
+      const minQ = q === "auto" ? "hd1080" : q;
+      const maxQ = q === "auto" ? "highres" : q === "hd1080" ? "highres" : q;
+      if (typeof targetPlayer.setPlaybackQualityRange === "function") {
+        targetPlayer.setPlaybackQualityRange(minQ, maxQ);
+      }
+      if (typeof targetPlayer.setPlaybackQuality === "function") {
+        targetPlayer.setPlaybackQuality(minQ);
+      }
+    } catch (e) {}
+  }, []);
 
   useEffect(() => {
     let checkInterval: NodeJS.Timeout;
@@ -78,6 +104,7 @@ export default function CustomVideoPlayer({
     setIsReady(false);
     setProgress(0);
     setCurrentTime(0);
+    setShowQualityMenu(false);
     pendingPlayRef.current = false;
 
     const initPlayer = () => {
@@ -101,6 +128,7 @@ export default function CustomVideoPlayer({
           // Passing playlist forces YouTube's internal isEmbedsShortsMode() to return false,
           // disabling ytp-shorts-mode, Shorts watermark, and Shorts pause UI.
           playlist: resolvedVideoId,
+          vq: "hd1080",
           ...(startAt > 0 ? { start: startAt } : {}),
           fs: 0,
           iv_load_policy: 3,
@@ -113,6 +141,7 @@ export default function CustomVideoPlayer({
             if (isCancelled) return;
             setIsReady(true);
             setDuration(event.target.getDuration());
+            enforceQuality(event.target, qualityRef.current);
             try {
               event.target.unloadModule("captions");
               event.target.unloadModule("cc");
@@ -121,6 +150,7 @@ export default function CustomVideoPlayer({
 
             if (pendingPlayRef.current) {
               pendingPlayRef.current = false;
+              enforceQuality(event.target, qualityRef.current);
               event.target.playVideo();
               setIsPlaying(true);
               setHasStarted(true);
@@ -128,6 +158,10 @@ export default function CustomVideoPlayer({
           },
           onStateChange: (event: any) => {
             if (isCancelled) return;
+            // Enforce HD quality on unstarted (-1), playing (1), buffering (3), and cued (5)
+            if (event.data === -1 || event.data === 1 || event.data === 3 || event.data === 5) {
+              enforceQuality(event.target, qualityRef.current);
+            }
             if (event.data === 1) {
               setIsPlaying(true);
               setIsEnded(false);
@@ -187,7 +221,7 @@ export default function CustomVideoPlayer({
       }
       playerRef.current = null;
     };
-  }, [resolvedVideoId, startAt]);
+  }, [resolvedVideoId, startAt, enforceQuality]);
 
   // Sync progress & stop cleanly before playlist auto-loops
   useEffect(() => {
@@ -224,6 +258,9 @@ export default function CustomVideoPlayer({
     const handleFsChange = () => {
       const fsEl = document.fullscreenElement || (document as any).webkitFullscreenElement;
       setIsFullscreen(fsEl === containerRef.current);
+      if (playerRef.current) {
+        enforceQuality(playerRef.current, qualityRef.current);
+      }
     };
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isFullscreen) {
@@ -241,10 +278,11 @@ export default function CustomVideoPlayer({
       document.removeEventListener("webkitfullscreenchange", handleFsChange);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isFullscreen]);
+  }, [isFullscreen, enforceQuality]);
 
   const togglePlay = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
+    setShowQualityMenu(false);
     if (!isReady || !playerRef.current || typeof playerRef.current.playVideo !== 'function') {
       pendingPlayRef.current = true;
       setHasStarted(true);
@@ -260,11 +298,27 @@ export default function CustomVideoPlayer({
         playerRef.current.seekTo(0, true);
         setIsEnded(false);
       }
+      enforceQuality(playerRef.current, qualityRef.current);
       playerRef.current.playVideo();
       setIsPlaying(true);
       setHasStarted(true);
     }
-  }, [isPlaying, isReady, isEnded]);
+  }, [isPlaying, isReady, isEnded, enforceQuality]);
+
+  const handleSelectQuality = (q: QualityOption, e: React.MouseEvent) => {
+    e.stopPropagation();
+    qualityRef.current = q;
+    setSelectedQuality(q);
+    setShowQualityMenu(false);
+    if (playerRef.current && isReady) {
+      enforceQuality(playerRef.current, q);
+      // Seeking to current time forces YouTube's buffer to immediately switch to the new quality
+      try {
+        const cur = playerRef.current.getCurrentTime();
+        playerRef.current.seekTo(cur, true);
+      } catch (err) {}
+    }
+  };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -275,6 +329,7 @@ export default function CustomVideoPlayer({
     const dur = playerRef.current.getDuration() || duration;
     const newTime = Math.min(dur - 0.3, pos * dur);
     
+    enforceQuality(playerRef.current, qualityRef.current);
     playerRef.current.seekTo(newTime, true);
     setCurrentTime(newTime);
     setProgress(pos * 100);
@@ -319,6 +374,7 @@ export default function CustomVideoPlayer({
 
   const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
+    setShowQualityMenu(false);
     const container = containerRef.current;
     if (!container) return;
 
@@ -357,7 +413,7 @@ export default function CustomVideoPlayer({
       if (controlsTimeoutRef.current) {
         clearTimeout(controlsTimeoutRef.current);
       }
-      if (isPlaying) {
+      if (isPlaying && !showQualityMenu) {
         controlsTimeoutRef.current = setTimeout(() => {
           setShowControls(false);
         }, 3000);
@@ -365,7 +421,7 @@ export default function CustomVideoPlayer({
     };
 
     const handleMouseLeave = () => {
-      if (isPlaying) setShowControls(false);
+      if (isPlaying && !showQualityMenu) setShowControls(false);
     };
 
     const container = containerRef.current;
@@ -383,9 +439,10 @@ export default function CustomVideoPlayer({
         clearTimeout(controlsTimeoutRef.current);
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying, showQualityMenu]);
 
   const targetAspectRatio = aspectRatio === "9:16" ? "9 / 16" : "16 / 9";
+  const currentQualityBadge = QUALITY_OPTIONS.find(o => o.value === selectedQuality)?.badge || "1080p";
 
   return (
     <div 
@@ -436,16 +493,39 @@ export default function CustomVideoPlayer({
           </button>
         )}
 
-        {/* Hidden YouTube iframe container - extended top/bottom by 150px so YouTube's top title bar, pause drawer, and bottom watermark sit in the overflow-hidden zone while the 9:16 video remains 100% uncropped in the center */}
+        {/* Supersampled Full-HD Stage:
+            YouTube's ABR caps resolution to the iframe's internal pixel width/height.
+            By rendering the stage at 400% (4x) in card view and 200% (2x) in fullscreen
+            and scaling it back down via CSS transform, YouTube sees a ~1080x1920 Full HD
+            viewport at all times and streams native 1080p HD instead of 240p/360p. */}
         <div
-          ref={iframeHostRef}
-          className="absolute left-0 right-0 w-full pointer-events-none z-0 [&>div]:w-full [&>div]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full"
+          className="absolute top-0 left-0 pointer-events-none z-0 overflow-hidden"
           style={
-            aspectRatio === "9:16"
-              ? { top: "-150px", bottom: "-150px", height: "calc(100% + 300px)" }
-              : { top: "-60px", bottom: "-60px", height: "calc(100% + 120px)" }
+            isFullscreen
+              ? {
+                  width: "200%",
+                  height: "200%",
+                  transform: "scale(0.5)",
+                  transformOrigin: "top left",
+                }
+              : {
+                  width: "400%",
+                  height: "400%",
+                  transform: "scale(0.25)",
+                  transformOrigin: "top left",
+                }
           }
-        />
+        >
+          <div
+            ref={iframeHostRef}
+            className="absolute left-0 right-0 w-full pointer-events-none [&>div]:w-full [&>div]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full"
+            style={
+              aspectRatio === "9:16"
+                ? { top: "-300px", bottom: "-300px", height: "calc(100% + 600px)" }
+                : { top: "-150px", bottom: "-150px", height: "calc(100% + 300px)" }
+            }
+          />
+        </div>
 
         {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}
         <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
@@ -492,9 +572,32 @@ export default function CustomVideoPlayer({
         {/* PLAYBACK CONTROLS (Only when started and not ended) */}
         {hasStarted && !isEnded && (
           <div 
-            className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent px-3 pt-12 pb-2.5 transition-opacity duration-300 z-30 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent px-3 pt-12 pb-2.5 transition-opacity duration-300 z-30 ${showControls || !isPlaying || showQualityMenu ? 'opacity-100' : 'opacity-0'}`}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Quality Selector Popup Menu */}
+            {showQualityMenu && (
+              <div className="absolute bottom-12 right-2 bg-black/95 backdrop-blur-md border border-white/15 rounded-xl p-1.5 shadow-2xl z-50 min-w-[135px]">
+                <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white/50 border-b border-white/10 mb-1">
+                  Video Kalitesi
+                </div>
+                {QUALITY_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={(e) => handleSelectQuality(opt.value, e)}
+                    className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      selectedQuality === opt.value
+                        ? "bg-red-600 text-white font-bold"
+                        : "text-white/85 hover:bg-white/10"
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {selectedQuality === opt.value && <Check className="w-3.5 h-3.5" />}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Progress Bar Container */}
             <div 
               className="w-full h-1.5 bg-white/30 rounded-full cursor-pointer relative group/progress transition-all duration-200 hover:h-2"
@@ -512,7 +615,7 @@ export default function CustomVideoPlayer({
 
             {/* Bottom Controls Row */}
             <div className="flex items-center justify-between mt-2.5 px-0.5 gap-1">
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
                 {/* Play/Pause */}
                 <button 
                   onClick={togglePlay}
@@ -537,7 +640,20 @@ export default function CustomVideoPlayer({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
+                {/* Quality Selector Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowQualityMenu((prev) => !prev);
+                  }}
+                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/15 hover:bg-white/25 text-white text-[10px] font-bold tracking-tight transition-colors border border-white/15"
+                  title="Video Kalitesi"
+                >
+                  <Settings className="w-3 h-3" />
+                  <span>{currentQualityBadge}</span>
+                </button>
+
                 {/* CC / Subtitles Toggle */}
                 <button 
                   onClick={toggleCC}
