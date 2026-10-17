@@ -329,12 +329,15 @@ export default function CustomVideoPlayer({
     };
   }, [isPlaying]);
 
-  const aspectClass = aspectRatio === "9:16" ? "aspect-[9/16]" : "aspect-video";
+  // Padding-top ratio box: works in every browser (old iOS Safari included)
+  // and never collapses to 0px height, independent of Tailwind arbitrary classes.
+  const ratioPadding = aspectRatio === "9:16" ? "177.7778%" : "56.25%";
 
   return (
     <div 
       ref={containerRef}
-      className={`relative w-full ${aspectClass} fullscreen:w-full fullscreen:h-full fullscreen:aspect-auto rounded-2xl shadow-2xl group/vid ${className}`}
+      className={`relative w-full h-0 rounded-2xl shadow-2xl group/vid ${className}`}
+      style={{ paddingTop: ratioPadding }}
     >
       {/* Rotating Neon Border Layer */}
       <div className="absolute -inset-[3px] rounded-[19px] opacity-0 group-hover/vid:opacity-100 transition-opacity duration-500 overflow-hidden pointer-events-none z-0">
@@ -342,12 +345,12 @@ export default function CustomVideoPlayer({
       </div>
 
       {/* Inner Video Container */}
-      <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden z-10 ring-1 ring-white/10" onClick={togglePlay}>
+      <div className="absolute inset-0 bg-black rounded-2xl overflow-hidden z-10 ring-1 ring-white/10" onClick={togglePlay}>
 
       {/* Hidden YouTube iframe container */}
       <div
         ref={iframeHostRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-0 [&_iframe]:w-full [&_iframe]:h-full"
+        className="absolute inset-0 w-full h-full pointer-events-none z-0 [&>div]:w-full [&>div]:h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full"
       />
 
       {/* Click Catcher Overlay (Reliably catches clicks to play/pause) */}

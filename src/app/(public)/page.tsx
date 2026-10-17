@@ -437,7 +437,7 @@ function PackagesContent() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center max-w-6xl mx-auto mb-8">
             {/* Vertical Intro Video - Left Column */}
             <div id="tanitim" className="lg:col-span-4 flex justify-center">
-              <div className="relative w-full max-w-[270px] sm:max-w-[290px]">
+              <div className="relative w-full mx-auto" style={{ maxWidth: 290 }}>
                 <div className="absolute -inset-3 bg-gradient-to-tr from-primary/25 via-emerald-500/15 to-cyan-500/25 rounded-[2rem] blur-xl pointer-events-none" />
                 <div className="relative p-2 rounded-[1.75rem] bg-surface/90 border border-border/70 shadow-2xl">
                   <CustomVideoPlayer 
@@ -645,7 +645,7 @@ function PackagesContent() {
 
                   {/* Tanıtım Videosu - Dikey Oynatıcı */}
                   {(pkg as any).videoUrl && (
-                    <div className="w-full max-w-[215px] mx-auto mb-6 z-10">
+                    <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
                       <CustomVideoPlayer 
                         key={`${pkg.name}-${(pkg as any).videoUrl}`}
                         youtubeId={(pkg as any).videoUrl}

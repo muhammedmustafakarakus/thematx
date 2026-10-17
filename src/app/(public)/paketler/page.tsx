@@ -211,7 +211,7 @@ export function PaketlerContent() {
 
                   {/* Tanıtım Videosu - Dikey Oynatıcı */}
                   {(pkg as any).videoUrl && (
-                    <div className="w-full max-w-[215px] mx-auto mb-6 z-10">
+                    <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
                       <CustomVideoPlayer 
                         key={`${pkg.name}-${(pkg as any).videoUrl}`}
                         youtubeId={(pkg as any).videoUrl}
