@@ -75,10 +75,9 @@ export default function CustomVideoPlayer({
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // oar2.jpg is YouTube's native 9:16 vertical high-res frame
-  const finalPoster = poster || (aspectRatio === "9:16"
-    ? `https://img.youtube.com/vi/${resolvedVideoId}/oar2.jpg`
-    : `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`);
+  // Use maxresdefault.jpg so the custom YouTube cover photos are displayed
+  // (in a 9:16 box with object-cover object-center, the 9:16 center cover fills the frame cleanly)
+  const finalPoster = poster || `https://i.ytimg.com/vi/${resolvedVideoId}/maxresdefault.jpg`;
 
   const enforceQuality = useCallback((targetPlayer: any, q: QualityOption) => {
     if (!targetPlayer) return;
@@ -537,35 +536,25 @@ export default function CustomVideoPlayer({
               <img 
                 src={finalPoster} 
                 alt={title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                className="absolute inset-0 w-full h-full object-cover object-center"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (target.src.includes("oar2.jpg")) {
-                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/maxresdefault.jpg`;
-                  } else if (target.src.includes("maxresdefault.jpg")) {
-                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/hqdefault.jpg`;
+                  if (target.src.includes("maxresdefault.jpg")) {
+                    target.src = `https://i.ytimg.com/vi/${resolvedVideoId}/hqdefault.jpg`;
+                  } else if (target.src.includes("hqdefault.jpg")) {
+                    target.src = `https://i.ytimg.com/vi/${resolvedVideoId}/oar2.jpg`;
                   } else {
-                    target.src = `https://img.youtube.com/vi/${resolvedVideoId}/default.jpg`;
+                    target.src = `https://i.ytimg.com/vi/${resolvedVideoId}/default.jpg`;
                   }
                 }}
               />
             )}
 
-            {/* Subtle vignette for contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30 opacity-80 group-hover/thumb:opacity-60 transition-opacity duration-300" />
-            
-            {/* Center Glass Play Button */}
-            <div className="relative z-30 w-14 h-14 rounded-full bg-red-600/95 backdrop-blur-md flex items-center justify-center shadow-[0_8px_30px_rgba(220,38,38,0.6)] group-hover/thumb:scale-110 transition-all duration-300 border border-white/25">
-              <Play className="w-6 h-6 text-white fill-white ml-0.5" />
-            </div>
-
             {/* Top Right Small Red Badge */}
-            {!isFullscreen && (
-              <div className="absolute top-3 right-3 px-2.5 py-1 bg-red-600/90 backdrop-blur-sm rounded-lg flex items-center gap-1 shadow-[0_4px_10px_rgba(0,0,0,0.4)] z-30">
-                <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent"></div>
-                <span className="text-[10px] font-bold text-white tracking-wider uppercase">İzle</span>
-              </div>
-            )}
+            <div className="absolute top-3 right-3 px-2.5 py-1 bg-red-600/95 group-hover/thumb:bg-red-600 group-hover/thumb:scale-105 transition-all duration-300 backdrop-blur-sm rounded-lg flex items-center gap-1 shadow-[0_4px_12px_rgba(0,0,0,0.5)] z-30">
+              <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent"></div>
+              <span className="text-[10px] font-bold text-white tracking-wider uppercase">İzle</span>
+            </div>
           </div>
         )}
 
