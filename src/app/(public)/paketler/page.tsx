@@ -7,7 +7,7 @@ import Badge from "@/components/ui/Badge";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import { CustomVideoPlayer } from "@/components/ui";
-import { Check, BookOpen, Play, X, ChevronRight, MessageCircle } from "lucide-react";
+import { Check, BookOpen, Play, X, ChevronRight, MessageCircle, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { ALL_PACKAGES, CATEGORIES } from "@/constants/packages";
@@ -78,7 +78,7 @@ export function PaketlerContent() {
             </div>
           </div>
 
-          {/* Billing Cycle Toggle */}
+          {/* Billing Cycle Toggle (For 9-10 & 11. Sınıf at top) */}
           {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
             <div className="flex justify-center mb-10">
               <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
@@ -124,137 +124,162 @@ export function PaketlerContent() {
           )}
 
           {/* Pricing Cards Grid */}
-          <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto min-h-[400px]`}>
-            {filteredPackages.length > 0 ? (
-              filteredPackages.map((pkg) => (
-                <Card 
-                  key={pkg.name} 
-                  className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 animate-in fade-in zoom-in-95 hover:-translate-y-2 hover:shadow-2xl group ${
-                    pkg.featured 
-                      ? 'border-primary/60 shadow-xl shadow-primary/10 md:scale-105 z-10 bg-gradient-to-b from-surface to-primary/5' 
-                      : 'border-border/60 shadow-lg hover:border-primary/30 bg-surface/80 backdrop-blur-sm'
-                  }`}
-                >
-                  {pkg.featured && (
-                    <>
-                      <div className="absolute inset-0 bg-primary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
-                        <span className="px-6 py-1.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-primary to-blue-600 shadow-lg shadow-primary/30 whitespace-nowrap">
-                          {pkg.cta || "En Çok Tercih Edilen"}
-                        </span>
-                      </div>
-                    </>
-                  )}
-                  
-                  {(pkg as any).tier && (
-                    <div className="text-center mb-6 flex flex-col items-center">
-                      {(pkg as any).limitedCapacity && (
-                        <div className="mb-4 relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-100 shadow-sm border border-emerald-200">
-                          <span className="flex h-2 w-2 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
-                          </span>
-                          Sınırlı Kontenjan
-                        </div>
-                      )}
-                      <h3 className="text-2xl font-black font-heading text-foreground uppercase tracking-tight">
-                        {pkg.name}
-                      </h3>
-                      <p className="text-lg font-bold text-foreground mt-1">{(pkg as any).subtitle}</p>
+          {(() => {
+            const renderPackageCard = (pkg: any) => (
+              <Card 
+                key={pkg.name} 
+                className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 animate-in fade-in zoom-in-95 hover:-translate-y-2 hover:shadow-2xl group ${
+                  pkg.featured 
+                    ? 'border-primary/60 shadow-xl shadow-primary/10 md:scale-105 z-10 bg-gradient-to-b from-surface to-primary/5' 
+                    : 'border-border/60 shadow-lg hover:border-primary/30 bg-surface/80 backdrop-blur-sm'
+                }`}
+              >
+                {pkg.featured && (
+                  <>
+                    <div className="absolute inset-0 bg-primary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                      <span className="px-6 py-1.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-primary to-blue-600 shadow-lg shadow-primary/30 whitespace-nowrap">
+                        {pkg.cta || "En Çok Tercih Edilen"}
+                      </span>
                     </div>
-                  )}
-
-                  {!((pkg as any).tier) && (
-                    <div className="text-center mb-6 flex flex-col items-center">
-                      {(pkg as any).limitedCapacity && (
-                        <div className="mb-4 relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-100 shadow-sm border border-emerald-200">
-                          <span className="flex h-2 w-2 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
-                          </span>
-                          Sınırlı Kontenjan
-                        </div>
-                      )}
-                      <h3 className="text-2xl font-heading font-bold text-foreground mb-4">{pkg.name}</h3>
-                    </div>
-                  )}
-
-                  <div className="flex flex-col items-center justify-center mb-6">
-                    {(pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice) && (
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg text-muted font-bold line-through">
-                          {pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice}₺
+                  </>
+                )}
+                
+                {pkg.tier && (
+                  <div className="text-center mb-6 flex flex-col items-center">
+                    {pkg.limitedCapacity && (
+                      <div className="mb-4 relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-100 shadow-sm border border-emerald-200">
+                        <span className="flex h-2 w-2 relative">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
                         </span>
-                        {(pkg as any).discountBadge && (
-                          <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
-                            {(pkg as any).discountBadge}
-                          </span>
-                        )}
-                        {(pkg.isDualPrice && billingCycle === "term") && (
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
-                            %15 İndirim
-                          </span>
-                        )}
+                        Sınırlı Kontenjan
                       </div>
                     )}
-                    {(pkg.isDualPrice || pkg.price) && (
-                      <div className="flex items-baseline justify-center gap-1">
-                        <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
-                          ₺{pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyPrice : pkg.termPrice) : pkg.price}
+                    <h3 className="text-2xl font-black font-heading text-foreground uppercase tracking-tight">
+                      {pkg.name}
+                    </h3>
+                    <p className="text-lg font-bold text-foreground mt-1">{pkg.subtitle}</p>
+                  </div>
+                )}
+
+                {!pkg.tier && (
+                  <div className="text-center mb-6 flex flex-col items-center">
+                    {pkg.limitedCapacity && (
+                      <div className="mb-4 relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-100 shadow-sm border border-emerald-200">
+                        <span className="flex h-2 w-2 relative">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
                         </span>
-                        <span className="text-sm font-bold text-muted">
-                          {pkg.isDualPrice ? (billingCycle === "monthly" ? "/ay" : "/dönem") : pkg.period}
-                        </span>
+                        Sınırlı Kontenjan
                       </div>
                     )}
+                    <h3 className="text-2xl font-heading font-bold text-foreground mb-4">{pkg.name}</h3>
                   </div>
+                )}
 
-                  {/* Tanıtım Videosu - Dikey Oynatıcı */}
-                  {(pkg as any).videoUrl && (
-                    <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
-                      <CustomVideoPlayer 
-                        key={`${pkg.name}-${(pkg as any).videoUrl}`}
-                        youtubeId={(pkg as any).videoUrl}
-                        startAt={0}
-                        aspectRatio="9:16"
-                        title={`${pkg.name} Tanıtım`}
-                      />
+                <div className="flex flex-col items-center justify-center mb-6">
+                  {(pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice) && (
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-lg text-muted font-bold line-through">
+                        {pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyOldPrice : pkg.termOldPrice) : pkg.oldPrice}₺
+                      </span>
+                      {pkg.discountBadge && (
+                        <span className="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">
+                          {pkg.discountBadge}
+                        </span>
+                      )}
+                      {(pkg.isDualPrice && billingCycle === "term") && (
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
+                          %15 İndirim
+                        </span>
+                      )}
                     </div>
                   )}
-
-                  {/* Description Box */}
-                  {pkg.description && (
-                    <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
-                      {pkg.description}
+                  {(pkg.isDualPrice || pkg.price) && (
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="text-5xl font-extrabold font-heading text-foreground tracking-tighter">
+                        ₺{pkg.isDualPrice ? (billingCycle === "monthly" ? pkg.monthlyPrice : pkg.termPrice) : pkg.price}
+                      </span>
+                      <span className="text-sm font-bold text-muted">
+                        {pkg.isDualPrice ? (billingCycle === "monthly" ? "/ay" : "/dönem") : pkg.period}
+                      </span>
                     </div>
                   )}
+                </div>
 
-                  <div className="flex-1">
-                    <ul className="space-y-4 mb-8 text-left">
-                      {pkg.features.map((feature, j) => (
-                        <li key={j} className="flex items-start gap-3">
-                          <div className="mt-0.5 shrink-0 bg-blue-500/10 p-0.5 rounded-full">
-                            <Check className="w-4 h-4 text-blue-600" />
-                          </div>
-                          <span className="text-sm text-foreground font-medium leading-tight">{feature}</span>
-                        </li>
-                      ))}
-                      
-                      {(pkg as any).notIncludedFeatures?.map((feature: string, j: number) => (
-                        <li key={`not-${j}`} className="flex items-start gap-3 opacity-50">
-                          <div className="mt-0.5 shrink-0 p-0.5">
-                            <X className="w-4 h-4 text-muted" />
-                          </div>
-                          <span className="text-sm text-muted leading-tight line-through">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                {/* Tüm Kamplar Dahil Rozeti (YKS LITE / PRO / VIP) */}
+                {pkg.includesAllCampsBadge && (
+                  <div className="mb-6 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary/15 via-emerald-500/15 to-cyan-500/15 border border-primary/40 text-center shadow-sm relative z-10">
+                    <span className="text-xs sm:text-sm font-extrabold text-primary flex items-center justify-center gap-1.5">
+                      <Sparkles className="w-4 h-4 shrink-0" />
+                      {pkg.includesAllCampsBadge}
+                    </span>
                   </div>
+                )}
 
-                  <div className="mt-auto pt-4">
-                    {["9-10. Sınıf", "11. Sınıf", "YKS"].includes(pkg.category) ? (
+                {/* Tanıtım Videosu - Dikey Oynatıcı */}
+                {pkg.videoUrl && (
+                  <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
+                    <CustomVideoPlayer 
+                      key={`${pkg.name}-${pkg.videoUrl}`}
+                      youtubeId={pkg.videoUrl}
+                      startAt={0}
+                      aspectRatio="9:16"
+                      title={`${pkg.name} Tanıtım`}
+                    />
+                  </div>
+                )}
+
+                {/* Description Box */}
+                {pkg.description && (
+                  <div className="bg-surface-alt rounded-2xl p-5 mb-8 border border-border/50 text-sm text-foreground font-medium text-center z-10 relative group-hover:border-primary/30 transition-colors duration-500 shadow-sm">
+                    {pkg.description}
+                  </div>
+                )}
+
+                <div className="flex-1">
+                  <ul className="space-y-4 mb-8 text-left">
+                    {pkg.features.map((feature: string, j: number) => (
+                      <li key={j} className="flex items-start gap-3">
+                        <div className="mt-0.5 shrink-0 bg-blue-500/10 p-0.5 rounded-full">
+                          <Check className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <span className="text-sm text-foreground font-medium leading-tight">{feature}</span>
+                      </li>
+                    ))}
+                    
+                    {pkg.notIncludedFeatures?.map((feature: string, j: number) => (
+                      <li key={`not-${j}`} className="flex items-start gap-3 opacity-50">
+                        <div className="mt-0.5 shrink-0 p-0.5">
+                          <X className="w-4 h-4 text-muted" />
+                        </div>
+                        <span className="text-sm text-muted leading-tight line-through">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-auto pt-4">
+                  {["9-10. Sınıf", "11. Sınıf", "YKS"].includes(pkg.category) ? (
+                    <Button
+                      onClick={() => setSelectedPackageForModal(pkg)}
+                      neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
+                      variant={pkg.featured ? "primary" : "outline"}
+                      size="lg"
+                      className="w-full gap-2 font-bold text-base h-12 shadow-md"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      {pkg.cta || "Bilgi Al"}
+                    </Button>
+                  ) : (
+                    <a 
+                      href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full block"
+                    >
                       <Button
-                        onClick={() => setSelectedPackageForModal(pkg)}
                         neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
                         variant={pkg.featured ? "primary" : "outline"}
                         size="lg"
@@ -263,37 +288,115 @@ export function PaketlerContent() {
                         <MessageCircle className="w-5 h-5" />
                         {pkg.cta || "Bilgi Al"}
                       </Button>
-                    ) : (
-                      <a 
-                        href={waLink(`Merhaba, ${pkg.name} (₺${pkg.price}${pkg.period}) paketi ile kayıt olmak istiyorum.`)}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="w-full block"
-                      >
-                        <Button
-                          neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
-                          variant={pkg.featured ? "primary" : "outline"}
-                          size="lg"
-                          className="w-full gap-2 font-bold text-base h-12 shadow-md"
-                        >
-                          <MessageCircle className="w-5 h-5" />
-                          {pkg.cta || "Bilgi Al"}
-                        </Button>
-                      </a>
-                    )}
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="col-span-full py-20 text-center flex flex-col items-center justify-center bg-surface/50 rounded-3xl border border-dashed border-border">
-                <div className="w-16 h-16 bg-surface border border-border rounded-full flex items-center justify-center mb-4">
-                  <BookOpen className="w-8 h-8 text-muted opacity-50" />
+                    </a>
+                  )}
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Bu kategoride paket bulunamadı</h3>
-                <p className="text-muted max-w-md mx-auto">Lütfen diğer kategorilere göz atın veya yakında açılacak sınıflarımız için iletişime geçin.</p>
+              </Card>
+            );
+
+            if (activeCategory === "YKS") {
+              const campPackages = filteredPackages.filter((p: any) => p.subCategory === "KAMP");
+              const subscriptionPackages = filteredPackages.filter((p: any) => p.subCategory === "ABONELIK");
+
+              return (
+                <div className="mt-12 space-y-20">
+                  {/* ÜST BÖLÜM: Tek Seferlik (Bütün) Kamp Paketleri */}
+                  <div>
+                    <div className="text-center mb-10">
+                      <Badge variant="primary" className="mb-3 uppercase tracking-wider font-bold">
+                        Tek Seferlik (Bütün) Kamp Paketleri
+                      </Badge>
+                      <h3 className="text-2xl md:text-3xl font-extrabold font-heading text-foreground">
+                        YKS Yoğunlaştırılmış Kamp Programları
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-8 mx-auto">
+                      {campPackages.map(renderPackageCard)}
+                    </div>
+                  </div>
+
+                  {/* ALT BÖLÜM: YKS (TYT-AYT) Aylık Abonelik ve Koçluk Paketleri */}
+                  <div className="pt-12 border-t border-border/60">
+                    <div className="text-center max-w-3xl mx-auto mb-8">
+                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 shadow-sm">
+                        <Sparkles className="w-4 h-4" />
+                        Yukarıdaki Tüm Kampları İçinde Barındırır
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-foreground mb-3">
+                        YKS (TYT-AYT) Aylık Abonelik ve Koçluk Paketleri
+                      </h3>
+                      <p className="text-muted text-sm sm:text-base leading-relaxed">
+                        YKS LITE, PRO ve VIP aylık abonelik paketlerimiz; <strong>60 Günde TYT Matematik Kampı</strong>, <strong>21 Günde 0&apos;dan Matematik Kampı</strong>, <strong>AYT Matematik Kampı</strong> ve <strong>TYT-AYT Geometri Kampı</strong> dahil yukarıdaki <strong>tüm kampların tamamını</strong> içinde barındırır!
+                      </p>
+                    </div>
+
+                    {/* Billing Cycle Toggle for YKS Subscription Packages */}
+                    <div className="flex justify-center mb-12">
+                      <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
+                        <button
+                          onClick={() => setBillingCycle("monthly")}
+                          className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
+                            billingCycle === "monthly" 
+                              ? "text-white shadow-md" 
+                              : "text-muted hover:text-foreground"
+                          }`}
+                        >
+                          {billingCycle === "monthly" && (
+                            <motion.div
+                              layoutId="billingTogglePaketlerYks"
+                              className="absolute inset-0 bg-primary rounded-xl"
+                              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                          )}
+                          <span className="relative z-10">Aylık</span>
+                        </button>
+                        <button
+                          onClick={() => setBillingCycle("term")}
+                          className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-2 ${
+                            billingCycle === "term" 
+                              ? "text-white shadow-md" 
+                              : "text-muted hover:text-foreground"
+                          }`}
+                        >
+                          {billingCycle === "term" && (
+                            <motion.div
+                              layoutId="billingTogglePaketlerYks"
+                              className="absolute inset-0 bg-primary rounded-xl"
+                              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                          )}
+                          <span className="relative z-10">Dönemlik <span className="hidden sm:inline">(4,5 ay)</span></span>
+                          <span className="relative z-10 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full ml-1 animate-pulse">
+                            %15 İndirim
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-8 mx-auto">
+                      {subscriptionPackages.map(renderPackageCard)}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto min-h-[400px]`}>
+                {filteredPackages.length > 0 ? (
+                  filteredPackages.map(renderPackageCard)
+                ) : (
+                  <div className="col-span-full py-20 text-center flex flex-col items-center justify-center bg-surface/50 rounded-3xl border border-dashed border-border">
+                    <div className="w-16 h-16 bg-surface border border-border rounded-full flex items-center justify-center mb-4">
+                      <BookOpen className="w-8 h-8 text-muted opacity-50" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Bu kategoride paket bulunamadı</h3>
+                    <p className="text-muted max-w-md mx-auto">Lütfen diğer kategorilere göz atın veya yakında açılacak sınıflarımız için iletişime geçin.</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            );
+          })()}
         </Container>
       </section>
 
