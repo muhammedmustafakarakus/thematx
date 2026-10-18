@@ -73,29 +73,39 @@ const advantages = [
 
 const faqs = [
   {
-    question: "Thematx nasıl çalışıyor?",
+    question: "Hangi sınıf seviyeleriyle çalışıyorsunuz? LGS eğitiminiz var mı?",
     answer:
-      "Thematx'te önce öğrencinin seviyesini belirliyoruz. Ardından kişisel bir çalışma planı oluşturarak canlı online dersler, birebir koçluk ve düzenli takip ile hedefe ulaşıyoruz.",
+      "Hayır, LGS (ortaokul) grubumuz bulunmamaktadır. Thematx olarak 9. sınıftan itibaren eğitim veriyoruz. 9. sınıf, 10. sınıf, 11. sınıf (Maarif Modeline tam uyumlu okul destek programları) ile 12. sınıf ve Mezun öğrencilere yönelik YKS (TYT - AYT - Geometri) hazırlık programlarımız mevcuttur.",
   },
   {
-    question: "Dersler online mı yoksa yüz yüze mi?",
+    question: "Thematx eğitim sistemi nasıl işliyor?",
     answer:
-      "Tüm derslerimiz online olarak Zoom/Google Meet üzerinden gerçekleştirilmektedir. Bu sayede Türkiye'nin her yerinden derslerimize katılabilirsiniz.",
+      "Öğrencimiz sisteme katıldığında öncelikle kapsamlı bir seviye tespiti yapılır ve seviyesine uygun maksimum 10 kişilik butik online sınıfa yerleştirilir. Haftalık düzenli canlı dersler, sarmal tekrar yöntemi, 7/24 aktif WhatsApp soru çözüm grupları, ödevlendirme ve seçilen pakete göre (LITE, PRO, VIP) birebir koçluk ile süreç adım adım takip edilir.",
   },
   {
-    question: "Hangi sınıf seviyelerine ders veriyorsunuz?",
+    question: "9, 10 ve 11. sınıf paketlerinizde ders saatleri ve müfredat nasıldır?",
     answer:
-      "5. sınıftan 12. sınıfa kadar tüm seviyelerde matematik dersi veriyoruz. LGS ve YKS'ye özel hazırlık programlarımız mevcuttur.",
+      "9-10. sınıf ve 11. sınıf eğitimlerimiz yeni Maarif Modeline %100 uyumludur. Ayda 16 saat canlı ve etkileşimli online ders işlenir. İhtiyacınıza göre LITE (Temel Gelişim Paketi), PRO (Etkileşimli Grup Eğitimi & Özel Ödevlendirme) veya VIP (VIP Eğitim, Birebir Koçluk & Düzenli Veli Bilgilendirmesi) paketlerimizden birini seçebilirsiniz.",
   },
   {
-    question: "Ödeme seçenekleriniz nelerdir?",
+    question: "YKS tek seferlik kamplar ile YKS LITE / PRO / VIP paketleri arasındaki fark nedir?",
     answer:
-      "Ödemelerinizi güvenle EFT / Havale yöntemi ile gerçekleştirebilirsiniz.",
+      "YKS'de iki farklı model sunuyoruz: Dilerseniz '21 Günde 0'dan Matematik Kampı (20 Saat)' veya '60 Günde TYT Matematik Kampı (56 Saat)' gibi tek seferlik bütün kamp paketlerimize katılabilirsiniz. Dilerseniz de YKS LITE, YKS PRO veya YKS VIP aylık abonelik ve koçluk sistemimize katılarak yukarıdaki tüm kampların tamamına (60 Günde TYT, 21 Günde 0'dan, AYT Matematik ve Geometri) aynı anda sahip olabilirsiniz.",
   },
   {
-    question: "İstediğim zaman iptal edebilir miyim?",
+    question: "Canlı dersleri kaçırırsam tekrar izleyebilir miyim?",
     answer:
-      "Aylık paketlerimizde herhangi bir taahhüt yoktur. Dönem sonunda yenilemeyerek kolayca ayrılabilirsiniz. Detaylar için iade politikamızı inceleyebilirsiniz.",
+      "Evet! İşlenen tüm canlı derslerimiz kaydedilir. Öğrencilerimiz kaçırdıkları veya tekrar pekiştirmek istedikleri ders kayıtlarını istedikleri her zaman sınırsızca izleyebilirler.",
+  },
+  {
+    question: "Çözemediğim soruları ders dışında nasıl sorabilirim?",
+    answer:
+      "Tüm paketlerimizde uzman öğretmenlerimizin yer aldığı 7/24 aktif WhatsApp soru çözüm grupları bulunmaktadır. VIP paket öğrencilerimiz ayrıca öncelikli WhatsApp soru çözüm hattı ve birebir strateji desteğinden yararlanır.",
+  },
+  {
+    question: "Aylık ve Dönemlik ödeme seçenekleriniz nasıl çalışıyor?",
+    answer:
+      "Aylık paketlerimizde herhangi bir taahhüt yoktur. Dilerseniz ödemelerinizi aylık yapabilir, dilerseniz 4,5 aylık 'Dönemlik' kayıt seçeneğiyle anında %15 indirim avantajından faydalanabilirsiniz. Ödemelerinizi güvenle Havale / EFT yöntemiyle gerçekleştirebilirsiniz.",
   },
 ];
 
@@ -229,7 +239,7 @@ function PackagesContent() {
                 transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
               >
-                <a href={waLink("Merhaba, 2027 LGS/YKS kampları için bilgi almak istiyorum.")} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <a href={waLink("Merhaba, 2026-2027 eğitim paketleri ve YKS kampları için bilgi almak istiyorum.")} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                   <Button neon={true} size="lg" className="w-full shadow-glow-lg group">
                     Kayıt Ol & Bilgi Al
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />

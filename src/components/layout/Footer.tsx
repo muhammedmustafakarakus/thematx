@@ -49,7 +49,7 @@ export default function Footer() {
                 </span>
               </Link>
               <p className="text-background/60 text-sm leading-relaxed mb-6">
-                LGS ve YKS&apos;ye hazırlıkta birebir matematik dersi, canlı dersler ve kişisel koçluk ile matematikte fark yaratın.
+                9. sınıftan itibaren Maarif Modeline uyumlu lise takviye ve YKS (TYT-AYT) hazırlıkta canlı dersler, yoğun kamplar ve birebir koçluk ile matematikte fark yaratın.
               </p>
               <div className="flex items-center gap-3">
                 <a
