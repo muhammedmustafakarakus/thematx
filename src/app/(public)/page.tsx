@@ -71,33 +71,6 @@ const advantages = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Ayşe Y.",
-    role: "YKS Öğrencisi Velisi",
-    content: "Açıkçası online eğitime başlarken 'Acaba verimli olur mu?' diye çok tereddüt etmiştik. Ancak kızım ilk dersten itibaren matematiği gerçekten anlamaya başladı. Mustafa Hoca'nın ilgisi ve wp üzerinden çözülemeyen sorulara anında dönülmesi harika. Puanını 30 puan yükseltti!",
-    rating: 5,
-  },
-  {
-    name: "Mehmet K.",
-    role: "YKS Öğrencisi",
-    content: "Eskiden matematik denilince direkt denemelerde o bölümü atlıyordum. Mustafa Hocam sayesinde önce korkumu yendim, sonra da nasıl çözüldüğünü kavradım. Kamptaki yol haritası çok iyiydi, AYT matematikte 35 nete kadar çıktım. İyi ki denk gelmişiz.",
-    rating: 5,
-  },
-  {
-    name: "Fatma D.",
-    role: "10. Sınıf Öğrencisi Velisi",
-    content: "Kızımın okul notları matematik yüzünden hep düşüktü ve ders çalışmak istemiyordu. Sınıf paketine katıldık, şu an kendisi ödevlerini takip edip yapmaya başladı. Notları yükseldi ama en önemlisi artık matematikten nefret etmiyor.",
-    rating: 5,
-  },
-  {
-    name: "Elif S.",
-    role: "11. Sınıf Öğrencisi",
-    content: "Temelim gerçekten çok zayıftı, yapamam sanıyordum. Buradaki kampla resmen baştan inşa ettik her şeyi. Özellikle hocaların enerjisi ve sorduğum en saçma soruyu bile sabırla açıklamaları bana çok güven verdi.",
-    rating: 5,
-  },
-];
-
 const faqs = [
   {
     question: "Thematx nasıl çalışıyor?",
@@ -838,48 +811,6 @@ function PackagesContent() {
               Tüm paketleri detaylı karşılaştır →
             </Link>
           </p>
-        </Container>
-      </section>
-
-      {/* ===== ÖĞRENCİ YORUMLARI ===== */}
-      <section className="section-padding bg-surface-alt/70 backdrop-blur-md">
-        <Container>
-          <SectionHeading
-            badge="Başarı Hikayeleri"
-            title="Öğrencilerimiz Ne Diyor?"
-            description="Thematx ailesiyle hedeflerine ulaşan öğrenci ve velilerimizin yorumları."
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((t, i) => (
-              <Card key={i} padding="lg" className="relative">
-                {/* Quote mark */}
-                <div className="absolute top-6 right-6 text-5xl font-serif text-primary/10 leading-none">
-                  &ldquo;
-                </div>
-
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-
-                <p className="text-sm text-muted leading-relaxed mb-6">
-                  {t.content}
-                </p>
-
-                <div className="flex items-center gap-3 pt-4 border-t border-border">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-sm">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">{t.name}</div>
-                    <div className="text-xs text-muted">{t.role}</div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
         </Container>
       </section>
 
