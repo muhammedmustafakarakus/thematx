@@ -19,7 +19,7 @@ const faqs = [
       },
       {
         q: "Eğitim sisteminiz nasıl işliyor?",
-        a: "Öğrencimiz kayıt olduğunda öncelikle kapsamlı bir seviye tespiti yapılır ve kendi seviyesine uygun maksimum 10 kişilik butik online sınıfa yerleştirilir. Haftalık düzenli canlı dersler, sarmal tekrar yöntemi, 7/24 aktif WhatsApp soru çözüm grupları, düzenli ödevlendirme ve seçilen pakete (LITE, PRO, VIP) göre birebir takip ile süreç yürütülür."
+        a: "Öğrencimiz kayıt olduğunda öncelikle kapsamlı bir seviye tespiti yapılır ve kendi seviyesine uygun maksimum 12 kişilik butik online sınıfa yerleştirilir. Haftalık düzenli canlı dersler, sarmal tekrar yöntemi, düzenli ödevlendirme ve seçilen pakete (LITE, PRO, VIP) göre soru çözüm desteği ve birebir takip ile süreç yürütülür."
       }
     ]
   },
@@ -28,11 +28,11 @@ const faqs = [
     questions: [
       {
         q: "9, 10 ve 11. sınıf paketlerinizde ders saatleri ve içerik nasıldır?",
-        a: "9-10. sınıf ve 11. sınıf paketlerimiz yeni Maarif Modeline %100 uyumludur. Ayda 16 saat canlı ve etkileşimli online ders işlenir. Sınıflarımız maksimum 10 kişiliktir ve işlenen tüm derslerin kayıtlarına sınırsız erişim sağlanır."
+        a: "9-10. sınıf ve 11. sınıf paketlerimiz yeni Maarif Modeline %100 uyumludur. Ayda 16 saat canlı ve etkileşimli online ders işlenir. Sınıflarımız maksimum 12 kişiliktir ve işlenen tüm derslerin kayıtlarına sınırsız erişim sağlanır."
       },
       {
         q: "LITE, PRO ve VIP paketleri arasındaki farklar nelerdir?",
-        a: "LITE paketi temel gelişim paketimizdir; ayda 16 saat canlı ders, kayıtlı ders videoları, WhatsApp soru çözüm grubu ve genel takip içerir. PRO paketi en çok tercih edilen ana paketimizdir; LITE özelliklerine ek olarak öğrenciye özel ödevlendirme, hedef odaklı takip ve detaylı gelişim analizi sunar. VIP paketi ise üst düzey birebir ilgi isteyenler için öncelikli WhatsApp soru çözüm hattı, birebir koçluk, kişiselleştirilmiş yol haritası ve veliye düzenli gelişim bilgilendirmesi içerir."
+        a: "LITE paketi temel gelişim paketimizdir; ayda 16 saat canlı ders, kayıtlı ders videoları, sarmal tekrar ve genel takip içerir. PRO paketi en çok tercih edilen ana paketimizdir; LITE özelliklerine ek olarak öğrencilerle beraber soru çözüm grubu, öğrenciye özel ödevlendirme, hedef odaklı takip ve detaylı gelişim analizi sunar. VIP paketi ise üst düzey birebir ilgi isteyenler için uzman öğretmenlerle WhatsApp ile anında soru çözümü (sadece VIP), birebir koçluk, kişiselleştirilmiş yol haritası ve veliye düzenli gelişim bilgilendirmesi içerir."
       }
     ]
   },
@@ -62,7 +62,7 @@ const faqs = [
       },
       {
         q: "Çözemediğim soruları nasıl sorabilirim?",
-        a: "Tüm paketlerimizde uzman öğretmenlerimizin yer aldığı 7/24 aktif WhatsApp soru çözüm gruplarımız mevcuttur. VIP paket öğrencilerimiz için ayrıca öncelikli birebir WhatsApp soru çözüm hattı tanımlanır."
+        a: "Uzman öğretmenlerimizle 'WhatsApp ile Anında Soru Çözümü' ayrıcalığı yalnızca VIP paket öğrencilerimize özeldir. PRO ve Kamp paketlerimizde ise öğrencilerin birlikte yardımlaşıp soru paylaşımı yapabildiği 'Öğrencilerle Beraber Soru Çözüm Grubu' bulunmaktadır."
       },
       {
         q: "Birebir özel ders imkânınız var mı?",

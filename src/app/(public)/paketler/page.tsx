@@ -80,7 +80,7 @@ export function PaketlerContent() {
 
           {/* Billing Cycle Toggle (For 9-10 & 11. Sınıf at top) */}
           {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
-            <div className="flex justify-center mb-10">
+            <div className="flex justify-center mb-16 lg:mb-20">
               <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
                 <button
                   onClick={() => setBillingCycle("monthly")}
@@ -130,7 +130,7 @@ export function PaketlerContent() {
                 key={pkg.name} 
                 className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 animate-in fade-in zoom-in-95 hover:-translate-y-2 hover:shadow-2xl group ${
                   pkg.featured 
-                    ? 'border-primary/60 shadow-xl shadow-primary/10 md:scale-105 z-10 bg-gradient-to-b from-surface to-primary/5' 
+                    ? 'pt-10 border-primary/60 shadow-xl shadow-primary/10 md:scale-105 z-10 bg-gradient-to-b from-surface to-primary/5' 
                     : 'border-border/60 shadow-lg hover:border-primary/30 bg-surface/80 backdrop-blur-sm'
                 }`}
               >
@@ -302,7 +302,7 @@ export function PaketlerContent() {
                 <div className="mt-12 space-y-20">
                   {/* ÜST BÖLÜM: Tek Seferlik (Bütün) Kamp Paketleri */}
                   <div>
-                    <div className="text-center mb-10">
+                    <div className="text-center mb-12">
                       <Badge variant="primary" className="mb-3 uppercase tracking-wider font-bold">
                         Tek Seferlik (Bütün) Kamp Paketleri
                       </Badge>
@@ -310,7 +310,7 @@ export function PaketlerContent() {
                         YKS Yoğunlaştırılmış Kamp Programları
                       </h3>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-8 mx-auto">
+                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-8 mx-auto">
                       {campPackages.map(renderPackageCard)}
                     </div>
                   </div>
@@ -331,7 +331,7 @@ export function PaketlerContent() {
                     </div>
 
                     {/* Billing Cycle Toggle for YKS Subscription Packages */}
-                    <div className="flex justify-center mb-12">
+                    <div className="flex justify-center mb-16 lg:mb-20">
                       <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
                         <button
                           onClick={() => setBillingCycle("monthly")}
@@ -373,7 +373,7 @@ export function PaketlerContent() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-8 mx-auto">
+                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-8 mx-auto">
                       {subscriptionPackages.map(renderPackageCard)}
                     </div>
                   </div>
@@ -382,7 +382,7 @@ export function PaketlerContent() {
             }
 
             return (
-              <div className={`mt-16 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto min-h-[400px]`}>
+              <div className={`pt-6 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-8 mx-auto min-h-[400px]`}>
                 {filteredPackages.length > 0 ? (
                   filteredPackages.map(renderPackageCard)
                 ) : (

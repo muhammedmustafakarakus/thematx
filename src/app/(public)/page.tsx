@@ -80,12 +80,12 @@ const faqs = [
   {
     question: "Thematx eğitim sistemi nasıl işliyor?",
     answer:
-      "Öğrencimiz sisteme katıldığında öncelikle kapsamlı bir seviye tespiti yapılır ve seviyesine uygun maksimum 10 kişilik butik online sınıfa yerleştirilir. Haftalık düzenli canlı dersler, sarmal tekrar yöntemi, 7/24 aktif WhatsApp soru çözüm grupları, ödevlendirme ve seçilen pakete göre (LITE, PRO, VIP) birebir koçluk ile süreç adım adım takip edilir.",
+      "Öğrencimiz sisteme katıldığında öncelikle kapsamlı bir seviye tespiti yapılır ve seviyesine uygun maksimum 12 kişilik butik online sınıfa yerleştirilir. Haftalık düzenli canlı dersler, sarmal tekrar yöntemi, ödevlendirme ve seçilen pakete göre (LITE, PRO, VIP) soru çözüm desteği ve birebir koçluk ile süreç adım adım takip edilir.",
   },
   {
     question: "9, 10 ve 11. sınıf paketlerinizde ders saatleri ve müfredat nasıldır?",
     answer:
-      "9-10. sınıf ve 11. sınıf eğitimlerimiz yeni Maarif Modeline %100 uyumludur. Ayda 16 saat canlı ve etkileşimli online ders işlenir. İhtiyacınıza göre LITE (Temel Gelişim Paketi), PRO (Etkileşimli Grup Eğitimi & Özel Ödevlendirme) veya VIP (VIP Eğitim, Birebir Koçluk & Düzenli Veli Bilgilendirmesi) paketlerimizden birini seçebilirsiniz.",
+      "9-10. sınıf ve 11. sınıf eğitimlerimiz yeni Maarif Modeline %100 uyumludur. Ayda 16 saat canlı ve etkileşimli online ders işlenir; sınıflarımız maksimum 12 kişiliktir. İhtiyacınıza göre LITE (Temel Gelişim Paketi), PRO (Etkileşimli Grup Eğitimi & Öğrencilerle Beraber Soru Çözüm Grubu) veya VIP (VIP Eğitim, Birebir Koçluk & WhatsApp ile Anında Soru Çözümü) paketlerimizden birini seçebilirsiniz.",
   },
   {
     question: "YKS tek seferlik kamplar ile YKS LITE / PRO / VIP paketleri arasındaki fark nedir?",
@@ -100,7 +100,7 @@ const faqs = [
   {
     question: "Çözemediğim soruları ders dışında nasıl sorabilirim?",
     answer:
-      "Tüm paketlerimizde uzman öğretmenlerimizin yer aldığı 7/24 aktif WhatsApp soru çözüm grupları bulunmaktadır. VIP paket öğrencilerimiz ayrıca öncelikli WhatsApp soru çözüm hattı ve birebir strateji desteğinden yararlanır.",
+      "Uzman öğretmenlerimizle 'WhatsApp ile Anında Soru Çözümü' ayrıcalığı yalnızca VIP paket öğrencilerimize özeldir. PRO ve Kamp paketlerimizde ise öğrencilerin kendi aralarında yardımlaşıp soru paylaşımı yapabildiği 'Öğrencilerle Beraber Soru Çözüm Grubu' bulunmaktadır.",
   },
   {
     question: "Aylık ve Dönemlik ödeme seçenekleriniz nasıl çalışıyor?",
@@ -496,7 +496,7 @@ function PackagesContent() {
 
           {/* Billing Cycle Toggle (For 9-10 & 11. Sınıf at top) */}
           {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
-            <div className="flex justify-center mb-10 mt-4">
+            <div className="flex justify-center mb-16 lg:mb-20 mt-4">
               <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
                 <button
                   onClick={() => setBillingCycle("monthly")}
@@ -545,7 +545,7 @@ function PackagesContent() {
                 key={pkg.name}
                 className={`relative flex flex-col rounded-3xl border p-6 lg:p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group animate-in fade-in zoom-in-95 ${
                   pkg.featured
-                    ? "border-primary/60 bg-gradient-to-b from-surface to-primary/5 shadow-xl shadow-primary/10 lg:scale-105 z-10"
+                    ? "pt-9 lg:pt-10 border-primary/60 bg-gradient-to-b from-surface to-primary/5 shadow-xl shadow-primary/10 lg:scale-105 z-10"
                     : "border-border/60 bg-surface/80 backdrop-blur-sm hover:border-primary/30 shadow-lg"
                 }`}
               >
@@ -719,7 +719,7 @@ function PackagesContent() {
                 <div className="space-y-20">
                   {/* ÜST BÖLÜM: Tek Seferlik (Bütün) Kamp Paketleri */}
                   <div>
-                    <div className="text-center mb-10">
+                    <div className="text-center mb-12">
                       <Badge variant="primary" className="mb-3 uppercase tracking-wider font-bold">
                         Tek Seferlik (Bütün) Kamp Paketleri
                       </Badge>
@@ -727,7 +727,7 @@ function PackagesContent() {
                         YKS Yoğunlaştırılmış Kamp Programları
                       </h3>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-6 lg:gap-8 mx-auto">
+                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-6 lg:gap-8 mx-auto">
                       {campPackages.map(renderPackageCard)}
                     </div>
                   </div>
@@ -748,7 +748,7 @@ function PackagesContent() {
                     </div>
 
                     {/* Billing Cycle Toggle for YKS Subscription Packages */}
-                    <div className="flex justify-center mb-12">
+                    <div className="flex justify-center mb-16 lg:mb-20">
                       <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
                         <button
                           onClick={() => setBillingCycle("monthly")}
@@ -790,7 +790,7 @@ function PackagesContent() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-6 lg:gap-8 mx-auto">
+                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-6 lg:gap-8 mx-auto">
                       {subscriptionPackages.map(renderPackageCard)}
                     </div>
                   </div>
@@ -799,7 +799,7 @@ function PackagesContent() {
             }
 
             return (
-              <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-6 lg:gap-8 mx-auto min-h-[400px]`}>
+              <div className={`pt-6 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-6 lg:gap-8 mx-auto min-h-[400px]`}>
                 {filteredPackages.length > 0 ? (
                   filteredPackages.map(renderPackageCard)
                 ) : (

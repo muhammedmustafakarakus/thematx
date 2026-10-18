@@ -21,15 +21,16 @@ export const ALL_PACKAGES = [
       "✨ Maarif Modeline Uyumlu Müfredat",
       "Kapsamlı Seviye Tespiti",
       "Ayda 16 Saatlik Online Dersler",
-      "Maksimum 10 Kişilik Online Sınıflar",
+      "Maksimum 12 Kişilik Online Sınıflar",
       "İstenilen Her Zaman İzlenebilen Kayıtlı Dersler",
       "Sarmal Tekrar Yöntemiyle Kalıcı Öğrenme",
-      "Aktif WhatsApp Soru Çözüm Grubu",
       "Düzenli Ödevlendirme Sistemi",
       "Genel Öğrenci Takibi ve Gözlem",
       "Ders İçi Performans Değerlendirmesi"
     ],
     notIncludedFeatures: [
+      "WhatsApp ile Anında Soru Çözümü",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
       "Detaylı Seviye ve Gelişim Analizi"
@@ -52,13 +53,15 @@ export const ALL_PACKAGES = [
     termOldPrice: "38.250",
     features: [
       "LITE Paketindeki Tüm Özellikler",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
       "Detaylı Seviye ve Gelişim Analizi",
       "Çalışma Disiplini Oluşturma"
     ],
     notIncludedFeatures: [
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
+      "WhatsApp ile Anında Soru Çözümü",
       "Kişiselleştirilmiş Strateji ve Yol Haritası"
     ],
     featured: true,
@@ -71,7 +74,7 @@ export const ALL_PACKAGES = [
     name: "9-10. Sınıf VIP",
     subtitle: "(VIP Eğitim ve Koçluk)",
     category: "9-10. Sınıf",
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
+    description: "Maarif Modeline uyumlu, birebir koçluk, WhatsApp ile anında soru çözümü ve kusursuz canlı ders deneyimi.",
     isDualPrice: true,
     monthlyPrice: "11.500",
     monthlyOldPrice: "13.500",
@@ -79,7 +82,8 @@ export const ALL_PACKAGES = [
     termOldPrice: "51.750",
     features: [
       "PRO Paketindeki Tüm Özellikler",
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "✨ WhatsApp ile Anında Soru Çözümü (Sadece VIP)",
       "Öğrenciye Özel Birebir Ödevlendirme",
       "Hedef Odaklı Birebir Takip",
       "Kişiselleştirilmiş Strateji ve Yol Haritası",
@@ -110,15 +114,16 @@ export const ALL_PACKAGES = [
       "✨ Maarif Modeline Uyumlu Müfredat",
       "Kapsamlı Seviye Tespiti",
       "Ayda 16 Saatlik Online Dersler",
-      "Maksimum 10 Kişilik Online Sınıflar",
+      "Maksimum 12 Kişilik Online Sınıflar",
       "İstenilen Her Zaman İzlenebilen Kayıtlı Dersler",
       "Sarmal Tekrar Yöntemiyle Kalıcı Öğrenme",
-      "Aktif WhatsApp Soru Çözüm Grubu",
       "Düzenli Ödevlendirme Sistemi",
       "Genel Öğrenci Takibi ve Gözlem",
       "Ders İçi Performans Değerlendirmesi"
     ],
     notIncludedFeatures: [
+      "WhatsApp ile Anında Soru Çözümü",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
       "Detaylı Seviye ve Gelişim Analizi"
@@ -141,13 +146,15 @@ export const ALL_PACKAGES = [
     termOldPrice: "38.250",
     features: [
       "LITE Paketindeki Tüm Özellikler",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
       "Detaylı Seviye ve Gelişim Analizi",
       "Çalışma Disiplini Oluşturma"
     ],
     notIncludedFeatures: [
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
+      "WhatsApp ile Anında Soru Çözümü",
       "Kişiselleştirilmiş Strateji ve Yol Haritası"
     ],
     featured: true,
@@ -160,7 +167,7 @@ export const ALL_PACKAGES = [
     name: "11. Sınıf VIP",
     subtitle: "(VIP Eğitim ve Koçluk)",
     category: "11. Sınıf",
-    description: "Maarif Modeline uyumlu, birebir koçluk ve kusursuz canlı ders deneyimi.",
+    description: "Maarif Modeline uyumlu, birebir koçluk, WhatsApp ile anında soru çözümü ve kusursuz canlı ders deneyimi.",
     isDualPrice: true,
     monthlyPrice: "11.500",
     monthlyOldPrice: "13.500",
@@ -168,7 +175,8 @@ export const ALL_PACKAGES = [
     termOldPrice: "51.750",
     features: [
       "PRO Paketindeki Tüm Özellikler",
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "✨ WhatsApp ile Anında Soru Çözümü (Sadece VIP)",
       "Öğrenciye Özel Birebir Ödevlendirme",
       "Hedef Odaklı Birebir Takip",
       "Kişiselleştirilmiş Strateji ve Yol Haritası",
@@ -202,13 +210,15 @@ export const ALL_PACKAGES = [
       "56 Saat Canlı ve Etkileşimli Ana Kamp Dersi",
       "Tüm TYT Matematik Konu Anlatımı",
       "Hafta içi 5 gün canlı ders",
-      "Maksimum 10 Kişilik Butik Sınıflar",
-      "Albatros Yeni Nesil Soru Çözüm Analizi",
+      "Maksimum 12 Kişilik Butik Sınıflar",
+      "Yeni Nesil Soru Çözüm Analizi",
       "Günlük Ders Programı (Yol Haritası)",
-      "Uzman Öğretmenlerle 7/24 wp soru çözüm grupları",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "30 dk haftalık rehberlik"
     ],
-    notIncludedFeatures: [],
+    notIncludedFeatures: [
+      "WhatsApp ile Anında Soru Çözümü"
+    ],
     featured: true,
     limitedCapacity: true,
     cta: "Kampa Katıl",
@@ -230,12 +240,13 @@ export const ALL_PACKAGES = [
       "20 Saat Canlı ve Etkileşimli Temel Atma Dersi",
       "Temel İşlem Yeteneği ve Temel Kavramlar",
       "Yavaş ve Anlaşılır Tempo ile Konu Anlatımı",
-      "Maksimum 10 Kişilik Butik Sınıflar",
+      "Maksimum 12 Kişilik Butik Sınıflar",
       "Günlük Ödevlendirme ve Takip (Yol Haritası)",
-      "Uzman Öğretmenlerle 7/24 wp soru çözüm grupları",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "30 dk haftalık rehberlik"
     ],
     notIncludedFeatures: [
+      "WhatsApp ile Anında Soru Çözümü",
       "İleri Seviye Yeni Nesil Sorular (İleriki kamplarda)"
     ],
     featured: false,
@@ -307,15 +318,16 @@ export const ALL_PACKAGES = [
       "✨ TYT-AYT Tam Müfredat Eğitim Sistemi",
       "Kapsamlı Seviye Tespiti",
       "Ayda 16 Saatlik Online Dersler",
-      "Maksimum 10 Kişilik Online Sınıflar",
+      "Maksimum 12 Kişilik Online Sınıflar",
       "İstenilen Her Zaman İzlenebilen Kayıtlı Dersler",
       "Sarmal Tekrar Yöntemiyle Kalıcı Öğrenme",
-      "Aktif WhatsApp Soru Çözüm Grubu",
       "Düzenli Ödevlendirme Sistemi",
       "Genel Öğrenci Takibi ve Gözlem",
       "Ders İçi Performans Değerlendirmesi"
     ],
     notIncludedFeatures: [
+      "WhatsApp ile Anında Soru Çözümü",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
       "Detaylı Seviye ve Gelişim Analizi"
@@ -341,6 +353,8 @@ export const ALL_PACKAGES = [
     features: [
       "🔥 Tüm YKS Kamplarını İçinde Barındırır (60 Günde TYT, 21 Günde 0'dan, AYT, Geometri)",
       "YKS LITE Paketindeki Tüm Özellikler",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "Öğrencilerle Beraber Soru Çözüm Grubu",
       "Etkileşimli Kamp + Grup Desteği",
       "Öğrenciye Özel Ödevlendirme",
       "Hedef Odaklı Takip",
@@ -348,7 +362,7 @@ export const ALL_PACKAGES = [
       "Çalışma Disiplini Oluşturma"
     ],
     notIncludedFeatures: [
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
+      "WhatsApp ile Anında Soru Çözümü",
       "Kişiselleştirilmiş Strateji ve Yol Haritası"
     ],
     featured: true,
@@ -363,7 +377,7 @@ export const ALL_PACKAGES = [
     subtitle: "(Tam Kapsamlı Kamp & Birebir Koçluk)",
     category: "YKS",
     includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
-    description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları eksiksiz barındıran, birebir özel koçluk ve VIP takip paketi.",
+    description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları eksiksiz barındıran, WhatsApp ile anında soru çözümü ve birebir özel koçluk paketi.",
     isDualPrice: true,
     monthlyPrice: "24.500",
     monthlyOldPrice: "28.500",
@@ -372,8 +386,9 @@ export const ALL_PACKAGES = [
     features: [
       "🔥 Tüm YKS Kamplarını İçinde Barındırır (60 Günde TYT, 21 Günde 0'dan, AYT, Geometri)",
       "YKS PRO Paketindeki Tüm Özellikler",
+      "Maksimum 12 Kişilik Online Sınıflar",
+      "✨ WhatsApp ile Anında Soru Çözümü (Sadece VIP)",
       "Tam Kapsamlı Kamp & Birebir YKS Koçluğu",
-      "Öncelikli WhatsApp Soru Çözüm Hattı",
       "Öğrenciye Özel Birebir Ödevlendirme",
       "Hedef Odaklı Birebir Takip",
       "Kişiselleştirilmiş Strateji ve Yol Haritası",
