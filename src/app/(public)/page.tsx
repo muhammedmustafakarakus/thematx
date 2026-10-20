@@ -118,17 +118,18 @@ function PackagesContent() {
   const router = useRouter();
   const pathname = usePathname();
   const categoryParam = searchParams.get("category");
+  const normalizedCategory = categoryParam === "YKS" ? "YKS Kamplar" : categoryParam;
   const [activeCategory, setActiveCategory] = useState(
-    categoryParam && CATEGORIES.includes(categoryParam) ? categoryParam : "9-10. Sınıf"
+    normalizedCategory && CATEGORIES.includes(normalizedCategory) ? normalizedCategory : "9-10. Sınıf"
   );
   
   const [billingCycle, setBillingCycle] = useState<"monthly" | "term">("monthly");
 
   useEffect(() => {
-    if (categoryParam && CATEGORIES.includes(categoryParam)) {
-      setActiveCategory(categoryParam);
+    if (normalizedCategory && CATEGORIES.includes(normalizedCategory)) {
+      setActiveCategory(normalizedCategory);
     }
-  }, [categoryParam]);
+  }, [normalizedCategory]);
 
   const handleCategoryChange = (cat: string) => {
     setActiveCategory(cat);
@@ -169,7 +170,7 @@ function PackagesContent() {
       badge: "🔥 KAYITLAR AÇIK",
       desc: "TYT Matematik sınıfları açıldı! Yerini şimdi ayırt, kayıtlı derslere her zaman eriş.",
       image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop",
-      link: "/paketler?category=YKS"
+      link: "/paketler?category=YKS Kamplar"
     }
   ];
 
@@ -494,8 +495,36 @@ function PackagesContent() {
             </div>
           </div>
 
-          {/* Billing Cycle Toggle (For 9-10 & 11. Sınıf at top) */}
-          {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf") && (
+          {/* YKS Kamplar Header */}
+          {activeCategory === "YKS Kamplar" && (
+            <div className="text-center mb-10 mt-2">
+              <Badge variant="primary" className="mb-3 uppercase tracking-wider font-bold">
+                Tek Seferlik (Bütün) Kamp Paketleri
+              </Badge>
+              <h3 className="text-2xl md:text-3xl font-extrabold font-heading text-foreground">
+                YKS Yoğunlaştırılmış Kamp Programları
+              </h3>
+            </div>
+          )}
+
+          {/* YKS Aylık Paketler Header */}
+          {activeCategory === "YKS Aylık Paketler" && (
+            <div className="text-center max-w-3xl mx-auto mb-8 mt-2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 shadow-sm">
+                <Sparkles className="w-4 h-4" />
+                Tüm YKS Kamplarını İçinde Barındırır
+              </div>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-foreground mb-3">
+                YKS Aylık Abonelik &amp; Koçluk (Sürekli Eğitim Sistemi)
+              </h3>
+              <p className="text-muted text-sm sm:text-base leading-relaxed">
+                YKS LITE, PRO ve VIP aylık abonelik paketlerimiz; <strong>21 Günde 0&apos;dan Matematik Kampı</strong>, <strong>60 Günde TYT Matematik Kampı</strong>, <strong>AYT Matematik Kampı</strong> ve <strong>TYT-AYT Geometri Kampı</strong> dahil <strong>tüm kampların tamamını</strong> içinde barındırır!
+              </p>
+            </div>
+          )}
+
+          {/* Billing Cycle Toggle (For 9-10, 11. Sınıf & YKS Aylık Paketler) */}
+          {(activeCategory === "9-10. Sınıf" || activeCategory === "11. Sınıf" || activeCategory === "YKS Aylık Paketler") && (
             <div className="flex justify-center mb-16 lg:mb-20 mt-4">
               <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
                 <button
@@ -543,7 +572,7 @@ function PackagesContent() {
             const renderPackageCard = (pkg: any) => (
               <div
                 key={pkg.name}
-                className={`relative flex flex-col rounded-3xl border p-6 lg:p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group animate-in fade-in zoom-in-95 ${
+                className={`relative flex flex-col rounded-3xl border p-6 lg:p-7 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl group animate-in fade-in zoom-in-95 ${
                   pkg.featured
                     ? "pt-9 lg:pt-10 border-primary/60 bg-gradient-to-b from-surface to-primary/5 shadow-xl shadow-primary/10 lg:scale-105 z-10"
                     : "border-border/60 bg-surface/80 backdrop-blur-sm hover:border-primary/30 shadow-lg"
@@ -627,7 +656,7 @@ function PackagesContent() {
 
                 {/* Tüm Kamplar Dahil Rozeti (YKS LITE / PRO / VIP) */}
                 {pkg.includesAllCampsBadge && (
-                  <div className="mb-6 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary/15 via-emerald-500/15 to-cyan-500/15 border border-primary/40 text-center shadow-sm relative z-10">
+                  <div className="mb-5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary/15 via-emerald-500/15 to-cyan-500/15 border border-primary/40 text-center shadow-sm relative z-10">
                     <span className="text-xs sm:text-sm font-extrabold text-primary flex items-center justify-center gap-1.5">
                       <Sparkles className="w-4 h-4 shrink-0" />
                       {pkg.includesAllCampsBadge}
@@ -635,17 +664,73 @@ function PackagesContent() {
                   </div>
                 )}
 
-                {/* Tanıtım Videosu - Dikey Oynatıcı */}
-                {pkg.videoUrl && (
-                  <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
-                    <CustomVideoPlayer 
-                      key={`${pkg.name}-${pkg.videoUrl}`}
-                      youtubeId={pkg.videoUrl}
-                      startAt={0}
-                      aspectRatio="9:16"
-                      title={`${pkg.name} Tanıtım`}
-                    />
+                {/* İkili Tanıtım Videosu (YKS Aylık Paketler: Sol 21 Günde 0'dan, Sağ 60 Günde TYT) */}
+                {pkg.dualVideos && pkg.dualVideos.length === 2 ? (
+                  <div className="w-full mb-6 relative z-10">
+                    <div className="grid grid-cols-2 gap-3">
+                      {pkg.dualVideos.map((vid: any, idx: number) => (
+                        <div
+                          key={`${pkg.name}-dual-${idx}`}
+                          className={`flex flex-col rounded-2xl p-2 border transition-all duration-300 ${
+                            idx === 0
+                              ? "bg-amber-500/5 border-amber-500/30 hover:border-amber-500/60"
+                              : "bg-primary/5 border-primary/30 hover:border-primary/60"
+                          }`}
+                        >
+                          <div className="mb-2 text-center">
+                            <span
+                              className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide ${
+                                idx === 0
+                                  ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                                  : "bg-primary/15 text-primary border border-primary/30"
+                              }`}
+                            >
+                              {vid.badge}
+                            </span>
+                          </div>
+
+                          <div className="w-full mx-auto">
+                            <CustomVideoPlayer
+                              key={`${pkg.name}-${vid.videoUrl}`}
+                              youtubeId={vid.videoUrl}
+                              startAt={0}
+                              aspectRatio="9:16"
+                              title={`${pkg.name} - ${vid.label}`}
+                            />
+                          </div>
+
+                          <div className="mt-2.5 text-center px-0.5">
+                            <p className="text-xs font-extrabold text-foreground leading-tight">
+                              {vid.label}
+                            </p>
+                            <p className="text-[11px] text-muted font-medium leading-snug mt-0.5">
+                              {vid.subtext}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {pkg.dualVideoGuide && (
+                      <div className="mt-3 px-3.5 py-2.5 rounded-xl bg-surface-alt/90 border border-border/70 text-[11px] sm:text-xs text-foreground/90 font-medium leading-relaxed text-center shadow-sm">
+                        <span className="font-bold text-primary">Seviyenize Göre Başlangıç: </span>
+                        {pkg.dualVideoGuide}
+                      </div>
+                    )}
                   </div>
+                ) : (
+                  /* Tekli Tanıtım Videosu - Dikey Oynatıcı */
+                  pkg.videoUrl && (
+                    <div className="w-full mx-auto mb-6 relative z-10" style={{ maxWidth: 230 }}>
+                      <CustomVideoPlayer 
+                        key={`${pkg.name}-${pkg.videoUrl}`}
+                        youtubeId={pkg.videoUrl}
+                        startAt={0}
+                        aspectRatio="9:16"
+                        title={`${pkg.name} Tanıtım`}
+                      />
+                    </div>
+                  )
                 )}
 
                 {/* Description Box */}
@@ -678,7 +763,7 @@ function PackagesContent() {
                 </div>
 
                 <div className="mt-auto pt-4">
-                  {["9-10. Sınıf", "11. Sınıf", "YKS"].includes(pkg.category) ? (
+                  {["9-10. Sınıf", "11. Sınıf", "YKS Kamplar", "YKS Aylık Paketler"].includes(pkg.category) ? (
                     <Button
                       onClick={() => setSelectedPackageForModal(pkg)}
                       neon={pkg.cta === "Maceraya Katıl" || pkg.cta === "VIP Kayıt Ol"}
@@ -711,95 +796,16 @@ function PackagesContent() {
               </div>
             );
 
-            if (activeCategory === "YKS") {
-              const campPackages = filteredPackages.filter((p: any) => p.subCategory === "KAMP");
-              const subscriptionPackages = filteredPackages.filter((p: any) => p.subCategory === "ABONELIK");
-
-              return (
-                <div className="space-y-20">
-                  {/* ÜST BÖLÜM: Tek Seferlik (Bütün) Kamp Paketleri */}
-                  <div>
-                    <div className="text-center mb-12">
-                      <Badge variant="primary" className="mb-3 uppercase tracking-wider font-bold">
-                        Tek Seferlik (Bütün) Kamp Paketleri
-                      </Badge>
-                      <h3 className="text-2xl md:text-3xl font-extrabold font-heading text-foreground">
-                        YKS Yoğunlaştırılmış Kamp Programları
-                      </h3>
-                    </div>
-                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-[90rem] gap-6 lg:gap-8 mx-auto">
-                      {campPackages.map(renderPackageCard)}
-                    </div>
-                  </div>
-
-                  {/* ALT BÖLÜM: YKS (TYT-AYT) Aylık Abonelik ve Koçluk Paketleri */}
-                  <div className="pt-12 border-t border-border/60">
-                    <div className="text-center max-w-3xl mx-auto mb-8">
-                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-extrabold uppercase tracking-wider mb-4 shadow-sm">
-                        <Sparkles className="w-4 h-4" />
-                        Yukarıdaki Tüm Kampları İçinde Barındırır
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-foreground mb-3">
-                        YKS Aylık Abonelik &amp; Koçluk (Sürekli Eğitim Sistemi)
-                      </h3>
-                      <p className="text-muted text-sm sm:text-base leading-relaxed">
-                        YKS LITE, PRO ve VIP aylık abonelik paketlerimiz; <strong>60 Günde TYT Matematik Kampı</strong>, <strong>21 Günde 0&apos;dan Matematik Kampı</strong>, <strong>AYT Matematik Kampı</strong> ve <strong>TYT-AYT Geometri Kampı</strong> dahil yukarıdaki <strong>tüm kampların tamamını</strong> içinde barındırır!
-                      </p>
-                    </div>
-
-                    {/* Billing Cycle Toggle for YKS Subscription Packages */}
-                    <div className="flex justify-center mb-16 lg:mb-20">
-                      <div className="bg-surface border border-border p-1 rounded-2xl inline-flex items-center shadow-sm relative">
-                        <button
-                          onClick={() => setBillingCycle("monthly")}
-                          className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
-                            billingCycle === "monthly" 
-                              ? "text-white shadow-md" 
-                              : "text-muted hover:text-foreground"
-                          }`}
-                        >
-                          {billingCycle === "monthly" && (
-                            <motion.div
-                              layoutId="billingToggleHomeYks"
-                              className="absolute inset-0 bg-primary rounded-xl"
-                              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                          )}
-                          <span className="relative z-10">Aylık</span>
-                        </button>
-                        <button
-                          onClick={() => setBillingCycle("term")}
-                          className={`relative px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 flex items-center gap-2 ${
-                            billingCycle === "term" 
-                              ? "text-white shadow-md" 
-                              : "text-muted hover:text-foreground"
-                          }`}
-                        >
-                          {billingCycle === "term" && (
-                            <motion.div
-                              layoutId="billingToggleHomeYks"
-                              className="absolute inset-0 bg-primary rounded-xl"
-                              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                          )}
-                          <span className="relative z-10">Dönemlik <span className="hidden sm:inline">(4,5 ay)</span></span>
-                          <span className="relative z-10 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full ml-1 animate-pulse">
-                            %15 İndirim
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl gap-6 lg:gap-8 mx-auto">
-                      {subscriptionPackages.map(renderPackageCard)}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
             return (
-              <div className={`pt-6 grid grid-cols-1 md:grid-cols-2 ${filteredPackages.length >= 4 ? "lg:grid-cols-4 max-w-[90rem]" : "lg:grid-cols-3 max-w-6xl"} gap-6 lg:gap-8 mx-auto min-h-[400px]`}>
+              <div
+                className={`pt-6 grid grid-cols-1 md:grid-cols-2 ${
+                  filteredPackages.length >= 4
+                    ? "lg:grid-cols-4 max-w-[90rem]"
+                    : activeCategory === "YKS Aylık Paketler"
+                    ? "lg:grid-cols-3 max-w-7xl"
+                    : "lg:grid-cols-3 max-w-6xl"
+                } gap-6 lg:gap-8 mx-auto min-h-[400px]`}
+              >
                 {filteredPackages.length > 0 ? (
                   filteredPackages.map(renderPackageCard)
                 ) : (
@@ -947,7 +953,7 @@ function PackagesContent() {
                   } else if (selectedPackageForModal.category === "11. Sınıf") {
                     const alan = formData.get("alan") as string;
                     extraInfo = `Alan: ${alan}. `;
-                  } else if (selectedPackageForModal.category === "YKS") {
+                  } else if (selectedPackageForModal.category === "YKS Kamplar" || selectedPackageForModal.category === "YKS Aylık Paketler") {
                     const alan = formData.get("alan") as string;
                     const yks_durum = formData.get("yks_durum") as string;
                     extraInfo = `Durum: ${yks_durum}, Alan: ${alan}. `;
@@ -977,7 +983,7 @@ function PackagesContent() {
                 )}
 
                 {/* YKS: Sınıf Durumu Seçimi */}
-                {selectedPackageForModal.category === "YKS" && (
+                {(selectedPackageForModal.category === "YKS Kamplar" || selectedPackageForModal.category === "YKS Aylık Paketler") && (
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Sınıf Durumu</label>
                     <div className="grid grid-cols-2 gap-3">
@@ -994,7 +1000,7 @@ function PackagesContent() {
                 )}
 
                 {/* 11. Sınıf & YKS: Alan Seçimi */}
-                {(selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS") && (
+                {(selectedPackageForModal.category === "11. Sınıf" || selectedPackageForModal.category === "YKS Kamplar" || selectedPackageForModal.category === "YKS Aylık Paketler") && (
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Alanınız</label>
                     <div className="grid grid-cols-2 gap-3">

@@ -603,15 +603,15 @@ export default function CustomVideoPlayer({
             </div>
 
             {/* Bottom Controls Row */}
-            <div className="flex items-center justify-between mt-2.5 px-0.5 gap-1">
-              <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center justify-between mt-2 px-0.5 gap-1">
+              <div className="flex items-center gap-1.5 min-w-0">
                 {/* Play/Pause */}
                 <button 
                   onClick={togglePlay}
                   className="text-white hover:text-white/80 transition-colors shrink-0"
                   title={isPlaying ? "Duraklat" : "Oynat"}
                 >
-                  {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
+                  {isPlaying ? <Pause className="w-3.5 h-3.5 fill-white" /> : <Play className="w-3.5 h-3.5 fill-white" />}
                 </button>
 
                 {/* Volume/Mute */}
@@ -620,37 +620,45 @@ export default function CustomVideoPlayer({
                   className="text-white hover:text-white/80 transition-colors flex items-center shrink-0"
                   title={isMuted ? "Sesi Aç" : "Sessize Al"}
                 >
-                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 fill-white" />}
+                  {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 fill-white" />}
                 </button>
 
                 {/* Time Display */}
-                <div className="text-white text-[11px] font-medium tracking-tight font-sans whitespace-nowrap">
-                  {formatTime(currentTime)} <span className="opacity-60 mx-0.5">/</span> {formatTime(duration)}
+                <div className="text-white text-[10px] font-medium tracking-tight font-sans whitespace-nowrap truncate">
+                  {formatTime(currentTime)}
+                  {isFullscreen && (
+                    <>
+                      <span className="opacity-60 mx-0.5">/</span>
+                      {formatTime(duration)}
+                    </>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 shrink-0">
                 {/* Quality Selector Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowQualityMenu((prev) => !prev);
                   }}
-                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/15 hover:bg-white/25 text-white text-[10px] font-bold tracking-tight transition-colors border border-white/15"
+                  className="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/15 hover:bg-white/25 text-white text-[9px] font-bold tracking-tight transition-colors border border-white/15"
                   title="Video Kalitesi"
                 >
-                  <Settings className="w-3 h-3" />
+                  <Settings className="w-2.5 h-2.5" />
                   <span>{currentQualityBadge}</span>
                 </button>
 
-                {/* CC / Subtitles Toggle */}
-                <button 
-                  onClick={toggleCC}
-                  className={`text-white hover:text-white/80 transition-colors relative ${isCcOn ? "after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-0.5 after:bg-red-600 after:rounded-full" : "opacity-60 hover:opacity-100"}`}
-                  title="Altyazılar"
-                >
-                  <Subtitles className="w-4 h-4" />
-                </button>
+                {/* CC / Subtitles Toggle (Shown in Fullscreen) */}
+                {isFullscreen && (
+                  <button 
+                    onClick={toggleCC}
+                    className={`text-white hover:text-white/80 transition-colors relative ${isCcOn ? "after:content-[''] after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-0.5 after:bg-red-600 after:rounded-full" : "opacity-60 hover:opacity-100"}`}
+                    title="Altyazılar"
+                  >
+                    <Subtitles className="w-4 h-4" />
+                  </button>
+                )}
 
                 {/* Fullscreen */}
                 <button 
@@ -658,7 +666,7 @@ export default function CustomVideoPlayer({
                   className="text-white hover:text-white/80 transition-colors"
                   title={isFullscreen ? "Tam Ekrandan Çık" : "Tam Ekran"}
                 >
-                  {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                  {isFullscreen ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
                 </button>
               </div>
             </div>

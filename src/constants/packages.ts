@@ -1,4 +1,4 @@
-export const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS"];
+export const CATEGORIES = ["9-10. Sınıf", "11. Sınıf", "YKS Kamplar", "YKS Aylık Paketler"];
 
 export const ALL_PACKAGES = [
   // ==========================================
@@ -192,14 +192,14 @@ export const ALL_PACKAGES = [
   },
 
   // ==========================================
-  // BÖLÜM 3: Tek Seferlik (Bütün) Kamp Paketleri (YKS Üst Bölüm)
+  // BÖLÜM 3: YKS Kamplar (Tek Seferlik Bütün Kamp Paketleri)
   // ==========================================
   {
     tier: "KAMP",
     subCategory: "KAMP",
     name: "60 Günde TYT Matematik Kampı",
     subtitle: "(56 Saat - Ana Kamp)",
-    category: "YKS",
+    category: "YKS Kamplar",
     description: "56 saatlik yoğun ana kamp programıyla tüm TYT Matematiği 60 günde baştan sona eksiksiz bitiriyoruz.",
     isDualPrice: false,
     price: "24.900",
@@ -229,7 +229,7 @@ export const ALL_PACKAGES = [
     subCategory: "KAMP",
     name: "21 Günde 0'dan Matematik Kampı",
     subtitle: "(20 Saat - Temel Atma)",
-    category: "YKS",
+    category: "YKS Kamplar",
     description: "20 saatlik temel atma kampıyla matematiğe sıfırdan başlayanlar için en temelden zirveye uzanan hızlandırılmış program.",
     isDualPrice: false,
     price: "8.900",
@@ -259,7 +259,7 @@ export const ALL_PACKAGES = [
     subCategory: "KAMP",
     name: "AYT Matematik Kampı",
     subtitle: "",
-    category: "YKS",
+    category: "YKS Kamplar",
     description: "",
     isDualPrice: false,
     price: "",
@@ -280,7 +280,7 @@ export const ALL_PACKAGES = [
     subCategory: "KAMP",
     name: "TYT-AYT Geometri Kampı",
     subtitle: "",
-    category: "YKS",
+    category: "YKS Kamplar",
     description: "",
     isDualPrice: false,
     price: "",
@@ -298,15 +298,30 @@ export const ALL_PACKAGES = [
   },
 
   // ==========================================
-  // BÖLÜM 2: YKS Aylık Abonelik & Koçluk (Sürekli Eğitim Sistemi - Kampların Altında)
+  // BÖLÜM 2: YKS Aylık Paketler (Sürekli Eğitim & Koçluk Sistemi)
   // ==========================================
   {
     tier: "LITE",
     subCategory: "ABONELIK",
     name: "YKS LITE",
     subtitle: "(Kendi Hızında Gelişim)",
-    category: "YKS",
-    includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
+    category: "YKS Aylık Paketler",
+    includesAllCampsBadge: "Tüm YKS Kamplarını İçinde Barındırır",
+    dualVideos: [
+      {
+        badge: "Sıfırdan Başlayanlara",
+        label: "21 Günde 0'dan Kamp",
+        subtext: "Temeliniz zayıfsa bu kampla başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=OfCAZVLKBCo"
+      },
+      {
+        badge: "Doğrudan Başlangıç",
+        label: "60 Günde TYT Kampı",
+        subtext: "Temeliniz hazırsa direkt başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=zbPRCFb8qLo"
+      }
+    ],
+    dualVideoGuide: "Sıfırdan başlıyorsanız sol taraftaki 21 Günde 0'dan Matematik Kampı tam size göre! Temeliniz varsa doğrudan sağdaki 60 Günde TYT Matematik Kampı ile başlayabilirsiniz.",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları içinde barındıran aylık gelişim paketi.",
     isDualPrice: true,
     monthlyPrice: "12.500",
@@ -342,8 +357,23 @@ export const ALL_PACKAGES = [
     subCategory: "ABONELIK",
     name: "YKS PRO",
     subtitle: "(Etkileşimli Kamp + Grup Desteği)",
-    category: "YKS",
-    includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
+    category: "YKS Aylık Paketler",
+    includesAllCampsBadge: "Tüm YKS Kamplarını İçinde Barındırır",
+    dualVideos: [
+      {
+        badge: "Sıfırdan Başlayanlara",
+        label: "21 Günde 0'dan Kamp",
+        subtext: "Temeliniz zayıfsa bu kampla başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=OfCAZVLKBCo"
+      },
+      {
+        badge: "Doğrudan Başlangıç",
+        label: "60 Günde TYT Kampı",
+        subtext: "Temeliniz hazırsa direkt başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=zbPRCFb8qLo"
+      }
+    ],
+    dualVideoGuide: "Sıfırdan başlıyorsanız sol taraftaki 21 Günde 0'dan Matematik Kampı tam size göre! Temeliniz varsa doğrudan sağdaki 60 Günde TYT Matematik Kampı ile başlayabilirsiniz.",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları içinde barındıran, etkileşimli kamp ve grup destekli ana paket.",
     isDualPrice: true,
     monthlyPrice: "16.500",
@@ -375,8 +405,23 @@ export const ALL_PACKAGES = [
     subCategory: "ABONELIK",
     name: "YKS VIP",
     subtitle: "(Tam Kapsamlı Kamp & Birebir Koçluk)",
-    category: "YKS",
-    includesAllCampsBadge: "Yukarıdaki Tüm YKS Kamplarını İçinde Barındırır",
+    category: "YKS Aylık Paketler",
+    includesAllCampsBadge: "Tüm YKS Kamplarını İçinde Barındırır",
+    dualVideos: [
+      {
+        badge: "Sıfırdan Başlayanlara",
+        label: "21 Günde 0'dan Kamp",
+        subtext: "Temeliniz zayıfsa bu kampla başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=OfCAZVLKBCo"
+      },
+      {
+        badge: "Doğrudan Başlangıç",
+        label: "60 Günde TYT Kampı",
+        subtext: "Temeliniz hazırsa direkt başlayın",
+        videoUrl: "https://www.youtube.com/watch?v=zbPRCFb8qLo"
+      }
+    ],
+    dualVideoGuide: "Sıfırdan başlıyorsanız sol taraftaki 21 Günde 0'dan Matematik Kampı tam size göre! Temeliniz varsa doğrudan sağdaki 60 Günde TYT Matematik Kampı ile başlayabilirsiniz.",
     description: "60 Günde TYT, 21 Günde 0'dan Matematik, AYT Matematik ve Geometri dahil tüm kampları eksiksiz barındıran, WhatsApp ile anında soru çözümü ve birebir özel koçluk paketi.",
     isDualPrice: true,
     monthlyPrice: "24.500",

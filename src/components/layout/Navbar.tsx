@@ -12,7 +12,8 @@ const navLinks = [
   { label: "Ana Sayfa", href: "/" },
   { label: "9-10. Sınıf", href: "/paketler?category=9-10. Sınıf" },
   { label: "11. Sınıf", href: "/paketler?category=11. Sınıf" },
-  { label: "YKS", href: "/paketler?category=YKS" },
+  { label: "YKS Kamplar", href: "/paketler?category=YKS Kamplar" },
+  { label: "YKS Aylık Paketler", href: "/paketler?category=YKS Aylık Paketler" },
 ];
 
 export default function Navbar() {
